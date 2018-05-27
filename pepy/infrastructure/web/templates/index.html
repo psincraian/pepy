@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="jumbotron mt-4">
+        <h1 class="display-4">Download information</h1>
+        <p class="lead">View the download information for all PyPI packages. You only need to introduce the package name.</p>
+        <hr class="my-4">
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <form action="/" class="form-inline" method="post" name="new_item">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group input-group">
+                        {{ form.project_name(class="form-control", placeholder="Project name") }}
+                        <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </span>
+                    </div>
+                </form>
+                <p>
+                    <small class="text-danger">{{ form.project_name.errors[0] }}</small>
+                </p>
+            </div>
+        </div>
+    </div>
+    <h2>Some projects</h2>
+    <div class="example mt-4 col-auto">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Project</th>
+                <th>Downloads</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for project in projects %}
+                <tr>
+                    <th scope="row"><a href="{{ url_for('count_action', project_name=project.name.name) }}">{{ project.name.name }}</a></th>
+                    <td>{{ project.downloads.value }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

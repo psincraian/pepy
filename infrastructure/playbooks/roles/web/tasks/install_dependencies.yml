@@ -1,0 +1,11 @@
+---
+- name: Install dependencies packages
+  pip:
+    requirements: "{{ project_directory }}/requirements.txt"
+    virtualenv: "{{ venv_directory }}"
+    virtualenv_command: /usr/bin/python3.6 -m venv
+
+- name: Copy bigquery credentials file
+  copy:
+    src: bigquery_credentials_file.json
+    dest: "{{ bigquery_credentials_file }}"

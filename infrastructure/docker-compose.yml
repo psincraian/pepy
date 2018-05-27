@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  pepy:
+    image: python:3.6
+    environment:
+      - APPLICATION_ENV=dev
+      - FLASK_DEBUG=1
+      - SHELL=/bin/bash
+    entrypoint: "make start"
+    ports:
+      - 5200:80
+    volumes:
+      - .:/srv
+    working_dir: /srv
+    links:
+      - pgsql:pgsql
+    depends_on:
+      - pgsql
+
+  pgsql:
+    image: postgres:9.6
+    volumes:
+      - pepy_pgsql:/var/lib/postgresql
+      - ./infrastructure/postgres:/docker-entrypoint-initdb.d
+    ports:
+      - "127.0.0.1::5432"
+    hostname: pgsql-master
+
+volumes:
+  pepy_pgsql: {}

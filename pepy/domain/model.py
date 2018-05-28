@@ -6,7 +6,7 @@ class ProjectName:
         if len(name) < self.MIN_LENGTH or len(name) > self.MAX_LENGTH:
             from pepy.domain.exception import ProjectNameLengthIsNotValidException
             raise ProjectNameLengthIsNotValidException(name, self.MIN_LENGTH, self.MAX_LENGTH)
-        self.name = name.lower()
+        self.name = name.lower().strip()
 
 
 class HashedPassword:

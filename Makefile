@@ -18,5 +18,6 @@ migrations:
 	docker-compose -f infrastructure/docker-compose.yml --project-directory . exec pepy yoyo apply --database "postgresql://pepy:pepy@pgsql/pepy_test" infrastructure/migrations/ --no-config-file --batch
 
 test:
+	docker-compose -f infrastructure/docker-compose.yml --project-directory . exec pepy pytest tests/unit
 	docker-compose -f infrastructure/docker-compose.yml --project-directory . exec pepy behave tests/acceptance
 

@@ -13,6 +13,7 @@
     repo: "{{ repository }}"
     dest: "{{ project_directory }}"
     clone: yes
+    force: yes
   become_user: "{{ gunicorn_user }}"
 
 - name: Ensure the application log folder exists

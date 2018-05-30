@@ -11,5 +11,5 @@
   become: yes
 
 - name: Re-read the Supervisor config files
-  supervisorctl: name={{ project_name }} state=present
+  supervisorctl: name={{ project_name }} state=restarted
   become: yes

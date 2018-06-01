@@ -7,10 +7,19 @@ services:
   - docker
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_c7065a1712c1_key -iv $encrypted_c7065a1712c1_iv -in vault_password.txt.enc -out infrastructure/playbooks/vault_password.txt -d
   - make start-containers
   - until curl --silent -XGET --fail http://localhost:5200/robots.txt; do printf '.'; sleep 1; done
   - make migrations
 
 script:
   - make test
+
+before_deploy:
+  - openssl aes-256-cbc -K $encrypted_c7065a1712c1_key -iv $encrypted_c7065a1712c1_iv -in infrastructure/playbooks/vault_password.txt.enc -out infrastructure/playbooks/vault_password.txt -d
+  - pip install ansible
+
+deploy:
+  provider: script
+  script: ansible-playbook infrastructure/playbooks/deploy.yml -i infrastructure/playbooks/hosts --vault-password-file infrastructure/playbooks/vault_password.txt
+  on:
+    branch: master

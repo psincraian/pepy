@@ -33,6 +33,6 @@ class DBProjectRepository(ProjectRepository):
 
     def update_downloads(self, projects_downloads: List[ProjectDownloads]):
         with self._conn, self._conn.cursor() as cursor:
-            values = [{'downloads':  pd.downloads.downloads, 'project': pd.name.name} for pd in projects_downloads]
+            values = [{'downloads':  pd.downloads.value, 'project': pd.name.name} for pd in projects_downloads]
             sql = "UPDATE projects SET downloads = downloads + %(downloads)s WHERE name = %(project)s"
             execute_batch(cursor, sql, values)

@@ -1,6 +1,6 @@
 import random
 
-from pepy.domain.model import ProjectName, Downloads, Project
+from pepy.domain.model import ProjectName, Downloads, Project, ProjectDownloads
 
 
 class ProjectNameStub:
@@ -28,3 +28,11 @@ class ProjectStub:
         name = ProjectName(name) if name is not None else ProjectNameStub.create()
         downloads = Downloads(downloads) if downloads is not None else DownloadsStub.create()
         return ProjectStub.create(name=name, downloads=downloads)
+
+
+class ProjectDownloadsStub:
+    @staticmethod
+    def create(name: ProjectName=None, downloads: Downloads=None) -> ProjectDownloads:
+        name = name or ProjectNameStub.create()
+        downloads = downloads or DownloadsStub.create()
+        return ProjectDownloads(name, downloads)

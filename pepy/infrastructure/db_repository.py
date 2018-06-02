@@ -29,7 +29,7 @@ class DBProjectRepository(ProjectRepository):
     def save_projects(self, projects: List[Project]):
         with self._conn, self._conn.cursor() as cursor:
             values = [(p.name.name, p.downloads.value) for p in projects]
-            execute_values(cursor, "INSERT INTO projects(name, downloads) VALUES %s", values)
+            execute_batch(cursor, "INSERT INTO projects(name, downloads) VALUES (%s, %s) ON CONFLICT DO NOTHING", values)
 
     def update_downloads(self, projects_downloads: List[ProjectDownloads]):
         with self._conn, self._conn.cursor() as cursor:

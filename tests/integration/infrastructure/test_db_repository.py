@@ -1,12 +1,6 @@
-import logging
-from typing import Optional, List
-
 import pytest
-from psycopg2.extensions import connection
-from psycopg2.extras import execute_values, execute_batch
 
-from pepy.domain.model import Project, ProjectName, ProjectDownloads, Downloads
-from pepy.domain.repository import ProjectRepository
+from pepy.domain.model import Project
 from pepy.infrastructure import container
 from pepy.infrastructure.db_repository import DBProjectRepository
 from tests.tools.stub import ProjectStub, ProjectDownloadsStub
@@ -38,8 +32,9 @@ def test_update_downloads(project_repository: DBProjectRepository):
     assert project_downloads.downloads.value + project.downloads.value == result.downloads.value
 
 
-def test_save_day_downloads(project_repository: DBProjectRepository):
+def test_retrieve_last_downloads(project_repository: DBProjectRepository):
     project = ProjectStub.create()
     project_repository.save_projects([project])
-    project_downloads = ProjectDownloadsStub.create(name=project.name)
-    project_repository.save_day_downloads([project_downloads])
+    project_downloads = ProjectDownloadsStub.create_consecutive(project.name)
+    project_repository.save_day_downloads(project_downloads)
+    assert project_downloads == project_repository.last_downloads(project.name)

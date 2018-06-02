@@ -42,3 +42,10 @@ class DBProjectRepository(ProjectRepository):
             values = [(pd.name.name, pd.day, pd.downloads.value) for pd in project_downloads]
             sql = "INSERT INTO downloads_per_day(name, date, downloads) VALUES (%s, %s, %s)"
             execute_batch(cursor, sql, values)
+
+    def last_downloads(self, project_name: ProjectName, days: int=30) -> List[ProjectDownloads]:
+        with self._conn, self._conn.cursor() as cursor:
+            query = "SELECT date, downloads FROM downloads_per_day WHERE name = %s ORDER BY date DESC LIMIT %s"
+            cursor.execute(query, (project_name.name, days))
+            data = cursor.fetchall()
+            return [ProjectDownloads(project_name, Downloads(row[1]), row[0]) for row in data]

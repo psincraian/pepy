@@ -4,7 +4,7 @@ from typing import List
 import requests
 
 from pepy.domain.exception import ProjectNotFoundException
-from pepy.domain.model import ProjectName, Badge, Project
+from pepy.domain.model import ProjectName, Badge, Project, ProjectDownloads
 from pepy.domain.repository import ProjectRepository
 
 
@@ -42,3 +42,6 @@ class ProjectProvider:
 
     def for_home(self) -> List[Project]:
         return self._project_repository.find_random_projects(10)
+
+    def last_downloads(self, project_name: ProjectName) -> List[ProjectDownloads]:
+        return self._project_repository.last_downloads(project_name)

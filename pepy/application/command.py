@@ -43,4 +43,4 @@ class UpdateDownloadsHandler(CommandHandler):
         if not self._admin_password_checker.check(cmd.password):
             raise InvalidAdminPassword(cmd.password)
         pd = self._downloads_extractor.get_downloads(cmd.date)
-        self._project_repository.update_downloads(pd)
+        self._project_repository.save_day_downloads(pd)

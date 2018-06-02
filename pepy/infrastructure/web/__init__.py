@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from flask import Flask, render_template, request, redirect, flash, send_from_directory, send_file, Response
+from flask import Flask, render_template, request, redirect, flash, send_from_directory, send_file, Response, url_for
 
 from pepy.application.command import UpdateDownloads
 from pepy.domain.exception import DomainException
@@ -16,17 +16,14 @@ def index_action():
     form = SearchForm()
     if form.validate_on_submit():
         project_name = form.project_name.data
-        return redirect('/count/%s' % project_name)
+        return redirect(url_for('project_action', project_name=project_name))
     projects = container.project_provider.for_home()
     return render_template('index.html', form=form, projects=projects)
 
 
 @app.route('/count/<project_name>')
 def count_action(project_name):
-    project_name = ProjectName(project_name)
-    project = container.project_provider.find(project_name)
-    badge = container.badge_query.generate_badge(project_name)
-    return render_template('count.html', project=project, badge=badge)
+    return redirect(url_for('project_action', project_name=project_name), 301)
 
 
 @app.route('/project/<project_name>')

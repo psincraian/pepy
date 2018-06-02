@@ -1,3 +1,6 @@
+from datetime import date
+
+
 class ProjectName:
     MIN_LENGTH = 1
     MAX_LENGTH = 512
@@ -37,6 +40,7 @@ class Project:
 
 
 class ProjectDownloads:
-    def __init__(self, name: ProjectName, downloads: Downloads):
+    def __init__(self, name: ProjectName, downloads: Downloads, day: date):
         self.name = name
         self.downloads = downloads
+        self.day = day

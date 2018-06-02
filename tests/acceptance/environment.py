@@ -12,4 +12,4 @@ def before_all(context: Context):
 
 def before_scenario(context, _):
     with context.container.db_connection, context.container.db_connection.cursor() as cursor:
-        cursor.execute("TRUNCATE projects")
+        cursor.execute("TRUNCATE projects CASCADE")

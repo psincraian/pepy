@@ -1,4 +1,5 @@
 import random
+from datetime import date, datetime
 
 from pepy.domain.model import ProjectName, Downloads, Project, ProjectDownloads
 
@@ -32,7 +33,8 @@ class ProjectStub:
 
 class ProjectDownloadsStub:
     @staticmethod
-    def create(name: ProjectName=None, downloads: Downloads=None) -> ProjectDownloads:
+    def create(name: ProjectName=None, downloads: Downloads=None, day: date=None) -> ProjectDownloads:
         name = name or ProjectNameStub.create()
         downloads = downloads or DownloadsStub.create()
-        return ProjectDownloads(name, downloads)
+        day = day or datetime.now().date()
+        return ProjectDownloads(name, downloads, day)

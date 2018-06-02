@@ -36,3 +36,9 @@ class DBProjectRepository(ProjectRepository):
             values = [{'downloads':  pd.downloads.value, 'project': pd.name.name} for pd in projects_downloads]
             sql = "UPDATE projects SET downloads = downloads + %(downloads)s WHERE name = %(project)s"
             execute_batch(cursor, sql, values)
+
+    def save_day_downloads(self, project_downloads: List[ProjectDownloads]):
+        with self._conn, self._conn.cursor() as cursor:
+            values = [(pd.name.name, pd.day, pd.downloads.value) for pd in project_downloads]
+            sql = "INSERT INTO downloads_per_day(name, date, downloads) VALUES (%s, %s, %s)"
+            execute_batch(cursor, sql, values)

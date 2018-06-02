@@ -16,4 +16,5 @@ CREATE_DOWNLOADS_TABLE = """
 
 steps = [
     step(CREATE_DOWNLOADS_TABLE, "DROP TABLE downloads_per_day"),
+    step("CREATE INDEX downloads_per_day_name_idx ON downloads_per_day(name)", "DROP INDEX downloads_per_day_name_idx")
 ]

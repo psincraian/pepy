@@ -44,3 +44,4 @@ class UpdateDownloadsHandler(CommandHandler):
             raise InvalidAdminPassword(cmd.password)
         pd = self._downloads_extractor.get_downloads(cmd.date)
         self._project_repository.save_day_downloads(pd)
+        self._project_repository.update_downloads(pd)

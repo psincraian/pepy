@@ -26,6 +26,6 @@ class BQDownloadsExtractor(DownloadsExtractor):
         for row in query_result:
             name = ProjectName(row['name'])
             downloads = Downloads(row['downloads'])
-            result.append(ProjectDownloads(name, downloads))
+            result.append(ProjectDownloads(name, downloads, date))
 
         return result

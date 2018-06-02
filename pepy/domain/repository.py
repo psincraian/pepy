@@ -22,6 +22,10 @@ class ProjectRepository(ABC):
     def update_downloads(self, projects_downloads: List[ProjectDownloads]):
         pass
 
+    @abstractmethod
+    def save_day_downloads(self, project_downloads: List[ProjectDownloads]):
+        pass
+
 
 class DownloadsExtractor(ABC):
     @abstractmethod

@@ -16,7 +16,7 @@ from tests.tools.stub import ProjectStub, ProjectDownloadsStub
 def project_repository():
     conn = container.db_connection
     with conn.cursor() as cursor:
-        cursor.execute("TRUNCATE TABLE projects")
+        cursor.execute("TRUNCATE TABLE projects CASCADE")
     yield DBProjectRepository(conn)
 
 
@@ -36,3 +36,10 @@ def test_update_downloads(project_repository: DBProjectRepository):
     project_repository.update_downloads([project_downloads])
     result = project_repository.find(project.name)
     assert project_downloads.downloads.value + project.downloads.value == result.downloads.value
+
+
+def test_save_day_downloads(project_repository: DBProjectRepository):
+    project = ProjectStub.create()
+    project_repository.save_projects([project])
+    project_downloads = ProjectDownloadsStub.create(name=project.name)
+    project_repository.save_day_downloads([project_downloads])

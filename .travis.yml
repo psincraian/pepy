@@ -18,11 +18,11 @@ addons:
   ssh_known_hosts: 174.138.5.205
 
 before_deploy:
-  - openssl aes-256-cbc -K $encrypted_c7065a1712c1_key -iv $encrypted_c7065a1712c1_iv -in infrastructure/playbooks/deploy_rsa.enc -out /tmp/deploy_rsa -d
+  - openssl aes-256-cbc -K $encrypted_c7065a1712c1_key -iv $encrypted_c7065a1712c1_iv -in infrastructure/playbooks/travis_secrets.tar.enc -out infrastructure/playbooks/travis_secrets.tar -d
+  - tar xvf infrastructure/playbooks/travis_secrets.tar
   - eval "$(ssh-agent -s)"
-  - chmod 600 /tmp/deploy_rsa
-  - ssh-add /tmp/deploy_rsa
-  - openssl aes-256-cbc -K $encrypted_c7065a1712c1_key -iv $encrypted_c7065a1712c1_iv -in infrastructure/playbooks/vault_password.txt.enc -out infrastructure/playbooks/vault_password.txt -d
+  - chmod 600 infrastructure/playbooks/deploy_rsa
+  - ssh-add infrastructure/playbooks/deploy_rsa
   - pip install ansible
 
 deploy:

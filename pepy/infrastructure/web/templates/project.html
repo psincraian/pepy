@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="jumbotron mt-4">
+        <h1 class="display-4">{{ project.name.name }} <a href="https://pypi.org/project/{{ project.name.name }}/"><i
+                class="material-icons">link</i></a>
+        </h1>
+        <hr class="my-4">
+        <p>Downloaded <b>{{ project.downloads.value }}</b> times</p>
+        <h2>Badge</h2>
+        <div class="row">
+            <div class="col-6">
+                {{ badge.image|safe }}
+            </div>
+            <div class="col-6">
+                <label class="sr-only" for="inlineFormInputGroup">Badge</label>
+                <div class="input-group mb-2">
+                    <input id="badge-markdown" type="text" class="form-control" placeholder="Badge"
+                           value="[![Downloads]({{ url_for('badge_action', project_name=project.name.name, _external=True) }})]({{ url_for('count_action', project_name=project.name.name, _external=True) }})"
+                           readonly>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" data-clipboard-target="#badge-markdown">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2>Downloads</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Downloads</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for download in downloads %}
+                <tr>
+                    <td>{{ download.day.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ download.downloads.value }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}

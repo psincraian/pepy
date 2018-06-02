@@ -1,5 +1,6 @@
 import random
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
+from typing import List
 
 from pepy.domain.model import ProjectName, Downloads, Project, ProjectDownloads
 
@@ -38,3 +39,9 @@ class ProjectDownloadsStub:
         downloads = downloads or DownloadsStub.create()
         day = day or datetime.now().date()
         return ProjectDownloads(name, downloads, day)
+
+    @staticmethod
+    def create_consecutive(name: ProjectName=None, first_day: date=None, days: int=10) -> List[ProjectDownloads]:
+        name = name or ProjectNameStub.create()
+        first_day = first_day or datetime.now().date()
+        return [ProjectDownloadsStub.create(name=name, day=first_day - timedelta(days=i)) for i in range(days)]

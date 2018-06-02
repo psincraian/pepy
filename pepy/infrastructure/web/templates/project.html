@@ -10,13 +10,13 @@
         <h2>Badge</h2>
         <div class="row">
             <div class="col-6">
-                {{ badge.image|safe }}
+                <img src="{{ url_for('badge_action', project_name=project.name.name) }}">
             </div>
             <div class="col-6">
                 <label class="sr-only" for="inlineFormInputGroup">Badge</label>
                 <div class="input-group mb-2">
                     <input id="badge-markdown" type="text" class="form-control" placeholder="Badge"
-                           value="[![Downloads]({{ url_for('badge_action', project_name=project.name.name, _external=True) }})]({{ url_for('count_action', project_name=project.name.name, _external=True) }})"
+                           value="[![Downloads]({{ url_for('badge_action', project_name=project.name.name, _external=True) }})]({{ url_for('project_action', project_name=project.name.name, _external=True) }})"
                            readonly>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" data-clipboard-target="#badge-markdown">

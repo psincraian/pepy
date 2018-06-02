@@ -33,9 +33,8 @@ def count_action(project_name):
 def project_action(project_name):
     project_name = ProjectName(project_name)
     project = container.project_provider.find(project_name)
-    badge = container.badge_query.generate_badge(project_name)
     downloads = container.project_provider.last_downloads(project_name)
-    return render_template('project.html', project=project, badge=badge, downloads=downloads)
+    return render_template('project.html', project=project, downloads=downloads)
 
 
 @app.route('/badge/<project_name>')

@@ -9,10 +9,10 @@
         <p>Downloaded <b>{{ project.downloads.value }}</b> times</p>
         <h2>Badge</h2>
         <div class="row">
-            <div class="col-6">
+            <div class="project-badge col-sm-6">
                 <img src="{{ url_for('badge_action', project_name=project.name.name) }}">
             </div>
-            <div class="col-6">
+            <div class="project-badge-code col-sm-6">
                 <label class="sr-only" for="inlineFormInputGroup">Badge</label>
                 <div class="input-group mb-2">
                     <input id="badge-markdown" type="text" class="form-control" placeholder="Badge"

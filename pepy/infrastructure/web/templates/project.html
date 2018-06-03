@@ -6,8 +6,7 @@
                 class="material-icons">link</i></a>
         </h1>
         <hr class="my-4">
-        <p>Downloaded <b>{{ project.downloads.value }}</b> times</p>
-        <h2>Badge</h2>
+        <h3 class="project-section">Badge</h3>
         <div class="row">
             <div class="project-badge col-sm-6">
                 <img src="{{ url_for('badge_action', project_name=project.name.name) }}">
@@ -26,7 +25,16 @@
                 </div>
             </div>
         </div>
-        <h2>Downloads</h2>
+        <h3 class="project-section">Downloads</h3>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Total downloads</th>
+                    <td>{{ project.downloads.value }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3 class="project-section">Downloads by days</h3>
         <table class="table">
             <thead>
             <tr>

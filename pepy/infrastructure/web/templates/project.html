@@ -6,6 +6,19 @@
                 class="material-icons">link</i></a>
         </h1>
         <hr class="my-4">
+        <h3 class="project-section">Summary</h3>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Total downloads</th>
+                    <td>{{ project.downloads.value }}</td>
+                </tr>
+                <tr>
+                    <th>pypi link</th>
+                    <td><a href="https://pypi.org/project/{{ project.name.name }}/">https://pypi.org/project/{{ project.name.name }}/</a></td>
+                </tr>
+            </tbody>
+        </table>
         <h3 class="project-section">Badge</h3>
         <div class="row">
             <div class="project-badge col-sm-6">
@@ -25,15 +38,6 @@
                 </div>
             </div>
         </div>
-        <h3 class="project-section">Downloads</h3>
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Total downloads</th>
-                    <td>{{ project.downloads.value }}</td>
-                </tr>
-            </tbody>
-        </table>
         <h3 class="project-section">Downloads by days</h3>
         <table class="table">
             <thead>

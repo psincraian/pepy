@@ -6,7 +6,7 @@ from google.cloud import bigquery
 from pepy.application.command import ImportDownloadsFile, ImportDownloadsFileHandler, UpdateDownloads, \
     UpdateDownloadsHandler
 from pepy.application.helper import AdminPasswordChecker
-from pepy.application.query import BadgeProvider, ProjectProvider
+from pepy.application.query import BadgeProvider, ProjectProvider, DownloadsNumberFormatter
 from pepy.domain.model import HashedPassword
 from pepy.infrastructure.bq_downloads_extractor import BQDownloadsExtractor
 from pepy.infrastructure.db_repository import DBProjectRepository
@@ -16,7 +16,8 @@ db_connection = psycopg2.connect(**DATABASE)
 project_repository = DBProjectRepository(db_connection)
 command_bus = CommandBus()
 command_bus.subscribe(ImportDownloadsFile, ImportDownloadsFileHandler(project_repository))
-badge_query = BadgeProvider(project_repository)
+downloads_formatter = DownloadsNumberFormatter()
+badge_query = BadgeProvider(project_repository, downloads_formatter)
 project_provider = ProjectProvider(project_repository)
 
 environment = os.getenv('APPLICATION_ENV', None)

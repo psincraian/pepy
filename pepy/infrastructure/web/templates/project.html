@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
+{% block title %}{{ project.name.name }} download stats{% endblock %}
+
 {% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ project.name.name }}</li>
+        </ol>
+    </nav>
     <div class="jumbotron mt-4">
         <h1 class="display-4">{{ project.name.name }} <a href="https://pypi.org/project/{{ project.name.name }}/"><i
                 class="material-icons">link</i></a>
@@ -9,20 +17,22 @@
         <h3 class="project-section">Summary</h3>
         <table class="table">
             <tbody>
-                <tr>
-                    <th>Total downloads</th>
-                    <td>{{ project.downloads.value }}</td>
-                </tr>
-                <tr>
-                    <th>pypi link</th>
-                    <td><a href="https://pypi.org/project/{{ project.name.name }}/">https://pypi.org/project/{{ project.name.name }}/</a></td>
-                </tr>
+            <tr>
+                <th>Total downloads</th>
+                <td>{{ project.downloads.value }}</td>
+            </tr>
+            <tr>
+                <th>pypi link</th>
+                <td>
+                    <a href="https://pypi.org/project/{{ project.name.name }}/">https://pypi.org/project/{{ project.name.name }}/</a>
+                </td>
+            </tr>
             </tbody>
         </table>
         <h3 class="project-section">Badge</h3>
         <div class="row">
             <div class="project-badge col-sm-6">
-                <img src="{{ url_for('badge_action', project_name=project.name.name) }}">
+                <img alt="Total downloads for {{ project.name.name }} project" src="{{ url_for('badge_action', project_name=project.name.name) }}">
             </div>
             <div class="project-badge-code col-sm-6">
                 <label class="sr-only" for="inlineFormInputGroup">Badge</label>

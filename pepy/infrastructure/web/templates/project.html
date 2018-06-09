@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}{{ project.name.name }} download stats{% endblock %}
+{% block meta %}{{ project.name.name }} was downloaded {{ project.downloads.value }} times. Get more downloads stats about any Python package.{% endblock %}
 
 {% block content %}
     <nav aria-label="breadcrumb">

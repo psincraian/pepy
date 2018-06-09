@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>{% block title %}PePy - python package downloads{% endblock %}</title>
+    <meta name="description" content="{% block meta %}{% endblock %}">
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -59,7 +60,7 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    {% block content %}{% endblock %}
+    <div class="content">{% block content %}{% endblock %}</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

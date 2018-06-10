@@ -31,7 +31,7 @@ psycopg2-binary==2.7.4
 py==1.5.3
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
-pytest==3.6.0
+pytest==3.6.1
 python-slugify==1.2.5
 pytz==2018.4
 requests==2.18.4

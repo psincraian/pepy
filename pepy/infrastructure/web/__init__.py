@@ -47,7 +47,15 @@ def robots():
 
 @app.route('/task/update_downloads', methods=["POST"])
 def update_downloads():
-    date = request.args.get('date', datetime.now() - timedelta(days=1))
+    raw_date = request.args.get('date')
+    try:
+        if raw_date is not None:
+            date = datetime.strptime(raw_date, '%Y-%m-%d')
+        else:
+            date = datetime.now() - timedelta(days=1)
+    except ValueError:
+        return Response("Date format should be YYYY-mm-dd", 400)
+    
     password = request.args.get('password', '')
     container.command_bus.publish(UpdateDownloads(date.date(), Password(password)))
     return "Updated :-)"

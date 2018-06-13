@@ -47,7 +47,7 @@ def robots():
 
 @app.route('/task/update_downloads', methods=["POST"])
 def update_downloads():
-    date = datetime.now() - timedelta(days=1)
+    date = request.args.get('date', datetime.now() - timedelta(days=1))
     password = request.args.get('password', '')
     container.command_bus.publish(UpdateDownloads(date.date(), Password(password)))
     return "Updated :-)"

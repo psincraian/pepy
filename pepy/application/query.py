@@ -21,7 +21,6 @@ class DownloadsNumberFormatter:
 
 
 class BadgeProvider:
-    _MILLNAMES = ['', 'k', 'M', 'G', 'T']
 
     def __init__(self, project_repository: ProjectRepository, downloads_formatter: DownloadsNumberFormatter):
         self._project_repository = project_repository

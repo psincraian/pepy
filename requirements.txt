@@ -16,7 +16,7 @@ google-resumable-media==0.3.1
 googleapis-common-protos==1.5.3
 greenlet==0.4.13
 gunicorn==19.8.1
-idna==2.6
+idna==2.7
 iniherit==0.3.9
 itsdangerous==0.24
 Jinja2==2.10

@@ -9,13 +9,13 @@ from pepy.domain.repository import ProjectRepository
 
 
 class DownloadsNumberFormatter:
-    _MILLNAMES = ['', 'K', 'M', 'B', 'T', 'Q']
+    _METRIC_PREFIX = ['', 'k', 'M', 'G', 'T', 'P']
 
     def format(self, downloads: Downloads) -> str:
         digits = int(math.log10(abs(downloads.value)) if downloads.value else 0)
-        millidx = max(0, min(len(self._MILLNAMES) - 1, digits // 3))
+        millidx = max(0, min(len(self._METRIC_PREFIX) - 1, digits // 3))
         rounded_value = downloads.value // (10 ** (3 * millidx))
-        return '{}{}'.format(rounded_value, self._MILLNAMES[millidx])
+        return '{}{}'.format(rounded_value, self._METRIC_PREFIX[millidx])
 
 
 class BadgeProvider:

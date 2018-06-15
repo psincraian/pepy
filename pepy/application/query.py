@@ -9,19 +9,16 @@ from pepy.domain.repository import ProjectRepository
 
 
 class DownloadsNumberFormatter:
-    _MILLNAMES = ['', 'k', 'M', 'G', 'T']
+    _METRIC_PREFIX = ['', 'k', 'M', 'G', 'T', 'P']
 
     def format(self, downloads: Downloads) -> str:
-        digits = int(math.floor(0 if downloads.value == 0 else math.log10(abs(downloads.value)) / 3))
-        millidx = max(0, min(len(self._MILLNAMES) - 1, digits))
-        value = math.floor(downloads.value / 10 ** (3 * millidx))
-        if millidx == 0:
-            return '{}{}'.format(value, self._MILLNAMES[millidx])
-        return '{}{}'.format(value, self._MILLNAMES[millidx])
+        digits = int(math.log10(abs(downloads.value)) if downloads.value else 0)
+        millidx = max(0, min(len(self._METRIC_PREFIX) - 1, digits // 3))
+        rounded_value = downloads.value // (10 ** (3 * millidx))
+        return '{}{}'.format(rounded_value, self._METRIC_PREFIX[millidx])
 
 
 class BadgeProvider:
-    _MILLNAMES = ['', 'k', 'M', 'G', 'T']
 
     def __init__(self, project_repository: ProjectRepository, downloads_formatter: DownloadsNumberFormatter):
         self._project_repository = project_repository

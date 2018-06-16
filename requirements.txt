@@ -34,7 +34,7 @@ pyasn1-modules==0.2.1
 pytest==3.6.1
 python-slugify==1.2.5
 pytz==2018.4
-requests==2.18.4
+requests==2.19.1
 rsa==3.4.2
 six==1.11.0
 Unidecode==1.0.22

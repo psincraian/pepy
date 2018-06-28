@@ -27,7 +27,7 @@ parse-type==0.4.2
 passlib==1.7.1
 pluggy==0.6.0
 protobuf==3.6.0
-psycopg2-binary==2.7.4
+psycopg2-binary==2.7.5
 py==1.5.3
 pyasn1==0.4.3
 pyasn1-modules==0.2.1

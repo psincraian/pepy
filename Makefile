@@ -28,3 +28,6 @@ acceptance-tests:
 
 tests: unit-tests integration-tests acceptance-tests
 
+format-code:
+	docker-compose -f infrastructure/docker-compose.yml --project-directory . exec pepy black -l 120 --exclude=".*\/node_modules" pepy/ tests/
+

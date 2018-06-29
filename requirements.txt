@@ -1,6 +1,8 @@
+appdirs==1.4.3
 atomicwrites==1.1.5
 attrs==18.1.0
 behave==1.2.6
+black==18.6b4
 cachetools==2.1.0
 certifi==2018.4.16
 chardet==3.0.4
@@ -37,6 +39,8 @@ pytz==2018.4
 requests==2.19.1
 rsa==3.4.2
 six==1.11.0
+text-unidecode==1.2
+toml==0.9.4
 Unidecode==1.0.22
 urllib3==1.23
 Werkzeug==0.14.1

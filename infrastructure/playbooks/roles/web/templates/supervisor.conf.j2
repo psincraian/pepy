@@ -1,7 +1,6 @@
 [program:{{ project_name }}]
 command = {{ venv_directory }}/bin/gunicorn -c gunicorn.conf.py pepy.infrastructure.web.__init__:app
 user = {{ gunicorn_user }}
-stdout_logfile = {{ application_log_file }}
 redirect_stderr = true
 directory = {{ project_directory }}
 environment=

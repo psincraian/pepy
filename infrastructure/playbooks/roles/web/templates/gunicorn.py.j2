@@ -4,5 +4,5 @@ workers = 2
 threads = 1
 timeout = 30
 bind = "127.0.0.1:8000"
-accesslog="{{ application_log_file }}"
+accesslog="{{ gunicorn_log_file }}"
 loglevel="info"

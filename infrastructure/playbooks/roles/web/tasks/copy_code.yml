@@ -25,7 +25,7 @@
 - name: Ensure the application log file exists
   copy:
     content: ""
-    dest: "{{ application_log_file }}"
+    dest: "{{ gunicorn_log_file }}"
     mode: 0664
     force: no
 

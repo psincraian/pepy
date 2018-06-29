@@ -259,7 +259,7 @@ db_password: !vault |
 db_name: pepy
 
 # Gunicorn
-application_log_file: "{{ application_log_dir }}/gunicorn.log"
+gunicorn_log_file: "{{ application_log_dir }}/gunicorn.log"
 gunicorn_user: "{{ pepy_user }}"
 gunicorn_group: "{{ pepy_group }}"
 gunicorn_num_workers: 2

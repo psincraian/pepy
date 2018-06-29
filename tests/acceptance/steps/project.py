@@ -20,6 +20,6 @@ def step_impl(context: Context, name: str):
     context.container.project_repository.save_projects([project])
     downloads = []
     for row in context.table:
-        date = datetime.strptime(row['date'], '%Y-%m-%d').date()
-        downloads.append(ProjectDownloads(project_name, Downloads(row['downloads']), date))
+        date = datetime.strptime(row["date"], "%Y-%m-%d").date()
+        downloads.append(ProjectDownloads(project_name, Downloads(row["downloads"]), date))
     context.container.project_repository.save_day_downloads(downloads)

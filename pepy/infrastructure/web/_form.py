@@ -6,7 +6,6 @@ from pepy.domain.model import ProjectName
 
 
 class SearchForm(FlaskForm):
-    project_name = StringField('Project name', validators=[
-        DataRequired(),
-        Length(max=ProjectName.MAX_LENGTH, min=ProjectName.MIN_LENGTH)
-    ])
+    project_name = StringField(
+        "Project name", validators=[DataRequired(), Length(max=ProjectName.MAX_LENGTH, min=ProjectName.MIN_LENGTH)]
+    )

@@ -27,7 +27,7 @@ class ProjectRepository(ABC):
         pass
 
     @abstractmethod
-    def last_downloads(self, project_name: ProjectName, days: int=30) -> List[ProjectDownloads]:
+    def last_downloads(self, project_name: ProjectName, days: int = 30) -> List[ProjectDownloads]:
         pass
 
 

@@ -24,8 +24,9 @@ class ProjectNameLengthIsNotValidException(DomainException):
         self.max_length = max_length
 
     def message(self) -> str:
-        return 'Name "{}" is not valid, length should be between {} and {}'\
-            .format(self.project_name, self.min_length, self.max_length)
+        return 'Name "{}" is not valid, length should be between {} and {}'.format(
+            self.project_name, self.min_length, self.max_length
+        )
 
 
 class InvalidAdminPassword(DomainException):

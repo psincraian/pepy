@@ -6,6 +6,7 @@ def before_all(context: Context):
     os.environ["APPLICATION_ENV"] = "test"
     from pepy.infrastructure import container
     from pepy.infrastructure.web import app
+
     context.container = container
     context.client = app.test_client()
 

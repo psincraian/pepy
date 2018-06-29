@@ -12,6 +12,7 @@ class ProjectName:
     def _check(self, attribute, value):
         if len(value) < self.MIN_LENGTH or len(value) > self.MAX_LENGTH:
             from pepy.domain.exception import ProjectNameLengthIsNotValidException
+
             raise ProjectNameLengthIsNotValidException(value, self.MIN_LENGTH, self.MAX_LENGTH)
 
     def __attrs_post_init__(self):

@@ -1,5 +1,7 @@
 .idea
 .venv
+app.log
+test_app.log
 *.pytest_cache/
 # Created by .ignore support plugin (hsz.mobi)
 __pycache__/

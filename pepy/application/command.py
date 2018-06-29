@@ -1,5 +1,6 @@
 import csv
 import datetime
+from logging import Logger
 from typing import TextIO
 
 from commandbus import Command, CommandHandler
@@ -38,16 +39,24 @@ class UpdateDownloadsHandler(CommandHandler):
         project_repository: ProjectRepository,
         downloads_extractor: DownloadsExtractor,
         admin_password_checker: AdminPasswordChecker,
+        logger: Logger,
     ):
         self._project_repository = project_repository
         self._downloads_extractor = downloads_extractor
         self._admin_password_checker = admin_password_checker
+        self._logger = logger
 
     def handle(self, cmd: UpdateDownloads):
         if not self._admin_password_checker.check(cmd.password):
+            self._logger.info("Invalid password")
             raise InvalidAdminPassword(cmd.password)
+        self._logger.info(f"Getting downloads from date {cmd.date}...")
         pd = self._downloads_extractor.get_downloads(cmd.date)
+        self._logger.info(f"Retrieved {len(pd)} downloads. Saving to db...")
         # Add new projects if they don't exist before
         self._project_repository.save_projects([Project(p.name, Downloads(0)) for p in pd])
+        self._logger.info("New projects saved")
         self._project_repository.save_day_downloads(pd)
+        self._logger.info("Downloads saved")
         self._project_repository.update_downloads(pd)
+        self._logger.info("Total downloads updated")

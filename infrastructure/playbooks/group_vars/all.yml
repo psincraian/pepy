@@ -229,6 +229,7 @@ pepy_ssh_private: !vault |
 
 # Web
 project_directory: /var/www/pepy
+app_log_file: "{{ application_log_dir }}/app.log"
 venv_directory: "{{ project_directory }}/.venv"
 application_log_dir: "{{ project_directory }}/logs"
 secret_key: !vault |

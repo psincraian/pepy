@@ -1,0 +1,21 @@
+---
+
+pepy_env:
+  - name: APPLICATION_ENV
+    value: prod
+  - name: PEPY_SECRET_KEY
+    value: "{{ secret_key }}"
+  - name: PEPY_ADMIN_PASSWORD
+    value: "{{ admin_password }}"
+  - name: PEPY_DATABASE_HOST
+    value: "{{ db_host }}"
+  - name: PEPY_DATABASE_USER
+    value: "{{ db_user }}"
+  - name: PEPY_DATABASE_NAME
+    value: "{{ db_name }}"
+  - name: PEPY_DATABASE_PASSWORD
+    value: "{{ db_password }}"
+  - name: PEPY_BIGQUERY_CREDENTIALS
+    value: "{{ bigquery_credentials_file }}"
+  - name: PEPY_LOGGING_FILE
+    value: "{{ app_log_file }}"

@@ -4,3 +4,4 @@
   - include: migrations.yml
   - include: webserver.yml
   - include: supervisor.yml
+  - include: crons.yml

@@ -15,4 +15,4 @@
     name: "update daily downloads"
     minute: "0"
     hour: "17"
-    job: "cd {{ project_directory }} && ./venv/bin/python -m pepy import:downloads:day --password \"{{ admin_password_plain }}\""
+    job: "cd {{ project_directory }} && .venv/bin/python -m pepy import:downloads:day --password \"{{ admin_password_plain }}\""

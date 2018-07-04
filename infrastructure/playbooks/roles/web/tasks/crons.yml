@@ -10,9 +10,18 @@
   with_items:
     - "{{ pepy_env }}"
 
-- name: Ensure update downloads cron exists
+- name: Ensure update downloads cron exists (root user deprecated)
   cron:
     name: "update daily downloads"
     minute: "0"
     hour: "17"
     job: "cd {{ project_directory }} && .venv/bin/python -m pepy import:downloads:day --password \"{{ admin_password_plain }}\""
+    state: absent
+
+- name: Ensure update downloads cron exists
+  cron:
+    name: "update daily downloads"
+    minute: "0"
+    hour: "17"
+    job: "cd {{ project_directory }} && .venv/bin/python -m pepy import:downloads:day --password \"{{ admin_password_plain }}\ | dog metric post --tags cli update_daily_downloads $?"
+    user: "{{ pepy_user }}"

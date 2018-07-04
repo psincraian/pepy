@@ -9,6 +9,7 @@
     value: "{{ item.value }}"
   with_items:
     - "{{ pepy_env }}"
+  no_log: true
 
 - name: Ensure update downloads cron exists (root user deprecated)
   cron:

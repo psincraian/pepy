@@ -16,6 +16,7 @@ I wanted to make the setup of the environment as easy as possible. To start the 
 following prerequisites:
 
 ### Prerequisites
+  * bash (+4.3)
   * docker (+17.05)
   * docker-compose (+1.16.1)
   * docker-py (+2.2.1)
@@ -26,7 +27,6 @@ You only (_fingers crossed_) need to execute the following to start the environm
 
 ```commandline
 make start-containers
-make migrations
 ```
 
 ## Architecture and patterns

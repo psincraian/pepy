@@ -6,6 +6,9 @@ start: install
 
 start-containers:
 	docker-compose -f infrastructure/docker-compose.yml --project-directory . up -d
+	until curl --silent -XGET --fail http://localhost:5200/robots.txt; do printf '.'; sleep 1; done
+	docker-compose -f infrastructure/docker-compose.yml --project-directory . exec pepy yoyo apply --database "postgresql://pepy:pepy@pgsql/pepy" infrastructure/migrations/ --no-config-file --batch
+	docker-compose -f infrastructure/docker-compose.yml --project-directory . exec pepy yoyo apply --database "postgresql://pepy:pepy@pgsql/pepy_test" infrastructure/migrations/ --no-config-file --batch
 
 stop-containers:
 	docker-compose -f infrastructure/docker-compose.yml --project-directory . stop

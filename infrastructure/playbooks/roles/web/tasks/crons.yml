@@ -7,6 +7,7 @@
     name: "{{ item.name }}"
     env: yes
     value: "{{ item.value }}"
+    user: "{{ pepy_user }}"
   with_items:
     - "{{ pepy_env }}"
   no_log: true

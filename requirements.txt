@@ -1,5 +1,5 @@
 appdirs==1.4.3
-atomicwrites==1.1.5
+atomicwrites==1.2.1
 attrs==18.1.0
 behave==1.2.6
 black==18.6b4

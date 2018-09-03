@@ -1,6 +1,6 @@
 appdirs==1.4.3
-atomicwrites==1.1.5
-attrs==18.1.0
+atomicwrites==1.2.1
+attrs==18.2.0
 behave==1.2.6
 black==18.6b4
 cachetools==2.1.0
@@ -27,13 +27,13 @@ more-itertools==4.3.0
 parse==1.8.4
 parse-type==0.4.2
 passlib==1.7.1
-pluggy==0.6.0
+pluggy==0.7.1
 protobuf==3.6.1
 psycopg2-binary==2.7.5
-py==1.5.4
+py==1.6.0
 pyasn1==0.4.4
 pyasn1-modules==0.2.2
-pytest==3.6.3
+pytest==3.7.4
 python-slugify==1.2.5
 pytz==2018.5
 requests==2.19.1

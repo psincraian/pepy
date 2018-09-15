@@ -40,7 +40,7 @@ requests==2.19.1
 rsa==3.4.2
 six==1.11.0
 text-unidecode==1.2
-toml==0.9.4
+toml==0.9.6
 Unidecode==1.0.22
 urllib3==1.23
 Werkzeug==0.14.1

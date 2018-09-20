@@ -4,7 +4,7 @@
   />
 </p>
 <p align="center">
-<a href="https://travis-ci.com/psincraian/pepy.svg?branch=master"><img src="https://travis-ci.com/psincraian/pepy.svg?branch=master" alt="Build status" height="18"></a>
+<a href="https://travis-ci.com/psincraian/"><img src="https://travis-ci.com/psincraian/pepy.svg?branch=master" alt="Build status" height="18"></a>
 </p>
 <h2 align="center"><code>pepy</code></h2>
 

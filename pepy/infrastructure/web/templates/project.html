@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}{{ project.name.name }} download stats{% endblock %}
-{% block meta %}{{ project.name.name }} was downloaded {{ project.downloads.value }} times. Get more downloads stats about any Python package.{% endblock %}
+{% block meta %}{{ project.name.name }} was downloaded {{ '{:,}'.format(project.downloads.value) }} times. Get more downloads stats about any Python package.{% endblock %}
 
 {% block content %}
     <nav aria-label="breadcrumb">
@@ -20,7 +20,7 @@
             <tbody>
             <tr>
                 <th>Total downloads</th>
-                <td>{{ project.downloads.value }}</td>
+                <td>{{ '{:,}'.format(project.downloads.value) }}</td>
             </tr>
             <tr>
                 <th>pypi link</th>
@@ -61,7 +61,7 @@
             {% for download in downloads %}
                 <tr>
                     <td>{{ download.day.strftime('%Y-%m-%d') }}</td>
-                    <td>{{ download.downloads.value }}</td>
+                    <td>{{ '{:,}'.format(download.downloads.value) }}</td>
                 </tr>
             {% endfor %}
             </tbody>

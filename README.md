@@ -6,7 +6,7 @@
 <p align="center">
 <a href="https://travis-ci.com/psincraian/pepy.svg?branch=master"><img src="https://travis-ci.com/psincraian/pepy.svg?branch=master" alt="Build status" height="18"></a>
 </p>
-<h2 align="center"><code>pepy</code></h2>
+<h2 align="center"><code>PePy</code></h2>
 
 ## 📜 About
 [pepy.tech](http://pepy.tech) is a site which aim is to show statistics information about the Python packages.

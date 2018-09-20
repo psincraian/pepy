@@ -9,10 +9,10 @@
 <h2 align="center"><code>pepy</code></h2>
 
 ## 📜 About
-[pepy.tech](http://pepy.tech) is a site which aim is to show statistics information about the Python packages.
+[pepy.tech](http://pepy.tech) is a site which aims to show statistics about Python packages.
 
 ## ⚒️ Start contributing
-I wanted to make the setup of the environment as easy as possible. To start the environment you will need to have the 
+I wanted to make the setup of the environment as easy as possible. To start the environment you need the 
 following prerequisites:
 
 ### Prerequisites
@@ -30,15 +30,15 @@ make start-containers
 ```
 
 ## Architecture and patterns
-Principally I used some of DDD concepts (like value objects, entities, and so on) and also CQS which objective is to
+Principally I used some DDD concepts (like value objects, entities, and so on) and also CQS whose objective is to
 separate commands from queries.
 
 The structure of the code is the following:
   * `pepy/application`: here is where all the commands and the queries are located.
   * `pepy/domain`: domain objects like entities, exceptions, and value objects.
   * `pepy/infrastructure`: infrastructure components like the implementation of the repository
-    class like db or BigQuery, the Flask web application, the container, and so on.
-    * `pepy/infrastructure/cli`: the command line programs
+    class like DB or BigQuery, the Flask web application, the container, and so on.
+    * `pepy/infrastructure/cli`: the command line programs.
     * `pepy/infrastructure/container`: config files and the dependency injection manager.
     * `pepy/infrastructure/web`: the Flask application with all the routes.
 

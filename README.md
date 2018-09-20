@@ -9,7 +9,7 @@
 <h2 align="center"><code>pepy</code></h2>
 
 ## 📜 About
-[pepy.tech](http://pepy.tech) is a site which aim is to show statistics information about the Python packages.
+[pepy.tech](https://pepy.tech) is a site which aim is to show statistics information about the Python packages.
 
 ## ⚒️ Start contributing
 I wanted to make the setup of the environment as easy as possible. To start the environment you will need to have the 

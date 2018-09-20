@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}{{ project.name.name }} download stats{% endblock %}
-{% block meta %}{{ project.name.name }} was downloaded {{ project.downloads.value }} times. Get more downloads stats about any Python package.{% endblock %}
+{% block meta %}{{ project.name.name }} was downloaded {{ project.downloads.value }} times. Get more download stats about any Python package.{% endblock %}
 
 {% block content %}
     <nav aria-label="breadcrumb">
@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-        <h3 class="project-section">Downloads by days</h3>
+        <h3 class="project-section">Downloads by day</h3>
         <table class="table">
             <thead>
             <tr>

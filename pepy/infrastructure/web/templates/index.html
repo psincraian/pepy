@@ -37,7 +37,7 @@
             {% for project in projects %}
                 <tr>
                     <th scope="row"><a href="{{ url_for('count_action', project_name=project.name.name) }}">{{ project.name.name }}</a></th>
-                    <td>{{ project.downloads.value }}</td>
+                    <td>{{ '{:,}'.format(project.downloads.value) }}</td>
                 </tr>
             {% endfor %}
             </tbody>

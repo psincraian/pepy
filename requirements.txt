@@ -37,7 +37,7 @@ pytest==3.8.0
 python-slugify==1.2.5
 pytz==2018.5
 requests==2.19.1
-rsa==3.4.2
+rsa==4.0
 six==1.11.0
 text-unidecode==1.2
 toml==0.9.4

@@ -2,7 +2,7 @@ appdirs==1.4.3
 atomicwrites==1.2.1
 attrs==18.2.0
 behave==1.2.6
-black==18.6b4
+black==18.9b0
 cachetools==2.1.0
 certifi==2018.4.16
 chardet==3.0.4

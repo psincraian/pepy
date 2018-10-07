@@ -24,7 +24,7 @@ itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
 more-itertools==4.3.0
-parse==1.8.4
+parse==1.9.0
 parse-type==0.4.2
 passlib==1.7.1
 pluggy==0.7.1

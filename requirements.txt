@@ -20,7 +20,7 @@ greenlet==0.4.14
 gunicorn==19.9.0
 idna==2.7
 iniherit==0.3.9
-itsdangerous==0.24
+itsdangerous==1.0.0
 Jinja2==2.10
 MarkupSafe==1.0
 more-itertools==4.3.0

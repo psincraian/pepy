@@ -27,7 +27,7 @@ more-itertools==4.3.0
 parse==1.8.4
 parse-type==0.4.2
 passlib==1.7.1
-pluggy==0.7.1
+pluggy==0.8.0
 protobuf==3.6.1
 psycopg2-binary==2.7.5
 py==1.6.0

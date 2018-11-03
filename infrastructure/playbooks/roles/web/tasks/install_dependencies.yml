@@ -1,9 +1,9 @@
 ---
 - name: Install pipenv
-  cmd: pip install pipenv
+  command: pip install pipenv
 
 - name: Install dependencies
-  cmd: pipenv install
+  command: pipenv install
 
 - name: Copy bigquery credentials file
   copy:

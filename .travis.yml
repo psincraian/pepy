@@ -27,6 +27,6 @@ before_deploy:
 
 deploy:
   provider: script
-  script: ansible-playbook infrastructure/playbooks/deploy.yml -i infrastructure/playbooks/hosts --vault-password-file infrastructure/playbooks/vault_password.txt
+  script: ls -la infrastructure/playbooks && ansible-playbook infrastructure/playbooks/deploy.yml -i infrastructure/playbooks/hosts --vault-password-file infrastructure/playbooks/vault_password.txt
   on:
     branch: master

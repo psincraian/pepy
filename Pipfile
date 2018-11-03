@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+attrs = "*"
+click = "*"
+commandbus = "*"
+google-cloud-bigquery = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+requests = "*"
+yoyo-migrations = "*"
+Flask = "*"
+Flask-WTF = "*"
+passlib = "*"
+
+[dev-packages]
+behave = "*"
+pytest = "*"
+black = "*"
+
+[requires]
+python_version = "3.6"
+
+[pipenv]
+allow_prereleases = true

@@ -15,7 +15,7 @@ def test_downloads_format_less_than_thousands(downloads_formatter: DownloadsNumb
 
 
 def test_downloads_format_thousands(downloads_formatter: DownloadsNumberFormatter):
-    downloads = Downloads(12_132)
+    downloads = Downloads(12132)
     assert "12k" == downloads_formatter.format(downloads)
 
 

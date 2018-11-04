@@ -23,3 +23,12 @@ def step_impl(context: Context, name: str):
         date = datetime.strptime(row["date"], "%Y-%m-%d").date()
         downloads.append(ProjectDownloads(project_name, Downloads(row["downloads"]), date))
     context.container.project_repository.save_day_downloads(downloads)
+
+
+@given("the following downloads per day exists")
+def step_impl(context: Context):
+    downloads = []
+    for row in context.table:
+        date = datetime.strptime(row["date"], "%Y-%m-%d").date()
+        downloads.append(ProjectDownloads(ProjectName(row["name"]), Downloads(row["downloads"]), date))
+    context.container.project_repository.save_day_downloads(downloads)

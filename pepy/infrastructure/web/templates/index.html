@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    <h2>Some projects</h2>
+    <h2>Most downloaded projects from yesterday</h2>
     <div class="example mt-4 col-auto">
         <table class="table">
             <thead>
@@ -36,8 +36,8 @@
             <tbody>
             {% for project in projects %}
                 <tr>
-                    <th scope="row"><a href="{{ url_for('count_action', project_name=project.name.name) }}">{{ project.name.name }}</a></th>
-                    <td>{{ '{:,}'.format(project.downloads.value) }}</td>
+                    <th scope="row"><a href="{{ url_for('project_action', project_name=project.name) }}">{{ project.name }}</a></th>
+                    <td>{{ '{:,}'.format(project.total_downloads) }}</td>
                 </tr>
             {% endfor %}
             </tbody>

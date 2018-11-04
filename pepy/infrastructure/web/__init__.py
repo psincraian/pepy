@@ -34,7 +34,19 @@ def project_action(project_name):
 
 @app.route("/badge/<project_name>")
 def badge_action(project_name):
-    badge = container.badge_query.generate_badge(ProjectName(project_name))
+    badge = container.badge_query.generate_badge(project_name)
+    return Response(badge.image, mimetype="image/svg+xml", headers={"Cache-Control": "max-age=86400"})
+
+
+@app.route("/badge/<project_name>/month")
+def badge_month_action(project_name):
+    badge = container.badge_query.generate_last_30_days_badge(project_name)
+    return Response(badge.image, mimetype="image/svg+xml", headers={"Cache-Control": "max-age=86400"})
+
+
+@app.route("/badge/<project_name>/week")
+def badge_week_action(project_name):
+    badge = container.badge_query.generate_last_7_days_badge(project_name)
     return Response(badge.image, mimetype="image/svg+xml", headers={"Cache-Control": "max-age=86400"})
 
 

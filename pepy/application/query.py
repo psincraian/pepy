@@ -5,7 +5,7 @@ import requests
 
 from pepy.domain.exception import ProjectNotFoundException
 from pepy.domain.model import ProjectName, Badge, Project, ProjectDownloads, Downloads
-from pepy.domain.read_model import ProjectProjection
+from pepy.domain.read_model import ProjectProjection, ProjectListProjection
 from pepy.domain.repository import ProjectRepository
 from pepy.domain.view import ProjectView
 
@@ -45,8 +45,8 @@ class ProjectProvider:
             raise ProjectNotFoundException(project_name)
         return project
 
-    def for_home(self) -> List[Project]:
-        return self._project_repository.find_random_projects(10)
+    def for_home(self) -> List[ProjectListProjection]:
+        return self._project_view.find_most_download_last_day(10)
 
     def last_downloads(self, project_name: ProjectName) -> List[ProjectDownloads]:
         return self._project_repository.last_downloads(project_name)

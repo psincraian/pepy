@@ -28,10 +28,8 @@ def count_action(project_name):
 
 @app.route("/project/<project_name>")
 def project_action(project_name):
-    project_name = ProjectName(project_name)
     project = container.project_provider.find(project_name)
-    downloads = container.project_provider.last_downloads(project_name)
-    return render_template("project.html", project=project, downloads=downloads)
+    return render_template("project.html", project=project, downloads=project.last_downloads)
 
 
 @app.route("/badge/<project_name>")

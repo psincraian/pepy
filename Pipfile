@@ -15,6 +15,7 @@ yoyo-migrations = "*"
 Flask = "*"
 Flask-WTF = "*"
 passlib = "*"
+orator = "*"
 
 [dev-packages]
 behave = "*"

@@ -5,7 +5,9 @@ import requests
 
 from pepy.domain.exception import ProjectNotFoundException
 from pepy.domain.model import ProjectName, Badge, Project, ProjectDownloads, Downloads
+from pepy.domain.read_model import ProjectProjection
 from pepy.domain.repository import ProjectRepository
+from pepy.domain.view import ProjectView
 
 
 class DownloadsNumberFormatter:
@@ -33,11 +35,12 @@ class BadgeProvider:
 
 
 class ProjectProvider:
-    def __init__(self, project_repository: ProjectRepository):
+    def __init__(self, project_repository: ProjectRepository, project_view: ProjectView):
         self._project_repository = project_repository
+        self._project_view = project_view
 
-    def find(self, project_name: ProjectName) -> Project:
-        project = self._project_repository.find(project_name)
+    def find(self, project_name: str) -> ProjectProjection:
+        project = self._project_view.find(project_name)
         if project is None:
             raise ProjectNotFoundException(project_name)
         return project

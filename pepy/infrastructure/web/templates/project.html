@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}{{ project.name.name }} download stats{% endblock %}
+{% block title %}{{ project.name }} download stats{% endblock %}
 
-{% block meta %}{{ project.name.name }} was downloaded {{ '{:,}'.format(project.downloads.value) }} times. Get more download stats about any Python package.{% endblock %}
+{% block meta %}{{ project.name }} was downloaded {{ '{:,}'.format(project.total_downloads) }} times. Get more download stats about any Python package.{% endblock %}
 
 {% block content %}
     <nav aria-label="breadcrumb">
@@ -21,12 +21,12 @@
             <tbody>
             <tr>
                 <th>Total downloads</th>
-                <td>{{ '{:,}'.format(project.downloads.value) }}</td>
+                <td>{{ '{:,}'.format(project.total_downloads) }}</td>
             </tr>
             <tr>
                 <th>PyPI link</th>
                 <td>
-                    <a href="https://pypi.org/project/{{ project.name.name }}/">https://pypi.org/project/{{ project.name.name }}/</a>
+                    <a href="https://pypi.org/project/{{ project.name }}/">https://pypi.org/project/{{ project.name.name }}/</a>
                 </td>
             </tr>
             </tbody>
@@ -61,8 +61,8 @@
             <tbody>
             {% for download in downloads %}
                 <tr>
-                    <td>{{ download.day.strftime('%Y-%m-%d') }}</td>
-                    <td>{{ '{:,}'.format(download.downloads.value) }}</td>
+                    <td>{{ download.date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ '{:,}'.format(download.downloads) }}</td>
                 </tr>
             {% endfor %}
             </tbody>

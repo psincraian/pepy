@@ -10,11 +10,11 @@ class DomainException(ABC, Exception):
 
 
 class ProjectNotFoundException(DomainException):
-    def __init__(self, project_name: ProjectName):
+    def __init__(self, project_name: str):
         self.project_name = project_name
 
     def message(self) -> str:
-        return "Project with name {} does not exist".format(self.project_name.name)
+        return "Project with name {} does not exist".format(self.project_name)
 
 
 class ProjectNameLengthIsNotValidException(DomainException):

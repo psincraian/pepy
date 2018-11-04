@@ -31,7 +31,7 @@ class Password:
 
 @attr.s
 class Badge:
-    project: ProjectName = attr.ib()
+    project: str = attr.ib()
     image = attr.ib()
 
 

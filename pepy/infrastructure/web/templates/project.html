@@ -2,7 +2,8 @@
 
 {% block title %}{{ project.name }} download stats{% endblock %}
 
-{% block meta %}{{ project.name }} was downloaded {{ '{:,}'.format(project.total_downloads) }} times. Get more download stats about any Python package.{% endblock %}
+{% block meta %}{{ project.name }} was downloaded {{ '{:,}'.format(project.total_downloads) }} times. Get more download
+    stats about any Python package.{% endblock %}
 
 {% block content %}
     <nav aria-label="breadcrumb">
@@ -12,7 +13,7 @@
         </ol>
     </nav>
     <div class="jumbotron mt-4">
-        <h1 class="display-4">{{ project.name.name }} <a href="https://pypi.org/project/{{ project.name.name }}/"><i
+        <h1 class="display-4">{{ project.name }} <a href="https://pypi.org/project/{{ project.name }}/"><i
                 class="material-icons">link</i></a>
         </h1>
         <hr class="my-4">
@@ -24,9 +25,17 @@
                 <td>{{ '{:,}'.format(project.total_downloads) }}</td>
             </tr>
             <tr>
+                <th>Total downloads - 30 days</th>
+                <td>{{ '{:,}'.format(project.total_downloads_last_30_days) }}</td>
+            </tr>
+            <tr>
+                <th>Total downloads - 7 days</th>
+                <td>{{ '{:,}'.format(project.total_downloads_last_7_days) }}</td>
+            </tr>
+            <tr>
                 <th>PyPI link</th>
                 <td>
-                    <a href="https://pypi.org/project/{{ project.name }}/">https://pypi.org/project/{{ project.name.name }}/</a>
+                    <a href="https://pypi.org/project/{{ project.name }}/">https://pypi.org/project/{{ project.name }}/</a>
                 </td>
             </tr>
             </tbody>
@@ -34,16 +43,55 @@
         <h3 class="project-section">Badge</h3>
         <div class="row">
             <div class="project-badge col-sm-6">
-                <img alt="Total downloads for {{ project.name.name }} project" src="{{ url_for('badge_action', project_name=project.name.name) }}">
+                <img alt="Total downloads for {{ project.name }} project"
+                     src="{{ url_for('badge_action', project_name=project.name) }}">
             </div>
             <div class="project-badge-code col-sm-6">
                 <label class="sr-only" for="inlineFormInputGroup">Badge</label>
                 <div class="input-group mb-2">
                     <input id="badge-markdown" type="text" class="form-control" placeholder="Badge"
-                           value="[![Downloads]({{ url_for('badge_action', project_name=project.name.name, _external=True) }})]({{ url_for('project_action', project_name=project.name.name, _external=True) }})"
+                           value="[![Downloads]({{ url_for('badge_action', project_name=project.name, _external=True) }})]({{ url_for('project_action', project_name=project.name, _external=True) }})"
                            readonly>
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" data-clipboard-target="#badge-markdown">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="project-badge col-sm-6">
+                <img alt="Month downloads for {{ project.name }} project"
+                     src="{{ url_for('badge_month_action', project_name=project.name) }}">
+            </div>
+            <div class="project-badge-code col-sm-6">
+                <label class="sr-only" for="inlineFormInputGroup">Badge month downloads</label>
+                <div class="input-group mb-2">
+                    <input id="badge-markdown-month" type="text" class="form-control" placeholder="Badge"
+                           value="[![Downloads]({{ url_for('badge_month_action', project_name=project.name, _external=True) }})]({{ url_for('project_action', project_name=project.name, _external=True) }})"
+                           readonly>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" data-clipboard-target="#badge-markdown-month">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="project-badge col-sm-6">
+                <img alt="Weekly downloads for {{ project.name }} project"
+                     src="{{ url_for('badge_week_action', project_name=project.name) }}">
+            </div>
+            <div class="project-badge-code col-sm-6">
+                <label class="sr-only" for="inlineFormInputGroup">Badge week downloads</label>
+                <div class="input-group mb-2">
+                    <input id="badge-markdown-week" type="text" class="form-control" placeholder="Badge"
+                           value="[![Downloads]({{ url_for('badge_week_action', project_name=project.name, _external=True) }})]({{ url_for('project_action', project_name=project.name, _external=True) }})"
+                           readonly>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" data-clipboard-target="#badge-markdown-week">
                             Copy
                         </button>
                     </div>

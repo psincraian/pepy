@@ -22,11 +22,11 @@ from ._config import DATABASE, BQ_CREDENTIALS_FILE, ADMIN_PASSWORD, LOGGING_FILE
 db_connection = psycopg2.connect(**DATABASE)
 db_orator = DatabaseManager(DATABASE_ORATOR)
 project_repository = DBProjectRepository(db_connection)
+db_project_view = DBProjectView(db_orator)
 command_bus = CommandBus()
 command_bus.subscribe(ImportDownloadsFile, ImportDownloadsFileHandler(project_repository))
 downloads_formatter = DownloadsNumberFormatter()
-badge_query = BadgeProvider(project_repository, downloads_formatter)
-db_project_view = DBProjectView(db_orator)
+badge_query = BadgeProvider(db_project_view, downloads_formatter)
 project_provider = ProjectProvider(project_repository, db_project_view)
 
 # Logger configuration

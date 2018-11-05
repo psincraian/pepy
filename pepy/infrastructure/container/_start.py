@@ -17,7 +17,7 @@ from pepy.domain.model import HashedPassword
 from pepy.infrastructure.bq_downloads_extractor import BQDownloadsExtractor
 from pepy.infrastructure.db_repository import DBProjectRepository
 from pepy.infrastructure.db_view import DBProjectView
-from ._config import DATABASE, BQ_CREDENTIALS_FILE, ADMIN_PASSWORD, LOGGING_FILE, DATABASE_ORATOR
+from ._config import DATABASE, BQ_CREDENTIALS_FILE, ADMIN_PASSWORD, LOGGING_FILE, DATABASE_ORATOR, LOGGING_DIR
 
 db_connection = psycopg2.connect(**DATABASE)
 db_orator = DatabaseManager(DATABASE_ORATOR)
@@ -28,6 +28,10 @@ command_bus.subscribe(ImportDownloadsFile, ImportDownloadsFileHandler(project_re
 downloads_formatter = DownloadsNumberFormatter()
 badge_query = BadgeProvider(db_project_view, downloads_formatter)
 project_provider = ProjectProvider(project_repository, db_project_view)
+
+# Directories configuration
+if not os.path.exists(LOGGING_DIR):
+    os.makedirs(LOGGING_DIR)
 
 # Logger configuration
 logger = logging.getLogger("pepy")

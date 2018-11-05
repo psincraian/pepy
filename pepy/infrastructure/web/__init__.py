@@ -1,3 +1,4 @@
+import traceback
 from datetime import datetime, timedelta
 from flask import Flask, render_template, request, redirect, flash, send_from_directory, send_file, Response, url_for
 
@@ -76,3 +77,9 @@ def handle_domain_exception(error: DomainException):
     flash(error.message(), "danger")
     url = request.referrer if request.referrer is not None else "/"
     return redirect(url)
+
+
+@app.errorhandler(Exception)
+def handle_exception(error: Exception):
+    container.logger.critical(f"Error: {error} Traceback: \n {traceback.format_exc()}")
+    return "<h1>Internal server error :'(</h1>"

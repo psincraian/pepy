@@ -33,6 +33,9 @@ class DBProjectView(ProjectView):
             .limit(number_of_projects) \
             .lists("name")
 
+        if len(project_names) == 0:
+            return []
+
         # retrieve all the information of the given projects ordered by the same order
         value = ','.join([f"'{name}'" for name in project_names])
         data = self._db.table("projects") \

@@ -1,6 +1,9 @@
 ---
 
 - name: Run the migrations
-  command: "{{ venv_directory }}/bin/yoyo apply --database \"postgresql://{{ db_user }}:{{ db_password }}@{{ db_host }}/{{ db_name }}\" infrastructure/migrations/"
+  command: "pipenv run yoyo apply --database \"postgresql://{{ db_user }}:{{ db_password }}@{{ db_host }}/{{ db_name }}\" infrastructure/migrations/"
   args:
     chdir: "{{ project_directory }}"
+  environment:
+    LC_ALL: C.UTF-8
+    LANG: C.UTF-8

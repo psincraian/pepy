@@ -4,6 +4,10 @@
 
 - name: Install dependencies
   command: pipenv install
+  environment:
+    LC_ALL: C.UTF-8
+    LANG: C.UTF-8
+  become_user: "{{ gunicorn_user }}"
 
 - name: Copy bigquery credentials file
   copy:

@@ -16,11 +16,9 @@
     - password: "{{ pepy_pass }}"
 
 - name: Ensure packages are installed
-  apt: name={{ item }} update_cache=yes
-  with_items:
-    - supervisor
-    - locales
-    - python3-venv
+  apt:
+    name: ['supervisor', 'locales', 'python3-venv', 'python3-pip']
+    update_cache: yes
 
 - name: Create .ssh folder
   file:

@@ -1,19 +1,11 @@
 import datetime
 from abc import ABC, abstractmethod
-from typing import Optional, List
+from typing import List
 
-from pepy.domain.model import Project, ProjectName, ProjectDownloads
+from pepy.domain.model import Project, ProjectDownloads
 
 
 class ProjectRepository(ABC):
-    @abstractmethod
-    def find(self, project_name: ProjectName) -> Optional[Project]:
-        pass
-
-    @abstractmethod
-    def find_random_projects(self, nr_items: int = 10) -> List[Project]:
-        pass
-
     @abstractmethod
     def save_projects(self, projects: List[Project]):
         pass
@@ -24,10 +16,6 @@ class ProjectRepository(ABC):
 
     @abstractmethod
     def save_day_downloads(self, project_downloads: List[ProjectDownloads]):
-        pass
-
-    @abstractmethod
-    def last_downloads(self, project_name: ProjectName, days: int = 30) -> List[ProjectDownloads]:
         pass
 
 

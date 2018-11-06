@@ -1,5 +1,6 @@
 import logging
 import os
+
 import psycopg2
 from commandbus import CommandBus
 from google.cloud import bigquery
@@ -27,7 +28,7 @@ command_bus = CommandBus()
 command_bus.subscribe(ImportDownloadsFile, ImportDownloadsFileHandler(project_repository))
 downloads_formatter = DownloadsNumberFormatter()
 badge_query = BadgeProvider(db_project_view, downloads_formatter)
-project_provider = ProjectProvider(project_repository, db_project_view)
+project_provider = ProjectProvider(db_project_view)
 
 # Directories configuration
 if not os.path.exists(LOGGING_DIR):

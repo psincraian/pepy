@@ -4,9 +4,8 @@ from typing import List
 import requests
 
 from pepy.domain.exception import ProjectNotFoundException
-from pepy.domain.model import ProjectName, Badge, Project, ProjectDownloads, Downloads
+from pepy.domain.model import Badge
 from pepy.domain.read_model import ProjectProjection, ProjectListProjection
-from pepy.domain.repository import ProjectRepository
 from pepy.domain.view import ProjectView
 
 
@@ -51,8 +50,7 @@ class BadgeProvider:
 
 
 class ProjectProvider:
-    def __init__(self, project_repository: ProjectRepository, project_view: ProjectView):
-        self._project_repository = project_repository
+    def __init__(self, project_view: ProjectView):
         self._project_view = project_view
 
     def find(self, project_name: str) -> ProjectProjection:
@@ -63,6 +61,3 @@ class ProjectProvider:
 
     def for_home(self) -> List[ProjectListProjection]:
         return self._project_view.find_random_projects(10)
-
-    def last_downloads(self, project_name: ProjectName) -> List[ProjectDownloads]:
-        return self._project_repository.last_downloads(project_name)

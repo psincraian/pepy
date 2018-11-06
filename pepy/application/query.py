@@ -62,7 +62,7 @@ class ProjectProvider:
         return project
 
     def for_home(self) -> List[ProjectListProjection]:
-        return self._project_view.find_most_download_last_day(10)
+        return self._project_view.find_random_projects(10)
 
     def last_downloads(self, project_name: ProjectName) -> List[ProjectDownloads]:
         return self._project_repository.last_downloads(project_name)

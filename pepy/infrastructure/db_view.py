@@ -24,23 +24,10 @@ class DBProjectView(ProjectView):
 
         return ProjectProjection(data["name"], data["downloads"], last_downloads)
 
-    def find_most_download_last_day(self, number_of_projects: int) -> List[ProjectListProjection]:
-        # retrieve most downloads projects from yesterday
-        project_names = self._db.table("downloads_per_day") \
-            .order_by("date", "desc") \
-            .order_by("downloads", "desc") \
-            .order_by("name", "asc") \
-            .limit(number_of_projects) \
-            .lists("name")
-
-        if len(project_names) == 0:
-            return []
-
-        # retrieve all the information of the given projects ordered by the same order
-        value = ','.join([f"'{name}'" for name in project_names])
+    def find_random_projects(self, number_of_projects: int) -> List[ProjectListProjection]:
         data = self._db.table("projects") \
-            .where_raw(f"name in ({value})") \
-            .order_by_raw(f"array_position(array[{value}], name::text)") \
+            .order_by_raw(f"random()") \
+            .limit(number_of_projects) \
             .get()
 
         # sort the projects in the given order

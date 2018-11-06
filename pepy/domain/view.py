@@ -10,5 +10,5 @@ class ProjectView(ABC):
         pass
 
     @abstractmethod
-    def find_most_download_last_day(self, number_of_projects) -> List[ProjectListProjection]:
+    def find_random_projects(self, number_of_projects) -> List[ProjectListProjection]:
         pass

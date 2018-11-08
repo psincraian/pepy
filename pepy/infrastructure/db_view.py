@@ -11,7 +11,8 @@ class DBProjectView(ProjectView):
         self._db = db_manager
 
     def find(self, project_name: str) -> Optional[ProjectProjection]:
-        data = self._db.table("projects").where("name", project_name.lower()).first()
+        project_name = project_name.lower()
+        data = self._db.table("projects").where("name", project_name).first()
 
         if data is None:
             return None

@@ -104,39 +104,39 @@
         },
         "google-api-core": {
             "hashes": [
-                "sha256:481f3a306f39c7cb0b4901fc1cc133c693343e82604871fd8f83fcb8a2ee2921",
-                "sha256:84dca4d7fcf13574ad8e31ba02ad04ffcdb2e5b596383571e3105d9d0ad70d27"
+                "sha256:85693e163a1a6faea69a74f8feaf35d54dfa2559fbdbbe389c93ffb3bb4c9a79",
+                "sha256:eea2d223f7bdc6d68dd1c4681e17cded5a00b5a8e686e1597b89f27f58cf2980"
             ],
-            "version": "==1.6.0"
+            "version": "==1.7.0"
         },
         "google-auth": {
             "hashes": [
-                "sha256:494e747bdc2cdeb0fa6ef85118de2ea1a563f160294cce05048c6ff563fda1bb",
-                "sha256:b08a27888e9d1c17a891b3688aacc9c6f2019d7f6c5a2e73588e6bb9a2c0fa98"
+                "sha256:b6081ba9946828d6417c15ecdc723fdb7c007cdd74e140747d3876a7440f0be5",
+                "sha256:e8d64e9bc8cb6f0fc5360c693f86dc9ee6964081ee702e3b5ddc937f99efc950"
             ],
-            "version": "==1.6.1"
+            "version": "==1.6.2"
         },
         "google-cloud-bigquery": {
             "hashes": [
-                "sha256:839ea88d261e2313ac540aa9fa7d49cf6ebce44309ec31ff815e17c626a37184",
-                "sha256:a84c61ea8723f57e89caf0e18e6aa678a1c2df66bb2cb0800dd5c294b46a5912"
+                "sha256:25d7a3e1ed75bef935b84eeea61f0bffdda986e265e53b0a77e32f0d27e689ef",
+                "sha256:621e05321d7a26b87fa2d4f8dd24f963d3424d7566a6454d65c4427b9d8552e2"
             ],
             "index": "pypi",
-            "version": "==1.8.0"
+            "version": "==1.8.1"
         },
         "google-cloud-core": {
             "hashes": [
-                "sha256:8a2c63fd26ad97310a20ff53daec06893b6ac9a165d90a2aee9ed58d24482372",
-                "sha256:d4a4ec4d76269328bb0acbf69262912068886b30d4498976e1f0924a158accc3"
+                "sha256:9bee63e0991be9801a4baf0b7841cf54f86c6e7fec922f45ea74cd4032ed4ee4",
+                "sha256:d85b1aaaf3bad9415ad1d8ee5eadce96d7007a82f13ce0a0629a003a11e83f29"
             ],
-            "version": "==0.29.0"
+            "version": "==0.29.1"
         },
         "google-resumable-media": {
             "hashes": [
-                "sha256:116de90b9cd483b17c53618ee6a5a20f33e741c648140c8cc9c2141e07616ff1",
-                "sha256:97de518f8166d442cc0b61fab308bcd319dbb970981e667ec8ded44f5ce49836"
+                "sha256:2dae98ee716efe799db3578a7b902fbf5592fc5c77d3c0906fc4ef9b1b930861",
+                "sha256:3e38923493ca0d7de0ad91c31acfefc393c78586db89364e91cb4f11990e51ba"
             ],
-            "version": "==0.3.1"
+            "version": "==0.3.2"
         },
         "googleapis-common-protos": {
             "hashes": [

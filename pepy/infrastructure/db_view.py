@@ -11,7 +11,10 @@ class DBProjectView(ProjectView):
         self._db = db_manager
 
     def find(self, project_name: str) -> Optional[ProjectProjection]:
-        project_name = project_name.lower().strip()
+        project_name = project_name\
+            .lower()\
+            .strip()\
+            .replace('.', '-')
         data = self._db.table("projects").where("name", project_name).first()
 
         if data is None:

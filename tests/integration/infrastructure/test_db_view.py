@@ -47,3 +47,12 @@ def test_find_project_ignoring_white_spaces(project_repository: DBProjectReposit
     result = project_view.find('    pepy  ')
     expected = ProjectProjection('pepy', project.downloads.value, [])
     assert result == expected
+
+
+def test_find_project_replacing_dots_with_dashes(project_repository: DBProjectRepository, project_view: DBProjectView):
+    project = ProjectStub.create(name=ProjectName('pepy-rocks'))
+    project_repository.save_projects([project])
+
+    result = project_view.find('pepy.rocks')
+    expected = ProjectProjection('pepy-rocks', project.downloads.value, [])
+    assert result == expected

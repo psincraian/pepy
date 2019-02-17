@@ -502,11 +502,11 @@
         },
         "yoyo-migrations": {
             "hashes": [
-                "sha256:25ccb99faebdb820e87fdb410e8b21655a634124fde5dbdcdaa9a591cef01a19",
-                "sha256:54dce875b2ced31e9bf3bbe52f67a7e0cff5b964d849b099d7ceac92a92c53bf"
+                "sha256:4538dbdfe4784c30bade14275558247ec8ce8111b4948dc38f51d4172f9d513c",
+                "sha256:95e5c49a797873d3b86e5a7714c1a714bea8728a6fc1d6f6f5019d3d058471e5"
             ],
             "index": "pypi",
-            "version": "==6.0.0"
+            "version": "==6.1.0"
         }
     },
     "develop": {

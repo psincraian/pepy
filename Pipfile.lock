@@ -118,11 +118,11 @@
         },
         "google-cloud-bigquery": {
             "hashes": [
-                "sha256:84770b180253c32dad24330c9db4f5d61cac1ce43edc89d892acbbfe5aa12c3a",
-                "sha256:d4e350675dcc4e06fb8046fbaae7a6322721f76414c4c5d123fa8606a1578c9b"
+                "sha256:43b0ac02a16a8ad72e8b2e2fa4005ff93bba38c102ffc78842bec1d664053e8b",
+                "sha256:9fa6a60d54e5f9931271fa7017aa0b126646c33280d9071d468979e96cc52693"
             ],
             "index": "pypi",
-            "version": "==1.10.0"
+            "version": "==1.11.2"
         },
         "google-cloud-core": {
             "hashes": [
@@ -180,10 +180,10 @@
         },
         "jinja2": {
             "hashes": [
-                "sha256:74c935a1b8bb9a3947c50a54766a969d4846290e1e788ea44c1392163723c3bd",
-                "sha256:f84be1bb0040caca4cea721fcbbbbd61f9be9464ca236387158b0feea01914a4"
+                "sha256:065c4f02ebe7f7cf559e49ee5a95fb800a9e4528727aec6f24402a5374c65013",
+                "sha256:14dd6caf1527abb21f08f86c784eac40853ba93edb79552aa1e4b8aef1b61c7b"
             ],
-            "version": "==2.10"
+            "version": "==2.10.1"
         },
         "lazy-object-proxy": {
             "hashes": [
@@ -564,9 +564,9 @@
         },
         "parse": {
             "hashes": [
-                "sha256:870dd675c1ee8951db3e29b81ebe44fd131e3eb8c03a79483a58ea574f3145c2"
+                "sha256:1b68657434d371e5156048ca4a0c5aea5afc6ca59a2fea4dd1a575354f617142"
             ],
-            "version": "==1.11.1"
+            "version": "==1.12.0"
         },
         "parse-type": {
             "hashes": [

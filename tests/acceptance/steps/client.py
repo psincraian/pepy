@@ -22,3 +22,11 @@ def step_impl(context: Context):
     result = re.sub(r"\s+", "", raw_result)
     expect = re.sub(r"\s+", "", context.text)
     assert expect in result, "Result is {}".format(raw_result)
+
+
+@step("the api response should be")
+def step_impl(context):
+    raw_result = context.response.data.decode()
+    result = re.sub(r"\s+", "", raw_result)
+    expect = re.sub(r"\s+", "", context.text)
+    assert expect == result, "Result is {}".format(raw_result)

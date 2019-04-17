@@ -6,10 +6,12 @@ from pepy.application.command import UpdateDownloads
 from pepy.domain.exception import DomainException
 from pepy.domain.model import ProjectName, Password
 from pepy.infrastructure import container
+from pepy.infrastructure.api import api
 from pepy.infrastructure.web._form import SearchForm
 
 app = Flask(__name__)
 app.config.from_object(container.config)
+app.register_blueprint(api, url_prefix='/api')
 
 
 @app.route("/", methods=["GET", "POST"])

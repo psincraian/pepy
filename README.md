@@ -11,6 +11,8 @@
 ## 📜 About
 [pepy.tech](https://pepy.tech) is a site which aims to show statistics about Python packages.
 
+This is the repository for the backend service, if you want to check the frontend check this repo https://github.com/psincraian/pepy-front
+
 ## ⚒️ Start contributing
 I wanted to make the setup of the environment as easy as possible. To start the environment you need the 
 following prerequisites:

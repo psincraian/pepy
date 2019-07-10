@@ -43,6 +43,15 @@ The structure of the code is the following:
     * `pepy/infrastructure/cli`: the command line programs.
     * `pepy/infrastructure/container`: config files and the dependency injection manager.
     * `pepy/infrastructure/web`: the Flask application with all the routes.
+    
+## FAQ
+**Where the downloads come from?**
+
+The data is retrieved from the official BigQuery repository: https://packaging.python.org/guides/analyzing-pypi-package-downloads/
+
+**When the data is updated?**
+
+There is a cron that runs every day at 5 pm UTC that retrieves all the new downloads from the previous day.
 
 ## 🚩 License
 The code is available under the [MIT license](LICENSE.md).

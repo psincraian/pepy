@@ -1,6 +1,6 @@
 <p align="center">
   <img width="100px" alt="pepy-logo"
-    src="pepy/infrastructure/web/static/logo.png"
+    src="docs/logo.png"
   />
 </p>
 <p align="center">
@@ -40,7 +40,7 @@ The structure of the code is the following:
     class like DB or BigQuery, the Flask web application, the container, and so on.
     * `pepy/infrastructure/cli`: the command line programs.
     * `pepy/infrastructure/container`: config files and the dependency injection manager.
-    * `pepy/infrastructure/web`: the Flask application with all the routes.
+    * `pepy/infrastructure/api`: the api endpoints controller.
 
 ## 🚩 License
 The code is available under the [MIT license](LICENSE.md).

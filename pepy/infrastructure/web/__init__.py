@@ -1,38 +1,15 @@
 import traceback
 from datetime import datetime, timedelta
-from flask import Flask, render_template, request, redirect, flash, send_from_directory, send_file, Response, url_for
+from flask import Flask, request, send_from_directory, Response
 
 from pepy.application.command import UpdateDownloads
-from pepy.domain.exception import DomainException
 from pepy.domain.model import ProjectName, Password
 from pepy.infrastructure import container
 from pepy.infrastructure.api import api
-from pepy.infrastructure.web._form import SearchForm
 
 app = Flask(__name__)
 app.config.from_object(container.config)
 app.register_blueprint(api, url_prefix='/api')
-
-
-@app.route("/", methods=["GET", "POST"])
-def index_action():
-    form = SearchForm()
-    if form.validate_on_submit():
-        project_name = form.project_name.data
-        return redirect(url_for("project_action", project_name=project_name))
-    projects = container.project_provider.for_home()
-    return render_template("index.html", form=form, projects=projects)
-
-
-@app.route("/count/<project_name>")
-def count_action(project_name):
-    return redirect(url_for("project_action", project_name=project_name), 301)
-
-
-@app.route("/project/<project_name>")
-def project_action(project_name):
-    project = container.project_provider.find(project_name)
-    return render_template("project.html", project=project, downloads=project.last_downloads)
 
 
 @app.route("/badge/<project_name>")
@@ -72,13 +49,6 @@ def update_downloads():
     password = request.args.get("password", "")
     container.command_bus.publish(UpdateDownloads(date.date(), Password(password)))
     return "Updated :-)"
-
-
-@app.errorhandler(DomainException)
-def handle_domain_exception(error: DomainException):
-    flash(error.message(), "danger")
-    url = request.referrer if request.referrer is not None else "/"
-    return redirect(url)
 
 
 @app.errorhandler(Exception)

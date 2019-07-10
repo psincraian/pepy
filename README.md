@@ -11,6 +11,8 @@
 ## 📜 About
 [pepy.tech](https://pepy.tech) is a site which aims to show statistics about Python packages.
 
+This is the repository for the backend service, if you want to check the frontend check this repo https://github.com/psincraian/pepy-front
+
 ## ⚒️ Start contributing
 I wanted to make the setup of the environment as easy as possible. To start the environment you need the 
 following prerequisites:
@@ -41,6 +43,15 @@ The structure of the code is the following:
     * `pepy/infrastructure/cli`: the command line programs.
     * `pepy/infrastructure/container`: config files and the dependency injection manager.
     * `pepy/infrastructure/api`: the api endpoints controller.
+    
+## FAQ
+**Where the downloads come from?**
+
+The data is retrieved from the official BigQuery repository: https://packaging.python.org/guides/analyzing-pypi-package-downloads/
+
+**When the data is updated?**
+
+There is a cron that runs every day at 5 pm UTC that retrieves all the new downloads from the previous day.
 
 ## 🚩 License
 The code is available under the [MIT license](LICENSE.md).

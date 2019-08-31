@@ -7,6 +7,7 @@
   environment:
     LC_ALL: C.UTF-8
     LANG: C.UTF-8
+    PIPENV_MAX_SUBPROCESS: 2
   become_user: "{{ gunicorn_user }}"
 
 - name: Copy bigquery credentials file

@@ -8,7 +8,6 @@ services:
 
 before_install:
   - make start-containers
-  - until curl --silent -XGET --fail http://localhost:5200/robots.txt; do printf '.'; sleep 1; done
   - make migrations
 
 script:

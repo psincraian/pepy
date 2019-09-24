@@ -9,7 +9,7 @@ start: install
 
 start-containers:
 	$(DOCKER-COMPOSE) up -d
-	until curl --silent -XGET --fail http://localhost:5200/robots.txt; do printf '.'; sleep 1; done
+	until curl --silent -XGET --fail http://localhost:5200/health-check; do printf '.'; sleep 1; done
 	$(DOCKER-COMPOSE) exec pepy pipenv run yoyo apply --database "postgresql://pepy:pepy@pgsql/pepy" infrastructure/migrations/ --no-config-file --batch
 	$(DOCKER-COMPOSE) exec pepy pipenv run yoyo apply --database "postgresql://pepy:pepy@pgsql/pepy_test" infrastructure/migrations/ --no-config-file --batch
 

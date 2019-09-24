@@ -24,6 +24,6 @@ def test_update_downloads(project_repository: DBProjectRepository):
 
 def find_project(project_name: str):
     with container.db_connection, container.db_connection.cursor() as cursor:
-        cursor.execute("SELECT name, downloads FROM projects where name = %s", (project_name, ))
+        cursor.execute("SELECT name, downloads FROM projects where name = %s", (project_name,))
         data = cursor.fetchall()
-        return {"name":  data[0][0], "downloads":  data[0][1]}
+        return {"name": data[0][0], "downloads": data[0][1]}

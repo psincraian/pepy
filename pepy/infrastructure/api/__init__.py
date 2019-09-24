@@ -4,7 +4,8 @@ from flask import Blueprint
 from pepy.infrastructure import container
 from pepy.infrastructure.api._transformer import transform_project, transform_project_item
 
-api = Blueprint('api', __name__)
+api = Blueprint("api", __name__)
+
 
 @api.route("/projects/<project_name>", methods=["GET"])
 def project_action(project_name):

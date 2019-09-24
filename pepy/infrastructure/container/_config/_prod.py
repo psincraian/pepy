@@ -15,12 +15,12 @@ DATABASE_ORATOR = {
         "driver": "postgres",
         "host": os.environ.get("PEPY_DATABASE_HOST"),
         "user": os.environ.get("PEPY_DATABASE_USER"),
-        "password":  os.environ.get("PEPY_DATABASE_PASSWORD"),
+        "password": os.environ.get("PEPY_DATABASE_PASSWORD"),
         "database": os.environ.get("PEPY_DATABASE_NAME"),
     }
 }
 
 ADMIN_PASSWORD = os.environ.get("PEPY_ADMIN_PASSWORD")
 BQ_CREDENTIALS_FILE = os.environ.get("PEPY_BIGQUERY_CREDENTIALS")
-LOGGING_DIR = 'logs'
+LOGGING_DIR = "logs"
 LOGGING_FILE = os.environ.get("PEPY_LOGGING_FILE")

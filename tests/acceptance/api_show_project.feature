@@ -20,3 +20,14 @@ Feature: show index page with some selected projects
         }
       }
     """
+
+  Scenario: show 404 when project not found
+    When I send the GET request to /api/projects/pepy
+    Then the response status code should be 404
+    And the api response should be
+    """
+      {
+        "error": 404,
+        "message": "Project with name pepy does not exist"
+      }
+    """

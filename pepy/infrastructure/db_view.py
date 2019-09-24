@@ -11,10 +11,7 @@ class DBProjectView(ProjectView):
         self._db = db_manager
 
     def find(self, project_name: str) -> Optional[ProjectProjection]:
-        project_name = project_name\
-            .lower()\
-            .strip()\
-            .replace('.', '-')
+        project_name = project_name.lower().strip().replace(".", "-")
         data = self._db.table("projects").where("name", project_name).first()
 
         if data is None:
@@ -29,10 +26,7 @@ class DBProjectView(ProjectView):
         return ProjectProjection(data["name"], data["downloads"], last_downloads)
 
     def find_random_projects(self, number_of_projects: int) -> List[ProjectListProjection]:
-        data = self._db.table("projects") \
-            .order_by_raw(f"random()") \
-            .limit(number_of_projects) \
-            .get()
+        data = self._db.table("projects").order_by_raw(f"random()").limit(number_of_projects).get()
 
         # sort the projects in the given order
         return [ProjectListProjection(row["name"], row["downloads"]) for row in data]

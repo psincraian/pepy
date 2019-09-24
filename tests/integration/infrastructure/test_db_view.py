@@ -23,36 +23,36 @@ def project_view():
 
 
 def test_find_project(project_repository: DBProjectRepository, project_view: DBProjectView):
-    project = ProjectStub.create(name=ProjectName('pepy'))
+    project = ProjectStub.create(name=ProjectName("pepy"))
     project_repository.save_projects([project])
 
-    result = project_view.find('pepy')
-    expected = ProjectProjection('pepy', project.downloads.value, [])
+    result = project_view.find("pepy")
+    expected = ProjectProjection("pepy", project.downloads.value, [])
     assert result == expected
 
 
 def test_find_project_ignoring_case(project_repository: DBProjectRepository, project_view: DBProjectView):
-    project = ProjectStub.create(name=ProjectName('pepy'))
+    project = ProjectStub.create(name=ProjectName("pepy"))
     project_repository.save_projects([project])
 
-    result = project_view.find('PEpy')
-    expected = ProjectProjection('pepy', project.downloads.value, [])
+    result = project_view.find("PEpy")
+    expected = ProjectProjection("pepy", project.downloads.value, [])
     assert result == expected
 
 
 def test_find_project_ignoring_white_spaces(project_repository: DBProjectRepository, project_view: DBProjectView):
-    project = ProjectStub.create(name=ProjectName('pepy'))
+    project = ProjectStub.create(name=ProjectName("pepy"))
     project_repository.save_projects([project])
 
-    result = project_view.find('    pepy  ')
-    expected = ProjectProjection('pepy', project.downloads.value, [])
+    result = project_view.find("    pepy  ")
+    expected = ProjectProjection("pepy", project.downloads.value, [])
     assert result == expected
 
 
 def test_find_project_replacing_dots_with_dashes(project_repository: DBProjectRepository, project_view: DBProjectView):
-    project = ProjectStub.create(name=ProjectName('pepy-rocks'))
+    project = ProjectStub.create(name=ProjectName("pepy-rocks"))
     project_repository.save_projects([project])
 
-    result = project_view.find('pepy.rocks')
-    expected = ProjectProjection('pepy-rocks', project.downloads.value, [])
+    result = project_view.find("pepy.rocks")
+    expected = ProjectProjection("pepy-rocks", project.downloads.value, [])
     assert result == expected

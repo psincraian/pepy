@@ -2,7 +2,7 @@ version: '3'
 
 services:
   pepy:
-    image: python:3.6
+    image: python:3.7
     environment:
       - APPLICATION_ENV=dev
       - FLASK_DEBUG=1

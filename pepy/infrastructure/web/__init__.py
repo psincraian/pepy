@@ -35,7 +35,6 @@ def badge_week_action(project_name):
     return Response(badge.image, mimetype="image/svg+xml", headers={"Cache-Control": "max-age=86400"})
 
 
-@app.errorhandler(DomainException)
 def handle_domain_exception(error: DomainException):
     code = None
     message = None
@@ -50,5 +49,7 @@ def handle_domain_exception(error: DomainException):
 
 @app.errorhandler(Exception)
 def handle_exception(error: Exception):
+    if isinstance(error, DomainException):
+        return handle_domain_exception(error)
     container.logger.critical(f"Error: {error} Traceback: \n {traceback.format_exc()}")
-    raise Exception
+    return Response(json.dumps({"error": 500, "message": "Internal server error"}), status=500)

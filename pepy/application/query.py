@@ -10,7 +10,7 @@ from pepy.domain.view import ProjectView
 
 
 class DownloadsNumberFormatter:
-    _METRIC_PREFIX = ["", "k", "M", "G", "T", "P"]
+    _METRIC_PREFIX = ["", "k", "M", "B", "T", "Q"]
 
     def format(self, downloads: int) -> str:
         digits = int(math.log10(abs(downloads)) if downloads else 0)

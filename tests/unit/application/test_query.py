@@ -26,7 +26,7 @@ def test_downloads_format_million(downloads_formatter: DownloadsNumberFormatter)
 
 def test_downloads_format_billion(downloads_formatter: DownloadsNumberFormatter):
     downloads = 9_132_919_492
-    assert "9G" == downloads_formatter.format(downloads)
+    assert "9B" == downloads_formatter.format(downloads)
 
 
 def test_downloads_format_trillion(downloads_formatter: DownloadsNumberFormatter):
@@ -36,4 +36,4 @@ def test_downloads_format_trillion(downloads_formatter: DownloadsNumberFormatter
 
 def test_downloads_format_quadrillion(downloads_formatter: DownloadsNumberFormatter):
     downloads = 11_132_919_492_432_000
-    assert "11P" == downloads_formatter.format(downloads)
+    assert "11Q" == downloads_formatter.format(downloads)

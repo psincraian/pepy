@@ -1,7 +1,7 @@
 import json
 import traceback
 
-from flask import Flask, Response, request
+from flask import Flask, Response, request, jsonify
 
 from pepy.domain.exception import DomainException, ProjectNotFoundException
 from pepy.infrastructure import container
@@ -14,7 +14,7 @@ app.register_blueprint(api, url_prefix="/api")
 
 @app.route("/health-check")
 def health_check_action():
-    return json.dumps({"status": "healthy"})
+    return jsonify({"status": "healthy"})
 
 
 @app.route("/badge/<project_name>")

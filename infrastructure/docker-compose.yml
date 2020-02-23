@@ -26,6 +26,8 @@ services:
     ports:
       - "127.0.0.1::5432"
     hostname: pgsql-master
+    environment:
+      - POSTGRES_PASSWORD=test
 
 volumes:
   pepy_pgsql: {}

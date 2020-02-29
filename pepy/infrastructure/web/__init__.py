@@ -2,7 +2,7 @@ import json
 import traceback
 
 from flask import Flask, Response, request
-
+from werkzeug.exceptions import HTTPException
 from pepy.domain.exception import DomainException, ProjectNotFoundException
 from pepy.infrastructure import container
 from pepy.infrastructure.api import api
@@ -46,6 +46,10 @@ def handle_domain_exception(error: DomainException):
         message = json.dumps({"error": code, "message": error.message()})
     return Response(message, status=code)
 
+
+@app.errorhandler(HTTPException)
+def handle_http_exception(error: HTTPException):
+    return Response(json.dumps({"error": error.code, "message": error.description}), status=error.code)
 
 @app.errorhandler(Exception)
 def handle_exception(error: Exception):

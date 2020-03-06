@@ -463,6 +463,13 @@
             ],
             "version": "==1.14.0"
         },
+        "sqlparse": {
+            "hashes": [
+                "sha256:40afe6b8d4b1117e7dff5504d7a8ce07d9a1b15aeeade8a2d10f130a834f8177",
+                "sha256:7c3dca29c022744e95b547e867cee89f4fce4373f3549ccd8797d8eb52cdb873"
+            ],
+            "version": "==0.3.0"
+        },
         "text-unidecode": {
             "hashes": [
                 "sha256:5a1375bb2ba7968740508ae38d92e1f889a0832913cb1c447d5e2046061a396d",
@@ -505,11 +512,11 @@
         },
         "yoyo-migrations": {
             "hashes": [
-                "sha256:4538dbdfe4784c30bade14275558247ec8ce8111b4948dc38f51d4172f9d513c",
-                "sha256:95e5c49a797873d3b86e5a7714c1a714bea8728a6fc1d6f6f5019d3d058471e5"
+                "sha256:52f84248b8ea212a376c8da9f7b686a1ceaa42f5bc30dd2f578ea59ad31cd80f",
+                "sha256:d7a8c0e233bb8824f6437c87ce8b9d6f6e5ac5567864124e281a55894434b89f"
             ],
             "index": "pypi",
-            "version": "==6.1.0"
+            "version": "==7.0.1"
         }
     },
     "develop": {

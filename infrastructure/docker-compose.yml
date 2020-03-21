@@ -14,20 +14,19 @@ services:
       - .:/srv
     working_dir: /srv
     links:
-      - pgsql:pgsql
-    depends_on:
-      - pgsql
+      - mongodb:mongodb
 
-  pgsql:
-    image: postgres:9.6
+  mongodb:
+    image: mongo
     volumes:
-      - pepy_pgsql:/var/lib/postgresql
-      - ./infrastructure/postgres:/docker-entrypoint-initdb.d
+      - mongodb_data:/datadb
     ports:
-      - "127.0.0.1::5432"
+      - 27017:27017
     hostname: pgsql-master
     environment:
-      - POSTGRES_PASSWORD=test
+      - MONGO_INITDB_ROOT_USERNAME=pepy
+      - MONGO_INITDB_ROOT_PASSWORD=pepy
 
 volumes:
   pepy_pgsql: {}
+  mongodb_data: {}

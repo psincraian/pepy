@@ -1,4 +1,6 @@
-from datetime import date
+import datetime
+from collections import defaultdict
+
 import attr
 
 
@@ -39,15 +41,45 @@ class Badge:
 class Downloads:
     value: int = attr.ib()
 
+    def __add__(self, o):
+        return Downloads(self.value + o.value)
+
 
 class Project:
-    def __init__(self, name: ProjectName, downloads: Downloads):
+    MAX_RETENTION_DAYS = 30
+
+    def __init__(self, name: ProjectName, total_downloads: Downloads):
         self.name = name
-        self.downloads = downloads
+        self.total_downloads = total_downloads
+        self._latest_downloads = defaultdict(lambda: defaultdict())
+        self._versions = set()
+        self.min_date = None
+
+    def add_downloads(self, date: datetime.date, version: str, downloads: Downloads):
+        if self.min_date is None:
+            self.min_date = date
+        elif date < self.min_date:
+            raise Exception("Date should be greater than min date")
+        elif date - self.min_date > datetime.timedelta(days=Project.MAX_RETENTION_DAYS):
+            self._latest_downloads.pop(self.min_date)
+            self.min_date = self.min_date + datetime.timedelta(days=1)
+        self._versions.add(version)
+        if date in self._latest_downloads and version in self._latest_downloads[date]:
+            self.total_downloads -= self._latest_downloads[date][version]
+        self._latest_downloads[date][version] = downloads
+        self.total_downloads += downloads
 
 
 @attr.s
 class ProjectDownloads:
     name: ProjectName = attr.ib()
     downloads: Downloads = attr.ib()
-    day: date = attr.ib()
+    day: datetime.date = attr.ib()
+
+
+@attr.s
+class BQDownloads:
+    project: ProjectName = attr.ib()
+    version: str = attr.ib()
+    date: datetime.date = attr.ib()
+    downloads: Downloads = attr.ib()

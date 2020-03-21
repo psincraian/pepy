@@ -10,18 +10,12 @@ start: install
 start-containers:
 	$(DOCKER-COMPOSE) up -d
 	until curl --silent -XGET --fail http://localhost:5200/health-check; do printf '.'; sleep 1; done
-	$(DOCKER-COMPOSE) exec pepy pipenv run yoyo apply --database "postgresql://pepy:pepy@pgsql/pepy" infrastructure/migrations/ --no-config-file --batch
-	$(DOCKER-COMPOSE) exec pepy pipenv run yoyo apply --database "postgresql://pepy:pepy@pgsql/pepy_test" infrastructure/migrations/ --no-config-file --batch
 
 stop-containers:
 	$(DOCKER-COMPOSE) stop
 
 remove-containers:
 	$(DOCKER-COMPOSE) down
-
-migrations:
-	$(DOCKER-COMPOSE) exec pepy pipenv run yoyo apply --database "postgresql://pepy:pepy@pgsql/pepy" infrastructure/migrations/ --no-config-file --batch
-	$(DOCKER-COMPOSE) exec pepy pipenv run yoyo apply --database "postgresql://pepy:pepy@pgsql/pepy_test" infrastructure/migrations/ --no-config-file --batch
 
 unit-tests:
 	$(DOCKER-COMPOSE) exec pepy pipenv run pytest tests/unit
@@ -32,7 +26,7 @@ integration-tests:
 acceptance-tests:
 	$(DOCKER-COMPOSE) exec pepy pipenv run behave tests/acceptance
 
-tests: unit-tests integration-tests acceptance-tests
+tests: unit-tests  acceptance-tests
 
 format-code:
 	$(DOCKER-COMPOSE) exec pepy pipenv run black -l 120 --exclude=".*\/node_modules" pepy/ tests/

@@ -1,31 +1,49 @@
-from typing import List
+import datetime
+from typing import List, Optional
 
-from psycopg2.extensions import connection
-from psycopg2.extras import execute_batch
+from pymongo import MongoClient, ReplaceOne, DESCENDING
 
-from pepy.domain.model import Project, ProjectDownloads
+from pepy.domain.model import Project, ProjectDownloads, ProjectName, Downloads
 from pepy.domain.repository import ProjectRepository
 
 
-class DBProjectRepository(ProjectRepository):
-    def __init__(self, conn: connection):
-        self._conn = conn
+class MongoProjectRepository(ProjectRepository):
+    def __init__(self, client: MongoClient):
+        self._client = client.test
+        self._client.projects.create_index([("name", DESCENDING)])
+
+    def get(self, project_name: str) -> Optional[Project]:
+        project_data = self._client.projects.find_one({"name": project_name})
+        if project_data is None:
+            return None
+        project = Project(ProjectName(project_data["name"]), Downloads(project_data["total_downloads"]))
+        for date, version_downloads in project_data['downloads'].items():
+            for r in version_downloads:
+                project.add_downloads(datetime.date.fromisoformat(date), r[0], Downloads(r[1]))
+        return project
+
+    def save(self, project: Project):
+        data = self._convert_to_raw(project)
+        query = {"name": project.name.name}
+        self._client.projects.replace_one(query, data, upsert=True)
+
+    def _convert_to_raw(self, project):
+        data = {
+            "name": project.name.name,
+            "total_downloads": project.total_downloads.value,
+            "downloads": {date.isoformat(): [(version, x.value) for version, x in list(versions.items())] for
+                          date, versions in project._latest_downloads.items()}
+        }
+        return data
 
     def save_projects(self, projects: List[Project]):
-        with self._conn, self._conn.cursor() as cursor:
-            values = [(p.name.name, p.downloads.value) for p in projects]
-            execute_batch(
-                cursor, "INSERT INTO projects(name, downloads) VALUES (%s, %s) ON CONFLICT DO NOTHING", values
-            )
+        requests = []
+        for project in projects:
+            requests.append(ReplaceOne({"name": project.name.name}, self._convert_to_raw(project), upsert=True))
+        self._client.projects.bulk_write(requests)
 
     def update_downloads(self, projects_downloads: List[ProjectDownloads]):
-        with self._conn, self._conn.cursor() as cursor:
-            values = [{"downloads": pd.downloads.value, "project": pd.name.name} for pd in projects_downloads]
-            sql = "UPDATE projects SET downloads = downloads + %(downloads)s WHERE name = %(project)s"
-            execute_batch(cursor, sql, values)
+        pass
 
     def save_day_downloads(self, project_downloads: List[ProjectDownloads]):
-        with self._conn, self._conn.cursor() as cursor:
-            values = [(pd.name.name, pd.day, pd.downloads.value) for pd in project_downloads]
-            sql = "INSERT INTO downloads_per_day(name, date, downloads) VALUES (%s, %s, %s)"
-            execute_batch(cursor, sql, values)
+        pass

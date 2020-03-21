@@ -1,7 +1,6 @@
 ---
   - include: copy_code.yml
   - include: install_dependencies.yml
-  - include: migrations.yml
   - include: webserver.yml
   - include: supervisor.yml
   - include: crons.yml

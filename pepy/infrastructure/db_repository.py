@@ -1,15 +1,16 @@
 import datetime
 from typing import List, Optional
 
-from pymongo import MongoClient, ReplaceOne, DESCENDING
+from pymongo import ReplaceOne, DESCENDING
+from pymongo.database import Database
 
 from pepy.domain.model import Project, ProjectDownloads, ProjectName, Downloads
 from pepy.domain.repository import ProjectRepository
 
 
 class MongoProjectRepository(ProjectRepository):
-    def __init__(self, client: MongoClient):
-        self._client = client.test
+    def __init__(self, client: Database):
+        self._client = client
         self._client.projects.create_index([("name", DESCENDING)])
 
     def get(self, project_name: str) -> Optional[Project]:
@@ -20,6 +21,8 @@ class MongoProjectRepository(ProjectRepository):
         for date, version_downloads in project_data['downloads'].items():
             for r in version_downloads:
                 project.add_downloads(datetime.date.fromisoformat(date), r[0], Downloads(r[1]))
+                # Don't count the downloads twice
+                project.total_downloads -= Downloads(r[1])
         return project
 
     def save(self, project: Project):

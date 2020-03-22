@@ -5,19 +5,18 @@ from commandbus import CommandBus
 from google.cloud import bigquery
 from pymongo import MongoClient
 
+from pepy.application.admin_password_checker import AdminPasswordChecker
+from pepy.application.badge_service import BadgeService, DownloadsNumberFormatter
 from pepy.application.command import (
     ImportDownloadsFile,
     ImportDownloadsFileHandler,
     UpdateDownloads,
     UpdateDownloadsHandler,
     UpdateVersionDownloads, UpdateVersionDownloadsHandler)
-from pepy.application.helper import AdminPasswordChecker
-from pepy.application.query import BadgeProvider, ProjectProvider, DownloadsNumberFormatter
 from pepy.domain.model import HashedPassword
 from pepy.infrastructure.bq_downloads_extractor import BQDownloadsExtractor
 from pepy.infrastructure.db_repository import MongoProjectRepository
-from pepy.infrastructure.db_view import MongoProjectView
-from ._config import BQ_CREDENTIALS_FILE, ADMIN_PASSWORD, LOGGING_FILE, LOGGING_DIR, MONGODB
+from ._config import BQ_CREDENTIALS_FILE, ADMIN_PASSWORD, LOGGING_FILE, LOGGING_DIR, MONGODB, environment, Environment
 from ...domain.pypi import StatsViewer, Result
 
 
@@ -40,23 +39,25 @@ file_handler = logging.FileHandler(LOGGING_FILE)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 mongo_client = MongoClient(MONGODB)
-project_repository = MongoProjectRepository(mongo_client)
-project_view = MongoProjectView(mongo_client)
+
+if environment == Environment.test:
+    project_repository = MongoProjectRepository(mongo_client.pepy_test)
+else:
+    project_repository = MongoProjectRepository(mongo_client.pepy)
+
 stats_viewer = MockStatsViewer()
 admin_password_checker = AdminPasswordChecker(HashedPassword(ADMIN_PASSWORD))
 command_bus = CommandBus()
 command_bus.subscribe(ImportDownloadsFile, ImportDownloadsFileHandler(project_repository))
 command_bus.subscribe(UpdateVersionDownloads, UpdateVersionDownloadsHandler(project_repository, stats_viewer, admin_password_checker, logger))
 downloads_formatter = DownloadsNumberFormatter()
-badge_query = BadgeProvider(project_view, downloads_formatter)
-project_provider = ProjectProvider(project_view)
+badge_service = BadgeService(project_repository, downloads_formatter)
 
 # Directories configuration
 if not os.path.exists(LOGGING_DIR):
     os.makedirs(LOGGING_DIR)
 
-environment = os.getenv("APPLICATION_ENV", None)
-if environment == "prod":
+if environment == Environment.prod:
     bq_client = bigquery.Client.from_service_account_json(BQ_CREDENTIALS_FILE)
     downloads_extractor = BQDownloadsExtractor(bq_client)
     command_bus.subscribe(

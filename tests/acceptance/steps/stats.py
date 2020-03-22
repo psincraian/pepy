@@ -14,7 +14,7 @@ from pepy.domain.pypi import Row
 def step_impl(context: Context):
     bq_rows = []
     for row in context.table:
-        bq_rows.append(Row(row["project"], row["version"], datetime.datetime.now().date(), int(row["downloads"])))
+        bq_rows.append(Row(row["project"], row["version"], datetime.date.fromisoformat(row["date"]), int(row["downloads"])))
     context.container.stats_viewer.set_data(bq_rows)\
 
 

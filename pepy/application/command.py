@@ -6,7 +6,7 @@ from typing import TextIO, Iterable, List, Generator
 
 from commandbus import Command, CommandHandler
 
-from pepy.application.helper import AdminPasswordChecker
+from pepy.application.admin_password_checker import AdminPasswordChecker
 from pepy.domain.exception import InvalidAdminPassword
 from pepy.domain.model import Project, Password, Downloads, ProjectName
 from pepy.domain.pypi import StatsViewer, Row

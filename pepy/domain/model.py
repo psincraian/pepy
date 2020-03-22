@@ -1,5 +1,6 @@
 import datetime
 from collections import defaultdict
+from typing import List
 
 import attr
 
@@ -44,6 +45,16 @@ class Downloads:
     def __add__(self, o):
         return Downloads(self.value + o.value)
 
+    def __sub__(self, o):
+        return Downloads(self.value - o.value)
+
+
+@attr.s
+class ProjectVersionDownloads:
+    date: datetime.date = attr.ib()
+    version: str = attr.ib()
+    downloads: Downloads = attr.ib()
+
 
 class Project:
     MAX_RETENTION_DAYS = 30
@@ -63,11 +74,21 @@ class Project:
         elif date - self.min_date > datetime.timedelta(days=Project.MAX_RETENTION_DAYS):
             self._latest_downloads.pop(self.min_date)
             self.min_date = self.min_date + datetime.timedelta(days=1)
-        self._versions.add(version)
+
+        # if we already had the downloads let's update it
         if date in self._latest_downloads and version in self._latest_downloads[date]:
             self.total_downloads -= self._latest_downloads[date][version]
+
         self._latest_downloads[date][version] = downloads
         self.total_downloads += downloads
+        self._versions.add(version)
+
+    def last_downloads(self) -> List[ProjectVersionDownloads]:
+        result = []
+        for date, version_downloads in self._latest_downloads.items():
+            for version, downloads in version_downloads.items():
+                result.append(ProjectVersionDownloads(date, version, downloads))
+        return result
 
 
 @attr.s

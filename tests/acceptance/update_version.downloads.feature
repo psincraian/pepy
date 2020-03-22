@@ -2,7 +2,7 @@ Feature: import download stats
 
   Scenario: import download stats by the given date
     Given the following pypi download stats:
-      | project | date | version | downloads |
+      | project | date       | version | downloads |
       | flask   | 2020-03-21 | 2.0.1   | 1000      |
       | pepy    | 2020-03-21 | 2.0.1   | 1000      |
       | pepy    | 2020-03-21 | 2.2.1   | 500       |

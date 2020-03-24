@@ -4,7 +4,7 @@ from typing import Optional
 import click
 from click import BadParameter
 
-from pepy.application.command import ImportDownloadsFile, UpdateDownloads
+from pepy.application.command import UpdateVersionDownloads
 from pepy.domain.model import Password
 from pepy.infrastructure import container
 
@@ -12,15 +12,6 @@ from pepy.infrastructure import container
 @click.group()
 def cli():
     pass
-
-
-@cli.command("import:downloads:from_file")
-@click.option("--file", prompt=True, help="CSV file to import")
-def import_downloads_file_action(file: str):
-    click.echo("Importing file")
-    with open(file, "r") as file_content:
-        cmd = ImportDownloadsFile(file_content)
-        container.command_bus.publish(cmd)
 
 
 @cli.command("import:downloads:day")
@@ -35,5 +26,5 @@ def import_day_downloads_action(password: str, day: Optional[str]):
     except ValueError:
         raise BadParameter("Date format should be YYYY-mm-dd")
     click.echo("Importing downloads...")
-    container.command_bus.publish(UpdateDownloads(date.date(), Password(password)))
+    container.command_bus.publish(UpdateVersionDownloads(date.date(), Password(password)))
     click.echo("Done")

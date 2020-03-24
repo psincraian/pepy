@@ -1,6 +1,6 @@
 import datetime
 from collections import defaultdict
-from typing import List
+from typing import List, Set
 
 import attr
 
@@ -89,6 +89,9 @@ class Project:
             for version, downloads in version_downloads.items():
                 result.append(ProjectVersionDownloads(date, version, downloads))
         return result
+
+    def version(self) -> Set[str]:
+        return self._versions
 
 
 @attr.s

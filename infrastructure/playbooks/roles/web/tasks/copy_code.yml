@@ -14,6 +14,7 @@
     dest: "{{ project_directory }}"
     force: yes
     accept_hostkey: yes
+    version: feat-versions
   become_user: "{{ gunicorn_user }}"
 
 - name: Ensure the application log folder exists

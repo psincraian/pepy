@@ -1,5 +1,7 @@
 import os
 
+MONGODB = "localhost"
+
 WTF_CSRF_ENABLED = True
 SECRET_KEY = os.environ.get("PEPY_SECRET_KEY")
 

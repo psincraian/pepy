@@ -1,8 +1,10 @@
+import csv
 import datetime
 import timeit
 from logging import Logger
 from typing import Iterable, List, Generator
 
+import attr
 from commandbus import Command, CommandHandler
 
 from pepy.application.admin_password_checker import AdminPasswordChecker
@@ -10,6 +12,53 @@ from pepy.domain.exception import InvalidAdminPassword
 from pepy.domain.model import Project, Password, Downloads, ProjectName
 from pepy.domain.pypi import StatsViewer, Row
 from pepy.domain.repository import ProjectRepository
+
+
+@attr.s()
+class ImportTotalDownloadsRow:
+    project: str = attr.ib()
+    total_downloads: int = attr.ib()
+
+
+class ImportTotalDownloads(Command):
+    def __init__(self, file_path: str):
+        self.file_path = file_path
+
+
+class ImportTotalDownloadsHandler(CommandHandler):
+    def __init__(self, project_repository: ProjectRepository, logger: Logger):
+        self._project_repository = project_repository
+        self._logger = logger
+
+    def handle(self, cmd: ImportTotalDownloads):
+        batch_iterator = 0
+        for batch in self._batch(cmd.file_path, 1_000):
+            batch_iterator += 1
+            self._logger.info(f"Batch {batch_iterator}")
+            projects = {}
+            for row in batch:
+                project = None
+                if row.project in projects:
+                    project = projects.get(row.project)
+                else:
+                    project = self._project_repository.get(row.project)
+                if project is None:
+                    project = Project(ProjectName(row.project), Downloads(0))
+                project.total_downloads = Downloads(row.total_downloads)
+                projects[row.project] = project
+            self._project_repository.save_projects(list(projects.values()))
+
+    def _batch(self, file_path: str, batch_size: int) -> Generator[List[ImportTotalDownloadsRow], None, None]:
+        self._logger.info("Importing total downloads file from " + file_path)
+        with open(file_path, 'r') as f:
+            reader = csv.DictReader(f)
+            data = []
+            for r in reader:
+                data.append(ImportTotalDownloadsRow(r['project'], int(r['total_downloads'])))
+                if len(data) == batch_size:
+                    yield data
+                    data = []
+            yield data
 
 
 class UpdateVersionDownloads(Command):

@@ -8,7 +8,7 @@ from pymongo import MongoClient
 from pepy.application.admin_password_checker import AdminPasswordChecker
 from pepy.application.badge_service import BadgeService, DownloadsNumberFormatter
 from pepy.application.command import (
-    UpdateVersionDownloads, UpdateVersionDownloadsHandler)
+    UpdateVersionDownloads, UpdateVersionDownloadsHandler, ImportTotalDownloads, ImportTotalDownloadsHandler)
 from pepy.domain.model import HashedPassword
 from pepy.infrastructure.db_repository import MongoProjectRepository
 from ._config import BQ_CREDENTIALS_FILE, ADMIN_PASSWORD, LOGGING_FILE, LOGGING_DIR, MONGODB, environment, Environment
@@ -54,6 +54,7 @@ admin_password_checker = AdminPasswordChecker(HashedPassword(ADMIN_PASSWORD))
 command_bus = CommandBus()
 command_bus.subscribe(UpdateVersionDownloads,
                       UpdateVersionDownloadsHandler(project_repository, stats_viewer, admin_password_checker, logger))
+command_bus.subscribe(ImportTotalDownloads, ImportTotalDownloadsHandler(project_repository, logger))
 downloads_formatter = DownloadsNumberFormatter()
 badge_service = BadgeService(project_repository, downloads_formatter)
 

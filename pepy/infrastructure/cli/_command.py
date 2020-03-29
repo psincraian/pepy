@@ -16,7 +16,7 @@ def cli():
 
 @cli.command("import:downloads:day")
 @click.option("--day", help="The day to import downloads")
-@click.option("--password", prompt=True, help="The day to import downloads")
+@click.option("--password", prompt=True, help="The admin password to perform that")
 def import_day_downloads_action(password: str, day: Optional[str]):
     try:
         if day is not None:

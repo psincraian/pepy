@@ -102,8 +102,7 @@ class UpdateVersionDownloadsHandler(CommandHandler):
                 projects[row.project] = project
             self._project_repository.save_projects(list(projects.values()))
         end_time = timeit.default_timer()
-        print(f"Total time + {(end_time - start_time):.4f}")
-        self._logger.info("Total downloads updated")
+        self._logger.info(f"Total downloads updated. Total time + {(end_time - start_time):.4f} seconds")
 
     def _batch(self, rows: Iterable[Row], batch_size: int) -> Generator[List[Row], None, None]:
         data = []

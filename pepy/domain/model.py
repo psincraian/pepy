@@ -90,7 +90,7 @@ class Project:
                 result.append(ProjectVersionDownloads(date, version, downloads))
         return result
 
-    def version(self) -> Set[str]:
+    def versions(self) -> Set[str]:
         return self._versions
 
 

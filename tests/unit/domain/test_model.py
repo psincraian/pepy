@@ -26,7 +26,7 @@ def test_add_downloads_to_project():
     project.add_downloads(date, version, day_downloads)
     assert project.total_downloads == day_downloads
     assert project.last_downloads() == [ProjectVersionDownloads(date, version, day_downloads)]
-    assert project.version() == {version}
+    assert project.versions() == {version}
 
 
 def test_project_replace_downloads():
@@ -38,7 +38,7 @@ def test_project_replace_downloads():
     project.add_downloads(date, version, day_downloads)
     assert project.total_downloads == Downloads(15)
     assert project.last_downloads() == [ProjectVersionDownloads(date, version, day_downloads)]
-    assert project.version() == {version}
+    assert project.versions() == {version}
 
 
 def test_remove_old_data():
@@ -52,4 +52,4 @@ def test_remove_old_data():
     assert project.total_downloads == Downloads(70)
     assert project.last_downloads() == [ProjectVersionDownloads(limit_date, "2.3.0", Downloads(20)),
                                         ProjectVersionDownloads(now_date, "2.3.2", Downloads(30))]
-    assert {"2.3.0", "2.3.2"}.issubset(project.version())
+    assert {"2.3.0", "2.3.2"}.issubset(project.versions())

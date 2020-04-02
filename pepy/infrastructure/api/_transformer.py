@@ -15,3 +15,16 @@ def transform_project(project: Project) -> Dict:
         "total_downloads": project.total_downloads.value,
         "downloads": downloads,
     }
+
+
+def transform_project_v2(project: Project) -> Dict:
+    day_downloads = defaultdict(lambda: defaultdict(int))
+    for d in project.last_downloads():
+        day_downloads[d.date.isoformat()][d.version] = d.downloads.value
+
+    return {
+        "id": project.name.name,
+        "total_downloads": project.total_downloads.value,
+        "versions": sorted(list(project.versions())),
+        "downloads": day_downloads,
+    }

@@ -1,6 +1,8 @@
 from collections import defaultdict
 from typing import Dict
 
+from natsort import natsorted
+
 from pepy.domain.model import Project
 
 
@@ -25,6 +27,6 @@ def transform_project_v2(project: Project) -> Dict:
     return {
         "id": project.name.name,
         "total_downloads": project.total_downloads.value,
-        "versions": sorted(list(project.versions())),
+        "versions": natsorted(list(project.versions())),
         "downloads": day_downloads,
     }

@@ -54,6 +54,30 @@ Feature: show index page with some selected projects
     }
     """
 
+  Scenario: order versions in natural order
+    Given the pepy project with the following downloads
+      | date       | version | downloads |
+      | 2018-05-01 | 2.1     | 10        |
+      | 2018-05-01 | 2.9     | 10        |
+      | 2018-05-01 | 2.10    | 10        |
+    When I send the GET request to /api/v2/projects/Pepy
+    Then the response status code should be 200
+    And the api response should be
+    """
+    {
+      "id": "pepy",
+      "total_downloads": 30,
+      "versions": ["2.1", "2.9", "2.10"],
+      "downloads": {
+        "2018-05-01": {
+          "2.1": 10,
+          "2.9": 10,
+          "2.10": 10
+        }
+      }
+    }
+    """
+
   Scenario: show 404 when project not found
     When I send the GET request to /api/v2/projects/pepy
     Then the response status code should be 404

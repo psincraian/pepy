@@ -34,6 +34,26 @@ Feature: show index page with some selected projects
     }
     """
 
+  Scenario: project name is case insensitive
+    Given the pepy project with the following downloads
+      | date       | version | downloads |
+      | 2018-05-01 | 1.0     | 10        |
+    When I send the GET request to /api/v2/projects/Pepy
+    Then the response status code should be 200
+    And the api response should be
+    """
+    {
+      "id": "pepy",
+      "total_downloads": 10,
+      "versions": ["1.0"],
+      "downloads": {
+        "2018-05-01": {
+          "1.0": 10
+        }
+      }
+    }
+    """
+
   Scenario: show 404 when project not found
     When I send the GET request to /api/v2/projects/pepy
     Then the response status code should be 404

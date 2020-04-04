@@ -14,7 +14,7 @@ class MongoProjectRepository(ProjectRepository):
         self._client.projects.create_index([("name", DESCENDING)])
 
     def get(self, project_name: str) -> Optional[Project]:
-        project_data = self._client.projects.find_one({"name": project_name})
+        project_data = self._client.projects.find_one({"name": project_name.strip().lower()})
         if project_data is None:
             return None
         project = Project(ProjectName(project_data["name"]), Downloads(project_data["total_downloads"]))

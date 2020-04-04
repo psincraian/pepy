@@ -8,7 +8,6 @@ services:
 
 before_install:
   - make start-containers
-  - make migrations
 
 script:
   - make tests

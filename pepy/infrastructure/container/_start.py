@@ -1,5 +1,6 @@
 import logging
 import os
+from pathlib import Path
 
 from commandbus import CommandBus
 from google.cloud import bigquery
@@ -26,6 +27,8 @@ class MockStatsViewer(StatsViewer):
     def get_version_downloads(self, date):
         return Result(len(self._rows), self._rows)
 
+# Directories configuration
+Path(LOGGING_DIR).mkdir(parents=True, exist_ok=True)
 
 # Logger configuration
 logger = logging.getLogger("pepy")
@@ -42,7 +45,7 @@ else:
     project_repository = MongoProjectRepository(mongo_client.pepy)
 
 bq_client = None
-if environment != Environment.test:
+if environment == Environment.prod:
     bq_client = bigquery.Client.from_service_account_json(BQ_CREDENTIALS_FILE)
 
 if environment == Environment.test:
@@ -57,7 +60,3 @@ command_bus.subscribe(UpdateVersionDownloads,
 command_bus.subscribe(ImportTotalDownloads, ImportTotalDownloadsHandler(project_repository, logger))
 downloads_formatter = DownloadsNumberFormatter()
 badge_service = BadgeService(project_repository, downloads_formatter)
-
-# Directories configuration
-if not os.path.exists(LOGGING_DIR):
-    os.makedirs(LOGGING_DIR)

@@ -19,6 +19,7 @@ class BQStatsViewer(StatsViewer):
             SELECT file.project as project, file.version as version, count(*) AS downloads
             FROM `the-psf.pypi.downloads{}`
             GROUP BY file.project, file.version
+            ORDER BY file.project
         """.format(
             date.strftime("%Y%m%d")
         )

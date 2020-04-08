@@ -13,7 +13,7 @@ script:
   - make tests
 
 addons:
-  ssh_known_hosts: 174.138.5.205
+  ssh_known_hosts: 88.99.125.23
 
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_c7065a1712c1_key -iv $encrypted_c7065a1712c1_iv -in infrastructure/playbooks/travis_secrets.tar.enc -out infrastructure/playbooks/travis_secrets.tar -d

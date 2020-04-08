@@ -9,13 +9,12 @@ click = "*"
 commandbus = "*"
 google-cloud-bigquery = "*"
 gunicorn = "*"
-psycopg2-binary = "*"
 requests = "*"
-yoyo-migrations = "*"
 Flask = "*"
 Flask-WTF = "*"
 passlib = "*"
-orator = "*"
+pymongo = "*"
+natsort = "*"
 
 [dev-packages]
 behave = "*"
@@ -24,7 +23,7 @@ black = "*"
 pylint = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
 
 [pipenv]
 allow_prereleases = true

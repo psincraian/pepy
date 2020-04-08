@@ -1,4 +1,5 @@
 import os
+
 from behave.runner import Context
 
 
@@ -12,5 +13,4 @@ def before_all(context: Context):
 
 
 def before_scenario(context, _):
-    with context.container.db_connection, context.container.db_connection.cursor() as cursor:
-        cursor.execute("TRUNCATE projects CASCADE")
+    context.container.mongo_client.pepy_test.projects.remove()

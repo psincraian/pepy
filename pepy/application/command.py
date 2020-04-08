@@ -1,62 +1,114 @@
 import csv
 import datetime
+import timeit
 from logging import Logger
-from typing import TextIO
+from typing import Iterable, List, Generator
 
+import attr
 from commandbus import Command, CommandHandler
 
-from pepy.application.helper import AdminPasswordChecker
+from pepy.application.admin_password_checker import AdminPasswordChecker
 from pepy.domain.exception import InvalidAdminPassword
 from pepy.domain.model import Project, Password, Downloads, ProjectName
-from pepy.domain.repository import ProjectRepository, DownloadsExtractor
+from pepy.domain.pypi import StatsViewer, Row
+from pepy.domain.repository import ProjectRepository
 
 
-class ImportDownloadsFile(Command):
-    def __init__(self, file: TextIO):
-        self.file = file
+@attr.s()
+class ImportTotalDownloadsRow:
+    project: str = attr.ib()
+    total_downloads: int = attr.ib()
 
 
-class ImportDownloadsFileHandler(CommandHandler):
-    def __init__(self, project_repository: ProjectRepository):
+class ImportTotalDownloads(Command):
+    def __init__(self, file_path: str):
+        self.file_path = file_path
+
+
+class ImportTotalDownloadsHandler(CommandHandler):
+    def __init__(self, project_repository: ProjectRepository, logger: Logger):
         self._project_repository = project_repository
+        self._logger = logger
 
-    def handle(self, cmd: ImportDownloadsFile):
-        reader = csv.reader(cmd.file, delimiter=",")
-        next(reader)
-        projects = [Project(ProjectName(r[0]), Downloads(r[1])) for r in reader]
-        self._project_repository.save_projects(projects)
+    def handle(self, cmd: ImportTotalDownloads):
+        batch_iterator = 0
+        for batch in self._batch(cmd.file_path, 1_000):
+            batch_iterator += 1
+            self._logger.info(f"Batch {batch_iterator}")
+            projects = {}
+            for row in batch:
+                project = None
+                if row.project in projects:
+                    project = projects.get(row.project)
+                else:
+                    project = self._project_repository.get(row.project)
+                if project is None:
+                    project = Project(ProjectName(row.project), Downloads(0))
+                project.total_downloads = Downloads(row.total_downloads)
+                projects[row.project] = project
+            self._project_repository.save_projects(list(projects.values()))
+
+    def _batch(self, file_path: str, batch_size: int) -> Generator[List[ImportTotalDownloadsRow], None, None]:
+        self._logger.info("Importing total downloads file from " + file_path)
+        with open(file_path, 'r') as f:
+            reader = csv.DictReader(f)
+            data = []
+            for r in reader:
+                data.append(ImportTotalDownloadsRow(r['project'], int(r['total_downloads'])))
+                if len(data) == batch_size:
+                    yield data
+                    data = []
+            yield data
 
 
-class UpdateDownloads(Command):
+class UpdateVersionDownloads(Command):
     def __init__(self, date: datetime.date, password: Password):
         self.password = password
         self.date = date
 
 
-class UpdateDownloadsHandler(CommandHandler):
+class UpdateVersionDownloadsHandler(CommandHandler):
     def __init__(
-        self,
-        project_repository: ProjectRepository,
-        downloads_extractor: DownloadsExtractor,
-        admin_password_checker: AdminPasswordChecker,
-        logger: Logger,
+            self,
+            project_repository: ProjectRepository,
+            stats_viewer: StatsViewer,
+            admin_password_checker: AdminPasswordChecker,
+            logger: Logger,
     ):
         self._project_repository = project_repository
-        self._downloads_extractor = downloads_extractor
+        self._stats_viewer = stats_viewer
         self._admin_password_checker = admin_password_checker
         self._logger = logger
 
-    def handle(self, cmd: UpdateDownloads):
+    def handle(self, cmd: UpdateVersionDownloads):
         if not self._admin_password_checker.check(cmd.password):
             self._logger.info("Invalid password")
             raise InvalidAdminPassword(cmd.password)
         self._logger.info(f"Getting downloads from date {cmd.date}...")
-        pd = self._downloads_extractor.get_downloads(cmd.date)
-        self._logger.info(f"Retrieved {len(pd)} downloads. Saving to db...")
-        # Add new projects if they don't exist before
-        self._project_repository.save_projects([Project(p.name, Downloads(0)) for p in pd])
-        self._logger.info("New projects saved")
-        self._project_repository.save_day_downloads(pd)
-        self._logger.info("Downloads saved")
-        self._project_repository.update_downloads(pd)
-        self._logger.info("Total downloads updated")
+        stats_result = self._stats_viewer.get_version_downloads(cmd.date)
+        self._logger.info(f"Retrieved {stats_result.total_rows} downloads. Saving to db...")
+        start_time = timeit.default_timer()
+        for batch in self._batch(stats_result.rows, 1_000):
+            projects = {}
+            for row in batch:
+                project = None
+                if row.project in projects:
+                    project = projects.get(row.project)
+                else:
+                    project = self._project_repository.get(row.project)
+                if project is None:
+                    project = Project(ProjectName(row.project), Downloads(0))
+                project.add_downloads(row.date, row.version, Downloads(row.downloads))
+                projects[row.project] = project
+            self._project_repository.save_projects(list(projects.values()))
+        end_time = timeit.default_timer()
+        self._logger.info(f"Total downloads updated. Total time + {(end_time - start_time):.4f} seconds")
+
+    def _batch(self, rows: Iterable[Row], batch_size: int) -> Generator[List[Row], None, None]:
+        data = []
+        for r in rows:
+            data.append(r)
+            if len(data) == batch_size:
+                yield data
+                data = []
+        yield data

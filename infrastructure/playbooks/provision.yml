@@ -3,6 +3,6 @@
   hosts: all
   roles:
     - { role: common, become: yes }
-    - { role: postgres, become: yes }
+    - { role: mongo, become: yes }
     - { role: web, become: yes }
     - { role: nginx, become: yes }

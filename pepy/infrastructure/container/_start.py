@@ -1,38 +1,34 @@
 import logging
 import os
+from pathlib import Path
 
-import psycopg2
 from commandbus import CommandBus
 from google.cloud import bigquery
-from orator import DatabaseManager
+from pymongo import MongoClient
 
+from pepy.application.admin_password_checker import AdminPasswordChecker
+from pepy.application.badge_service import BadgeService, DownloadsNumberFormatter
 from pepy.application.command import (
-    ImportDownloadsFile,
-    ImportDownloadsFileHandler,
-    UpdateDownloads,
-    UpdateDownloadsHandler,
-)
-from pepy.application.helper import AdminPasswordChecker
-from pepy.application.query import BadgeProvider, ProjectProvider, DownloadsNumberFormatter
+    UpdateVersionDownloads, UpdateVersionDownloadsHandler, ImportTotalDownloads, ImportTotalDownloadsHandler)
 from pepy.domain.model import HashedPassword
-from pepy.infrastructure.bq_downloads_extractor import BQDownloadsExtractor
-from pepy.infrastructure.db_repository import DBProjectRepository
-from pepy.infrastructure.db_view import DBProjectView
-from ._config import DATABASE, BQ_CREDENTIALS_FILE, ADMIN_PASSWORD, LOGGING_FILE, DATABASE_ORATOR, LOGGING_DIR
+from pepy.infrastructure.db_repository import MongoProjectRepository
+from ._config import BQ_CREDENTIALS_FILE, ADMIN_PASSWORD, LOGGING_FILE, LOGGING_DIR, MONGODB, environment, Environment
+from ..bq_stats_viewer import BQStatsViewer
+from ...domain.pypi import StatsViewer, Result
 
-db_connection = psycopg2.connect(**DATABASE)
-db_orator = DatabaseManager(DATABASE_ORATOR)
-project_repository = DBProjectRepository(db_connection)
-db_project_view = DBProjectView(db_orator)
-command_bus = CommandBus()
-command_bus.subscribe(ImportDownloadsFile, ImportDownloadsFileHandler(project_repository))
-downloads_formatter = DownloadsNumberFormatter()
-badge_query = BadgeProvider(db_project_view, downloads_formatter)
-project_provider = ProjectProvider(db_project_view)
+
+class MockStatsViewer(StatsViewer):
+    def __init__(self):
+        self._rows = None
+
+    def set_data(self, rows):
+        self._rows = rows
+
+    def get_version_downloads(self, date):
+        return Result(len(self._rows), self._rows)
 
 # Directories configuration
-if not os.path.exists(LOGGING_DIR):
-    os.makedirs(LOGGING_DIR)
+Path(LOGGING_DIR).mkdir(parents=True, exist_ok=True)
 
 # Logger configuration
 logger = logging.getLogger("pepy")
@@ -41,12 +37,26 @@ formatter = logging.Formatter("[%(asctime)s] [%(levelname)s] [%(pathname)s:%(fun
 file_handler = logging.FileHandler(LOGGING_FILE)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
+mongo_client = MongoClient(MONGODB)
 
-environment = os.getenv("APPLICATION_ENV", None)
-if environment == "prod":
+if environment == Environment.test:
+    project_repository = MongoProjectRepository(mongo_client.pepy_test)
+else:
+    project_repository = MongoProjectRepository(mongo_client.pepy)
+
+bq_client = None
+if environment == Environment.prod:
     bq_client = bigquery.Client.from_service_account_json(BQ_CREDENTIALS_FILE)
-    downloads_extractor = BQDownloadsExtractor(bq_client)
-    admin_password_checker = AdminPasswordChecker(HashedPassword(ADMIN_PASSWORD))
-    command_bus.subscribe(
-        UpdateDownloads, UpdateDownloadsHandler(project_repository, downloads_extractor, admin_password_checker, logger)
-    )
+
+if environment == Environment.test:
+    stats_viewer = MockStatsViewer()
+else:
+    stats_viewer = BQStatsViewer(bq_client)
+
+admin_password_checker = AdminPasswordChecker(HashedPassword(ADMIN_PASSWORD))
+command_bus = CommandBus()
+command_bus.subscribe(UpdateVersionDownloads,
+                      UpdateVersionDownloadsHandler(project_repository, stats_viewer, admin_password_checker, logger))
+command_bus.subscribe(ImportTotalDownloads, ImportTotalDownloadsHandler(project_repository, logger))
+downloads_formatter = DownloadsNumberFormatter()
+badge_service = BadgeService(project_repository, downloads_formatter)

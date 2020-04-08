@@ -15,9 +15,15 @@
 
 - name: Ensure that the application site is enabled
   file: src=/etc/nginx/sites-available/{{ project_name }}.conf
-        dest=/etc/nginx/sites-enabled/{{ project_name }}.conf
-        state=link
+    dest=/etc/nginx/sites-enabled/{{ project_name }}.conf
+    state=link
   notify: reload nginx
 
 - name: Ensure Nginx service is started
   service: name=nginx state=started enabled=yes
+
+- name: Remove default nginx config
+  file: name=/etc/nginx/sites-enabled/default state=absent
+
+- name: Reload nginx
+  service: name=nginx state=restarted

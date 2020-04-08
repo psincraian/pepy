@@ -1,14 +1,20 @@
 ---
+- name: Upgrade pip and setup tools
+  command: python3.8 -m pip install -U pip setuptools
+
 - name: Install pipenv
-  command: pip install pipenv
+  command: python3.8 -m pip install pipenv
 
 - name: Install dependencies
-  command: pipenv install
+  command: pipenv install --deploy
   environment:
     LC_ALL: C.UTF-8
     LANG: C.UTF-8
     PIPENV_MAX_SUBPROCESS: 2
+    PIPENV_VENV_IN_PROJECT: 1
   become_user: "{{ gunicorn_user }}"
+  args:
+    chdir: "{{ project_directory }}"
 
 - name: Copy bigquery credentials file
   copy:

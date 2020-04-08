@@ -1,0 +1,20 @@
+---
+
+# https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+- block:
+    - name: Import MongoDB public GPG Key
+      apt_key:
+        url: https://www.mongodb.org/static/pgp/server-4.2.asc
+    - name: Add MongoDB repository into sources list
+      apt_repository:
+        repo: deb http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse
+        state: present
+    - name: Install MongoDB package
+      apt:
+        name: mongodb-org
+        update_cache: yes
+    - name: Make sure mongo is running
+      systemd:
+        state: started
+        name: mongod
+        enabled: yes

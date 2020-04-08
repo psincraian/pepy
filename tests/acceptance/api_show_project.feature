@@ -15,9 +15,9 @@ Feature: show index page with some selected projects
         "id": "pepy",
         "total_downloads": 65,
         "downloads": {
-          "2018-05-01": 10,
+          "2018-05-03": 40,
           "2018-05-02": 15,
-          "2018-05-03": 40
+          "2018-05-01": 10
         }
       }
     """

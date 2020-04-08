@@ -8,7 +8,9 @@ from pepy.domain.model import Project
 
 def transform_project(project: Project) -> Dict:
     day_downloads = defaultdict(int)
-    for d in project.last_downloads():
+    last_downloads = project.last_downloads()
+    last_downloads.reverse()
+    for d in last_downloads:
         day_downloads[d.date.isoformat()] += d.downloads.value
     downloads = {date: downloads for date, downloads in day_downloads.items()}
 

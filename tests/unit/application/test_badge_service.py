@@ -9,6 +9,11 @@ def downloads_formatter():
     return DownloadsNumberFormatter()
 
 
+def test_downloads_format_0(downloads_formatter: DownloadsNumberFormatter):
+    downloads = Downloads(0)
+    assert "0" == downloads_formatter.format(downloads)
+
+
 def test_downloads_format_less_than_thousands(downloads_formatter: DownloadsNumberFormatter):
     downloads = Downloads(121)
     assert "121" == downloads_formatter.format(downloads)

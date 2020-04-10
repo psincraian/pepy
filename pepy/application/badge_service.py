@@ -12,6 +12,8 @@ class DownloadsNumberFormatter:
     _METRIC_PREFIX = ["", "k", "M", "G", "T", "P"]
 
     def format(self, downloads: Downloads) -> str:
+        if downloads.value == 0:
+            return "0"
         digits = int(math.log10(abs(downloads.value)) if downloads else 0)
         millidx = max(0, min(len(self._METRIC_PREFIX) - 1, digits // 3))
         rounded_value = downloads.value // (10 ** (3 * millidx))

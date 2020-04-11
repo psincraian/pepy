@@ -73,7 +73,7 @@ class Project:
             raise Exception("Date should be greater than min date")
         elif date - self.min_date > datetime.timedelta(days=Project.MAX_RETENTION_DAYS):
             self._latest_downloads.pop(self.min_date)
-            self.min_date = self.min_date + datetime.timedelta(days=1)
+            self.min_date = self._find_next_min_date(date)
 
         # if we already had the downloads let's update it
         if date in self._latest_downloads and version in self._latest_downloads[date]:
@@ -82,6 +82,12 @@ class Project:
         self._latest_downloads[date][version] = downloads
         self.total_downloads += downloads
         self._versions.add(version)
+
+    def _find_next_min_date(self, max_date):
+        min_date = self.min_date + datetime.timedelta(days=1)
+        while min_date not in self._latest_downloads and min_date < max_date:
+            min_date = min_date + datetime.timedelta(days=1)
+        return min_date
 
     def last_downloads(self) -> List[ProjectVersionDownloads]:
         result = []

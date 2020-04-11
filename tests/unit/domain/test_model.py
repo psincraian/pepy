@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 from pepy.domain.model import ProjectName, Project, Downloads, ProjectVersionDownloads
 
@@ -53,3 +53,17 @@ def test_remove_old_data():
     assert project.last_downloads() == [ProjectVersionDownloads(limit_date, "2.3.0", Downloads(20)),
                                         ProjectVersionDownloads(now_date, "2.3.2", Downloads(30))]
     assert {"2.3.0", "2.3.2"}.issubset(project.versions())
+
+
+def test_update_min_date_when_no_other_downloads():
+    project = Project(ProjectName("random"), Downloads(10))
+    project.add_downloads(date(2020, 3, 9), "0.0.6", Downloads(20))
+    project.add_downloads(date(2020, 4, 10), "0.0.2", Downloads(10))
+    project.add_downloads(date(2020, 4, 10), "0.0.4", Downloads(10))
+    assert project.total_downloads == Downloads(50)
+    assert project.last_downloads() == [
+        ProjectVersionDownloads(date(2020, 4, 10), "0.0.2", Downloads(10)),
+        ProjectVersionDownloads(date(2020, 4, 10), "0.0.4", Downloads(10)),
+    ]
+    assert project.versions() == {"0.0.6", "0.0.2", "0.0.4"}
+    assert project.min_date == date(2020, 4, 10)

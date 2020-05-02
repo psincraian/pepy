@@ -14,8 +14,10 @@ from pepy.domain.pypi import Row
 def step_impl(context: Context):
     bq_rows = []
     for row in context.table:
-        bq_rows.append(Row(row["project"], row["version"], datetime.date.fromisoformat(row["date"]), int(row["downloads"])))
-    context.container.stats_viewer.set_data(bq_rows)\
+        bq_rows.append(
+            Row(row["project"], row["version"], datetime.date.fromisoformat(row["date"]), int(row["downloads"]))
+        )
+    context.container.stats_viewer.set_data(bq_rows)
 
 
 @given("the {number} projects and pepy")
@@ -24,7 +26,14 @@ def step_impl(context: Context, number: str):
     for _ in range(int(number)):
         project = str(uuid.uuid4())
         for d in range(30):
-            bq_rows.append(Row(project, str(uuid.uuid1()), datetime.datetime.now().date() + datetime.timedelta(days=d), random.randint(1, 100_000_000)))
+            bq_rows.append(
+                Row(
+                    project,
+                    str(uuid.uuid1()),
+                    datetime.datetime.now().date() + datetime.timedelta(days=d),
+                    random.randint(1, 100_000_000),
+                )
+            )
     bq_rows.append(Row("pepy", str(uuid.uuid1()), datetime.datetime.now().date(), random.randint(1, 100_000_000)))
     context.container.stats_viewer.set_data(bq_rows)
 

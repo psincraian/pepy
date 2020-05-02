@@ -50,11 +50,11 @@ class ImportTotalDownloadsHandler(CommandHandler):
 
     def _batch(self, file_path: str, batch_size: int) -> Generator[List[ImportTotalDownloadsRow], None, None]:
         self._logger.info("Importing total downloads file from " + file_path)
-        with open(file_path, 'r') as f:
+        with open(file_path, "r") as f:
             reader = csv.DictReader(f)
             data = []
             for r in reader:
-                data.append(ImportTotalDownloadsRow(r['project'], int(r['total_downloads'])))
+                data.append(ImportTotalDownloadsRow(r["project"], int(r["total_downloads"])))
                 if len(data) == batch_size:
                     yield data
                     data = []
@@ -69,11 +69,11 @@ class UpdateVersionDownloads(Command):
 
 class UpdateVersionDownloadsHandler(CommandHandler):
     def __init__(
-            self,
-            project_repository: ProjectRepository,
-            stats_viewer: StatsViewer,
-            admin_password_checker: AdminPasswordChecker,
-            logger: Logger,
+        self,
+        project_repository: ProjectRepository,
+        stats_viewer: StatsViewer,
+        admin_password_checker: AdminPasswordChecker,
+        logger: Logger,
     ):
         self._project_repository = project_repository
         self._stats_viewer = stats_viewer

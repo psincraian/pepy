@@ -18,7 +18,8 @@ class MongoProjectRepository(ProjectRepository):
         if project_data is None:
             return None
         project = Project(ProjectName(project_data["name"]), Downloads(project_data["total_downloads"]))
-        for date, version_downloads in project_data['downloads'].items():
+        downloads = sorted(project_data["downloads"].items(), key=lambda x: x[0])
+        for date, version_downloads in downloads:
             for r in version_downloads:
                 project.add_downloads(datetime.date.fromisoformat(date), r[0], Downloads(r[1]))
                 # Don't count the downloads twice
@@ -34,8 +35,10 @@ class MongoProjectRepository(ProjectRepository):
         data = {
             "name": project.name.name,
             "total_downloads": project.total_downloads.value,
-            "downloads": {date.isoformat(): [(version, x.value) for version, x in list(versions.items())] for
-                          date, versions in project._latest_downloads.items()}
+            "downloads": {
+                date.isoformat(): [(version, x.value) for version, x in list(versions.items())]
+                for date, versions in project._latest_downloads.items()
+            },
         }
         return data
 

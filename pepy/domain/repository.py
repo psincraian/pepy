@@ -19,7 +19,7 @@ class ProjectRepository(ABC):
         pass
 
     @abstractmethod
-    def get(self, project)-> Optional[Project]:
+    def get(self, project_name: str) -> Optional[Project]:
         pass
 
     @abstractmethod

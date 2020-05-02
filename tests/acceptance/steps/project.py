@@ -34,7 +34,7 @@ def step_impl(context: Context):
 @then("the following projects should exist")
 def step_impl(context: Context):
     for row in context.table:
-        project = context.container.project_repository.get(row['project'])
+        project = context.container.project_repository.get(row["project"])
         assert project is not None
-        if 'total_downloads' in row:
-            assert project.total_downloads == row['total_downloads']
+        if "total_downloads" in row:
+            assert project.total_downloads == row["total_downloads"]

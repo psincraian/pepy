@@ -52,6 +52,7 @@ def handle_domain_exception(error: DomainException):
 def handle_http_exception(error: HTTPException):
     return Response(json.dumps({"error": error.code, "message": error.description}), status=error.code)
 
+
 @app.errorhandler(Exception)
 def handle_exception(error: Exception):
     if isinstance(error, DomainException):

@@ -50,8 +50,10 @@ def test_remove_old_data():
     project.add_downloads(limit_date, "2.3.0", Downloads(20))
     project.add_downloads(now_date, "2.3.2", Downloads(30))
     assert project.total_downloads == Downloads(70)
-    assert project.last_downloads() == [ProjectVersionDownloads(limit_date, "2.3.0", Downloads(20)),
-                                        ProjectVersionDownloads(now_date, "2.3.2", Downloads(30))]
+    assert project.last_downloads() == [
+        ProjectVersionDownloads(limit_date, "2.3.0", Downloads(20)),
+        ProjectVersionDownloads(now_date, "2.3.2", Downloads(30)),
+    ]
     assert {"2.3.0", "2.3.2"}.issubset(project.versions())
 
 

@@ -51,3 +51,7 @@
     owner: "{{ pepy_user }}"
     group: "{{ pepy_group }}"
     mode: 0700
+
+- name: Set timezone to UTC
+  timezone:
+    name: UTC

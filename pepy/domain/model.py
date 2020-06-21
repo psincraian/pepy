@@ -1,7 +1,7 @@
 import datetime
 from collections import defaultdict, OrderedDict
 from typing import List, Set
-
+import re
 import attr
 
 
@@ -19,7 +19,7 @@ class ProjectName:
             raise ProjectNameLengthIsNotValidException(value, self.MIN_LENGTH, self.MAX_LENGTH)
 
     def __attrs_post_init__(self):
-        self.name = self.name.lower().strip()
+        self.name = re.sub(r"[-_.]+", "-", self.name).strip().lower()
 
 
 @attr.s

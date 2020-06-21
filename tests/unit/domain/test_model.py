@@ -12,6 +12,9 @@ def test_set_lowercase_to_project_name():
     project = ProjectName("Some-Project")
     assert "some-project" == project.name
 
+def test_normalize_project_name():
+    project = ProjectName("test.project")
+    assert "test-project" == project.name
 
 def test_add_project():
     project = Project(ProjectName("random"), Downloads(0))

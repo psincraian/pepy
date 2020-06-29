@@ -1,5 +1,6 @@
 import datetime
 from collections import defaultdict, OrderedDict
+from itertools import islice
 from typing import List, Set
 import re
 import attr
@@ -57,7 +58,7 @@ class ProjectVersionDownloads:
 
 
 class Project:
-    MAX_RETENTION_DAYS = 30
+    MAX_RETENTION_DAYS = 180
 
     def __init__(self, name: ProjectName, total_downloads: Downloads):
         self.name = name
@@ -89,9 +90,9 @@ class Project:
             min_date = min_date + datetime.timedelta(days=1)
         return min_date
 
-    def last_downloads(self) -> List[ProjectVersionDownloads]:
+    def last_downloads(self, nr_days: int = 30) -> List[ProjectVersionDownloads]:
         result = []
-        for date, version_downloads in self._latest_downloads.items():
+        for date, version_downloads in islice(self._latest_downloads.items(), 0, nr_days):
             for version, downloads in version_downloads.items():
                 result.append(ProjectVersionDownloads(date, version, downloads))
         return result

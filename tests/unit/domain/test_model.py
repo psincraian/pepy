@@ -46,8 +46,8 @@ def test_project_replace_downloads():
 
 def test_remove_old_data():
     project = Project(ProjectName("random"), Downloads(10))
-    old_date = datetime.now().date() - timedelta(days=31)
-    limit_date = datetime.now().date() - timedelta(days=30)
+    old_date = datetime.now().date() - timedelta(days=181)
+    limit_date = datetime.now().date() - timedelta(days=180)
     now_date = datetime.now().date()
     project.add_downloads(old_date, "2.3.1", Downloads(10))
     project.add_downloads(limit_date, "2.3.0", Downloads(20))
@@ -62,7 +62,7 @@ def test_remove_old_data():
 
 def test_update_min_date_when_no_other_downloads():
     project = Project(ProjectName("random"), Downloads(10))
-    project.add_downloads(date(2020, 3, 9), "0.0.6", Downloads(20))
+    project.add_downloads(date(2019, 3, 9), "0.0.6", Downloads(20))
     project.add_downloads(date(2020, 4, 10), "0.0.2", Downloads(10))
     project.add_downloads(date(2020, 4, 10), "0.0.4", Downloads(10))
     assert project.total_downloads == Downloads(50)

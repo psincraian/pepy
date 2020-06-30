@@ -1,4 +1,5 @@
 from collections import defaultdict
+from datetime import datetime, timedelta
 from typing import Dict
 
 from natsort import natsorted
@@ -8,7 +9,8 @@ from pepy.domain.model import Project
 
 def transform_project(project: Project) -> Dict:
     day_downloads = defaultdict(int)
-    last_downloads = project.last_downloads()
+    month_ago = datetime.now().date() - timedelta(days=30)
+    last_downloads = project.last_downloads(month_ago)
     last_downloads.reverse()
     for d in last_downloads:
         day_downloads[d.date.isoformat()] += d.downloads.value
@@ -23,7 +25,9 @@ def transform_project(project: Project) -> Dict:
 
 def transform_project_v2(project: Project) -> Dict:
     day_downloads = defaultdict(lambda: defaultdict(int))
-    for d in project.last_downloads():
+    month_ago = datetime.now().date() - timedelta(days=30)
+    last_downloads = project.last_downloads(month_ago)
+    for d in last_downloads:
         day_downloads[d.date.isoformat()][d.version] = d.downloads.value
 
     return {

@@ -72,3 +72,18 @@ def test_update_min_date_when_no_other_downloads():
     ]
     assert project.versions() == {"0.0.6", "0.0.2", "0.0.4"}
     assert project.min_date == date(2020, 4, 10)
+
+def test_filter_date():
+    project = Project(ProjectName("random"), Downloads(10))
+    project.add_downloads(date(2020, 3, 9), "0.0.6", Downloads(20))
+    project.add_downloads(date(2020, 4, 10), "0.0.2", Downloads(10))
+    project.add_downloads(date(2020, 4, 10), "0.0.4", Downloads(10))
+    project.add_downloads(date(2020, 4, 11), "0.0.4", Downloads(10))
+    assert project.total_downloads == Downloads(60)
+    assert project.last_downloads(date(2020, 4, 10)) == [
+        ProjectVersionDownloads(date(2020, 4, 10), "0.0.2", Downloads(10)),
+        ProjectVersionDownloads(date(2020, 4, 10), "0.0.4", Downloads(10)),
+        ProjectVersionDownloads(date(2020, 4, 11), "0.0.4", Downloads(10)),
+    ]
+    assert project.versions() == {"0.0.6", "0.0.2", "0.0.4"}
+    assert project.min_date == date(2020, 3, 9)

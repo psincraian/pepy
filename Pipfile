@@ -21,6 +21,7 @@ behave = "*"
 pytest = "*"
 black = "*"
 pylint = "*"
+freezegun = "*"
 
 [requires]
 python_version = "3.8"

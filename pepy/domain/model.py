@@ -90,11 +90,12 @@ class Project:
             min_date = min_date + datetime.timedelta(days=1)
         return min_date
 
-    def last_downloads(self, nr_days: int = 30) -> List[ProjectVersionDownloads]:
+    def last_downloads(self, gte_date: datetime.date = None) -> List[ProjectVersionDownloads]:
         result = []
-        for date, version_downloads in islice(self._latest_downloads.items(), 0, nr_days):
-            for version, downloads in version_downloads.items():
-                result.append(ProjectVersionDownloads(date, version, downloads))
+        for date, version_downloads in self._latest_downloads.items():
+            if gte_date is None or date >= gte_date:
+                for version, downloads in version_downloads.items():
+                    result.append(ProjectVersionDownloads(date, version, downloads))
         return result
 
     def versions(self) -> Set[str]:

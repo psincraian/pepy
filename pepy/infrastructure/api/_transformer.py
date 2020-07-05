@@ -23,10 +23,13 @@ def transform_project(project: Project) -> Dict:
     }
 
 
-def transform_project_v2(project: Project) -> Dict:
+def transform_project_v2(project: Project, all_data: bool) -> Dict:
     day_downloads = defaultdict(lambda: defaultdict(int))
-    month_ago = datetime.now().date() - timedelta(days=30)
-    last_downloads = project.last_downloads(month_ago)
+    if all_data:
+        last_downloads = project.last_downloads()
+    else:
+        month_ago = datetime.now().date() - timedelta(days=30)
+        last_downloads = project.last_downloads(month_ago)
     for d in last_downloads:
         day_downloads[d.date.isoformat()][d.version] = d.downloads.value
 

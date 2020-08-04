@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta, date
 
+import freezegun
+
 from pepy.domain.model import ProjectName, Project, Downloads, ProjectVersionDownloads
 
 
@@ -12,9 +14,11 @@ def test_set_lowercase_to_project_name():
     project = ProjectName("Some-Project")
     assert "some-project" == project.name
 
+
 def test_normalize_project_name():
     project = ProjectName("test.project")
     assert "test-project" == project.name
+
 
 def test_add_project():
     project = Project(ProjectName("random"), Downloads(0))
@@ -73,6 +77,7 @@ def test_update_min_date_when_no_other_downloads():
     assert project.versions() == {"0.0.6", "0.0.2", "0.0.4"}
     assert project.min_date == date(2020, 4, 10)
 
+
 def test_filter_date():
     project = Project(ProjectName("random"), Downloads(10))
     project.add_downloads(date(2020, 3, 9), "0.0.6", Downloads(20))
@@ -87,3 +92,12 @@ def test_filter_date():
     ]
     assert project.versions() == {"0.0.6", "0.0.2", "0.0.4"}
     assert project.min_date == date(2020, 3, 9)
+
+
+def test_retrieve_monthly_downloads():
+    project = Project(ProjectName("random"), Downloads(10))
+    with freezegun.freeze_time("2020-04-12"):
+        project.add_downloads(date(2020, 3, 9), "0.0.1", Downloads(20))
+        project.add_downloads(date(2020, 4, 10), "0.0.1", Downloads(10))
+        project.add_downloads(date(2020, 4, 11), "0.0.1", Downloads(15))
+        assert project.month_downloads() == Downloads(25)

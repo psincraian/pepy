@@ -36,6 +36,7 @@ class MongoProjectRepository(ProjectRepository):
         data = {
             "name": project.name.name,
             "total_downloads": project.total_downloads.value,
+            "monthly_downloads": project.month_downloads().value,
             "downloads": {
                 date.isoformat(): [(version, x.value) for version, x in list(versions.items())]
                 for date, versions in project._latest_downloads.items()

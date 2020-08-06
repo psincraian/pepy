@@ -23,13 +23,24 @@ def transform_project(project: Project) -> Dict:
     }
 
 
-def transform_project_v2(project: Project, all_data: bool) -> Dict:
+def transform_project_v2(project: Project) -> Dict:
     day_downloads = defaultdict(lambda: defaultdict(int))
-    if all_data:
-        last_downloads = project.last_downloads()
-    else:
-        month_ago = datetime.now().date() - timedelta(days=30)
-        last_downloads = project.last_downloads(month_ago)
+    month_ago = datetime.now().date() - timedelta(days=30)
+    last_downloads = project.last_downloads(month_ago)
+    for d in last_downloads:
+        day_downloads[d.date.isoformat()][d.version] = d.downloads.value
+
+    return {
+        "id": project.name.name,
+        "total_downloads": project.total_downloads.value,
+        "versions": natsorted(list(project.versions())),
+        "downloads": day_downloads,
+    }
+
+
+def transform_v1_admin_project(project: Project) -> Dict:
+    day_downloads = defaultdict(lambda: defaultdict(int))
+    last_downloads = project.last_downloads()
     for d in last_downloads:
         day_downloads[d.date.isoformat()][d.version] = d.downloads.value
 

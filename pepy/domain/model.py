@@ -98,6 +98,14 @@ class Project:
                     result.append(ProjectVersionDownloads(date, version, downloads))
         return result
 
+    def month_downloads(self) -> Downloads:
+        gte_date = datetime.datetime.now().date() - datetime.timedelta(days=30)
+        downloads = self.last_downloads(gte_date)
+        result = 0
+        for download in downloads:
+            result += download.downloads.value
+        return Downloads(result)
+
     def versions(self) -> Set[str]:
         return self._versions
 

@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from pepy.domain.model import Downloads, ProjectVersionDownloads, ProjectName
+from pepy.domain.model import Downloads, ProjectVersionDownloads, ProjectName, Project
 from pepy.domain.repository import ProjectRepository
 from pepy.infrastructure import container
 from pymongo import MongoClient, InsertOne
@@ -21,6 +21,52 @@ def mongo_client():
 
     return client
 
+def test_save_project_with_new_format(mongo_client: MongoClient, repository: ProjectRepository):
+    project = Project(ProjectName("climoji"), Downloads(100))
+    project.add_downloads(datetime.date(2020, 3, 31), "2.0", Downloads(40))
+    project.add_downloads(datetime.date(2020, 3, 31), "2.0.1", Downloads(30))
+    project.add_downloads(datetime.date(2020, 4, 1), "2.0", Downloads(20))
+    repository.save(project)
+
+    data = mongo_client.pepy_test.projects.find_one({"name": project.name.name})
+    expected_data = {"name": "climoji", "total_downloads": 190, 'monthly_downloads': 0}
+    for key, value in expected_data.items():
+        assert key in data
+        assert value == data[key]
+    downloads_data = sorted(mongo_client.pepy_test.project_downloads.find({"project": project.name.name}), key= lambda x: x['date'])
+    expected_downloads_data = [
+        {"project": "climoji", "date": "2020-03-31", "downloads": [{"version": "2.0", "downloads": 40}, {"version": "2.0.1", "downloads": 30}]},
+        {"project": "climoji", "date": "2020-04-01", "downloads": [{"version": "2.0", "downloads": 20}]}
+    ]
+    assert len(expected_downloads_data) == len(downloads_data)
+    for i in range(len(expected_downloads_data)):
+        for key, value in expected_downloads_data[i].items():
+            assert key in downloads_data[i]
+            assert value == downloads_data[i][key]
+
+
+def test_save_many_projects_with_new_format(mongo_client: MongoClient, repository: ProjectRepository):
+    project = Project(ProjectName("climoji"), Downloads(100))
+    project.add_downloads(datetime.date(2020, 3, 31), "2.0", Downloads(40))
+    project.add_downloads(datetime.date(2020, 3, 31), "2.0.1", Downloads(30))
+    project.add_downloads(datetime.date(2020, 4, 1), "2.0", Downloads(20))
+    repository.save_projects([project])
+
+    data = mongo_client.pepy_test.projects.find_one({"name": project.name.name})
+    expected_data = {"name": "climoji", "total_downloads": 190, 'monthly_downloads': 0}
+    for key, value in expected_data.items():
+        assert key in data
+        assert value == data[key]
+    downloads_data = sorted(mongo_client.pepy_test.project_downloads.find({"project": project.name.name}), key= lambda x: x['date'])
+    expected_downloads_data = [
+        {"project": "climoji", "date": "2020-03-31", "downloads": [{"version": "2.0", "downloads": 40}, {"version": "2.0.1", "downloads": 30}]},
+        {"project": "climoji", "date": "2020-04-01", "downloads": [{"version": "2.0", "downloads": 20}]}
+    ]
+    assert len(expected_downloads_data) == len(downloads_data)
+    for i in range(len(expected_downloads_data)):
+        for key, value in expected_downloads_data[i].items():
+            assert key in downloads_data[i]
+            assert value == downloads_data[i][key]
 
 def test_retrieve_project_with_new_format(mongo_client: MongoClient, repository: ProjectRepository):
     data = {

@@ -2,7 +2,7 @@ WTF_CSRF_ENABLED = True
 SECRET_KEY = "1234"
 DEBUG = True
 
-MONGODB = "mongodb://pepy:pepy@0.0.0.0:27017"
+MONGODB = "mongodb://pepy:pepy@mongodb"
 
 # password: pepyrocks
 ADMIN_PASSWORD = "$pbkdf2-sha256$29000$uXcOobS2FiIkJCSkFGJszQ$TwCkC7lAIvOTrPjWmVr3LGDVAAK68CjWW7niKoI6dzo"

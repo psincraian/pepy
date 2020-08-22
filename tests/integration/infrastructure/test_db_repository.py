@@ -68,6 +68,34 @@ def test_save_many_projects_with_new_format(mongo_client: MongoClient, repositor
             assert key in downloads_data[i]
             assert value == downloads_data[i][key]
 
+def test_do_not_touch_already_saved_data(mongo_client: MongoClient, repository: ProjectRepository):
+    # Used for performance reasons
+    data = {
+        "name": "climoji",
+        "total_downloads": 1100,
+    }
+    query = {"name": "climoji"}
+    mongo_client.pepy_test.projects.replace_one(query, data, upsert=True)
+    downloads_data = [
+            InsertOne({"project": "climoji", "date": "2020-04-01", "downloads": [{"version": "2.0", "downloads": 30}]}),
+    ]
+    mongo_client.pepy_test.project_downloads.bulk_write(downloads_data)
+
+    project = repository.get("climoji")
+    project.add_downloads(datetime.date(2020, 4, 1), "2.0", Downloads(1))
+    repository.save(project)
+    downloads_data = sorted(mongo_client.pepy_test.project_downloads.find({"project": project.name.name}),
+                            key=lambda x: x['date'])
+    expected_downloads_data = [
+        {"project": "climoji", "date": "2020-04-01", "downloads": [{"version": "2.0", "downloads": 30}]}
+    ]
+    assert len(expected_downloads_data) == len(downloads_data)
+    for i in range(len(expected_downloads_data)):
+        for key, value in expected_downloads_data[i].items():
+            assert key in downloads_data[i]
+            assert value == downloads_data[i][key]
+
+
 def test_retrieve_project_with_new_format(mongo_client: MongoClient, repository: ProjectRepository):
     data = {
         "name": "climoji",

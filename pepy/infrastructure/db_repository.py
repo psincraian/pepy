@@ -23,9 +23,12 @@ class MongoProjectRepository(ProjectRepository):
         project = Project(ProjectName(project_data["name"]), Downloads(project_data["total_downloads"]))
         if 'downloads' in project_data:
             downloads = sorted(project_data["downloads"].items(), key=lambda x: x[0])
-            for date, version_downloads in downloads:
+            for iso_date, version_downloads in downloads:
                 for r in version_downloads:
-                    project.add_downloads(datetime.date.fromisoformat(date), r[0], Downloads(r[1]))
+                    date = datetime.date.fromisoformat(iso_date)
+                    version = r[0]
+                    project.add_downloads(date, version, Downloads(r[1]))
+                    project._repository_saved_downloads.add((iso_date, version))
                     # Don't count the downloads twice
                     project.total_downloads -= Downloads(r[1])
         else:
@@ -58,7 +61,8 @@ class MongoProjectRepository(ProjectRepository):
     def _convert_downloads_to_raw(self, project: Project) -> dict:
         downloads_per_day = defaultdict(list)
         for download in project.last_downloads():
-            downloads_per_day[download.date.isoformat()].append({"version": download.version, "downloads": download.downloads.value})
+            if not (download.date.isoformat(), download.version) in project._repository_saved_downloads:
+                downloads_per_day[download.date.isoformat()].append({"version": download.version, "downloads": download.downloads.value})
         result = {}
         for date, downloads in downloads_per_day.items():
             result[date] = {

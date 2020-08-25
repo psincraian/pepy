@@ -14,3 +14,4 @@ def before_all(context: Context):
 
 def before_scenario(context, _):
     context.container.mongo_client.pepy_test.projects.remove()
+    context.container.mongo_client.pepy_test.project_downloads.remove()

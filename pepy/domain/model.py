@@ -67,6 +67,9 @@ class Project:
         self._versions = set()
         self.min_date = None
 
+        # Meant to be used only by the repository
+        self._repository_saved_downloads = set()
+
     def add_downloads(self, date: datetime.date, version: str, downloads: Downloads):
         if self.min_date is None:
             self.min_date = date

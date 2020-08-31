@@ -4,9 +4,15 @@
   />
 </p>
 <p align="center">
-<a href="https://travis-ci.com/psincraian/pepy"><img src="https://travis-ci.com/psincraian/pepy.svg?branch=master" alt="Build status" height="18"></a>
+
+[![Build Status](https://travis-ci.com/psincraian/pepy.svg?branch=master)](https://travis-ci.com/psincraian/pepy)
+![PyPI - Status](https://img.shields.io/pypi/status/pype)
+![PyPI - License](https://img.shields.io/pypi/l/pype)
+
 </p>
 <h2 align="center"><code>PePy</code></h2>
+
+
 
 ## 📜 About
 [pepy.tech](https://pepy.tech) is a site which aims to show statistics about Python packages.

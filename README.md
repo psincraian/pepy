@@ -6,8 +6,7 @@
 <p align="center">
 
 [![Build Status](https://travis-ci.com/psincraian/pepy.svg?branch=master)](https://travis-ci.com/psincraian/pepy)
-![PyPI - Status](https://img.shields.io/pypi/status/pype)
-![PyPI - License](https://img.shields.io/pypi/l/pype)
+
 
 </p>
 <h2 align="center"><code>PePy</code></h2>

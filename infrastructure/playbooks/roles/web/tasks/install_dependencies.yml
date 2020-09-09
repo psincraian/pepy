@@ -20,3 +20,8 @@
   copy:
     src: bigquery_credentials_file.json
     dest: "{{ bigquery_credentials_file }}"
+
+- name: Copy Newrelic config file
+  copy:
+    src: newrelic.ini
+    dest: "{{ project_directory }}/newrelic.ini"

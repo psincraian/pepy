@@ -15,6 +15,7 @@ Flask-WTF = "*"
 passlib = "*"
 pymongo = "*"
 natsort = "*"
+newrelic = "*"
 
 [dev-packages]
 behave = "*"

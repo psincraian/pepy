@@ -1,5 +1,5 @@
 [program:{{ project_name }}]
-command = pipenv run gunicorn -c gunicorn.conf.py pepy.infrastructure.web.__init__:app
+command = NEW_RELIC_CONFIG_FILE=newrelic.ini newrelic-admin run-program  pipenv run gunicorn -c gunicorn.conf.py pepy.infrastructure.web.__init__:app
 user = {{ gunicorn_user }}
 redirect_stderr = true
 directory = {{ project_directory }}

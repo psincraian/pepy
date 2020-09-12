@@ -25,7 +25,7 @@ def transform_project(project: Project) -> Dict:
 
 def transform_project_v2(project: Project) -> Dict:
     day_downloads = defaultdict(lambda: defaultdict(int))
-    month_ago = datetime.now().date() - timedelta(days=30)
+    month_ago = datetime.now().date() - timedelta(days=90)
     last_downloads = project.last_downloads(month_ago)
     for d in last_downloads:
         day_downloads[d.date.isoformat()][d.version] = d.downloads.value

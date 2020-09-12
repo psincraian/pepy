@@ -35,8 +35,8 @@ Feature: show index page with some selected projects
     }
     """
 
-  Scenario: do not show stats older than 30 days
-    Given today is 2018-06-30
+  Scenario: do not show stats older than 90 days
+    Given today is 2018-08-30
     And the pepy project with the following downloads
       | date       | version | downloads |
       | 2018-05-01 | 1.0     | 10        |

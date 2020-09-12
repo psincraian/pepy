@@ -4,3 +4,18 @@
   - include: webserver.yml
   - include: supervisor.yml
   - include: crons.yml
+
+- name: Mark deployment to newrelic
+  uri:
+    url: https://api.newrelic.com/v2/applications/68756606/deployments.json
+    method: POST
+    return_content: yes
+    headers:
+      Content-Type: "application/json"
+      X-Api-Key: "{{ newrelic_api_key }}"
+    body: >
+      {
+        "deployment": {
+          "revision": "{{ ansible_date_time.iso8601 }}"
+        }
+      }

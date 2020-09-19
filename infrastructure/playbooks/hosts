@@ -1,3 +1,3 @@
 
 [webservers]
-root@88.99.125.23 ansible_python_interpreter=/usr/bin/python3
+root@49.12.6.114 ansible_python_interpreter=/usr/bin/python3

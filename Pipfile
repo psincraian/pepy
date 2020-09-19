@@ -16,6 +16,7 @@ passlib = "*"
 pymongo = "*"
 natsort = "*"
 newrelic = "*"
+pybadges = "*"
 
 [dev-packages]
 behave = "*"

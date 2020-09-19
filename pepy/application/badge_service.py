@@ -1,7 +1,6 @@
 import math
 from datetime import datetime, timedelta
-
-import requests
+from pybadges import badge
 
 from pepy.domain.exception import ProjectNotFoundException
 from pepy.domain.model import Badge, Project, Downloads
@@ -30,24 +29,24 @@ class BadgeService:
         if project is None:
             raise ProjectNotFoundException(project_name)
         downloads = self._downloads_formatter.format(project.total_downloads)
-        r = requests.get("https://img.shields.io/badge/downloads-{}-blue.svg".format(downloads))
-        return Badge(project_name, r.content.decode("utf-8"))
+        s = badge(left_text='downloads', right_text=downloads, right_color='blue')
+        return Badge(project_name, s)
 
     def generate_last_30_days_badge(self, project_name: str) -> Badge:
         project = self._project_repository.get(project_name)
         if project is None:
             raise ProjectNotFoundException(project_name)
         downloads = self._downloads_formatter.format(self._last_downloads(project, 30))
-        r = requests.get("https://img.shields.io/badge/downloads/month-{}-blue.svg".format(downloads))
-        return Badge(project_name, r.content.decode("utf-8"))
+        s = badge(left_text='downloads/month', right_text=downloads, right_color='blue')
+        return Badge(project_name, s)
 
     def generate_last_7_days_badge(self, project_name: str) -> Badge:
         project = self._project_repository.get(project_name)
         if project is None:
             raise ProjectNotFoundException(project_name)
         downloads = self._downloads_formatter.format(self._last_downloads(project, 7))
-        r = requests.get("https://img.shields.io/badge/downloads/week-{}-blue.svg".format(downloads))
-        return Badge(project_name, r.content.decode("utf-8"))
+        s = badge(left_text='downloads/week', right_text=downloads, right_color='blue')
+        return Badge(project_name, s)
 
     @staticmethod
     def _last_downloads(project: Project, days: int) -> Downloads:

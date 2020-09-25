@@ -1,5 +1,6 @@
 import datetime
 from collections import defaultdict, OrderedDict
+from enum import Enum, auto
 from itertools import islice
 from typing import List, Set
 import re
@@ -126,3 +127,28 @@ class BQDownloads:
     version: str = attr.ib()
     date: datetime.date = attr.ib()
     downloads: Downloads = attr.ib()
+
+
+class BadgePeriod(Enum):
+    week = auto()
+    month = auto()
+    total = auto()
+
+
+@attr.s
+class BadgeColor:
+    value: str = attr.ib()
+
+
+@attr.s
+class BadgeStyle:
+    left_color: BadgeColor = attr.ib()
+    right_color: BadgeColor = attr.ib()
+    left_text: str = attr.ib()
+
+
+@attr.s
+class PersonalizedBadge:
+    name: ProjectName = attr.ib()
+    period: BadgePeriod = attr.ib()
+    style: BadgeStyle = attr.ib()

@@ -31,7 +31,7 @@ def get_admin_project(project_name):
     project = container.project_repository.get(project_name)
     if project is None:
         raise ProjectNotFoundException(project_name)
-    password = request.args.get('password')
+    password = request.args.get("password")
     if password is None or not container.admin_password_checker.check(Password(password)):
         abort(401)
     return json.dumps(transform_v1_admin_project(project))

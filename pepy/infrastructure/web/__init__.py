@@ -1,7 +1,7 @@
 import json
 import traceback
 
-from flask import Flask, Response
+from flask import Flask, Response, request
 from werkzeug.exceptions import HTTPException
 
 from pepy.domain.exception import DomainException, ProjectNotFoundException
@@ -34,6 +34,18 @@ def badge_month_action(project_name):
 def badge_week_action(project_name):
     badge = container.badge_service.generate_last_7_days_badge(project_name)
     return Response(badge.image, mimetype="image/svg+xml", headers={"Cache-Control": "max-age=86400"})
+
+
+@app.route("/personalized-badge/<project_name>")
+def personalized_badge_action(project_name):
+    badge = container.personalized_badge_service.generate(
+        project_name,
+        request.args.get("period", "total"),
+        request.args.get("left_color", "green"),
+        request.args.get("right_color", "green"),
+        request.args.get("left_text", "downloads/month"),
+    )
+    return Response(badge.image, mimetype="image/svg+xml")
 
 
 def handle_domain_exception(error: DomainException):

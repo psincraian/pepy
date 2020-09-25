@@ -21,7 +21,7 @@ class MongoProjectRepository(ProjectRepository):
         if project_data is None:
             return None
         project = Project(ProjectName(project_data["name"]), Downloads(project_data["total_downloads"]))
-        if 'downloads' in project_data:
+        if "downloads" in project_data:
             downloads = sorted(project_data["downloads"].items(), key=lambda x: x[0])
             for iso_date, version_downloads in downloads:
                 for r in version_downloads:
@@ -33,12 +33,16 @@ class MongoProjectRepository(ProjectRepository):
                     project.total_downloads -= Downloads(r[1])
         else:
             raw_downloads = self._client.project_downloads.find({"project": normalized_name})
-            downloads = sorted(raw_downloads, key=lambda x: x['date'])
+            downloads = sorted(raw_downloads, key=lambda x: x["date"])
             for day_downloads in downloads:
-                for version_downloads in day_downloads['downloads']:
-                    project.add_downloads(datetime.date.fromisoformat(day_downloads['date']), version_downloads['version'], Downloads(version_downloads['downloads']))
+                for version_downloads in day_downloads["downloads"]:
+                    project.add_downloads(
+                        datetime.date.fromisoformat(day_downloads["date"]),
+                        version_downloads["version"],
+                        Downloads(version_downloads["downloads"]),
+                    )
                     # Don't count the downloads twice
-                    project.total_downloads -= Downloads(version_downloads['downloads'])
+                    project.total_downloads -= Downloads(version_downloads["downloads"])
         return project
 
     def save(self, project: Project):
@@ -54,7 +58,7 @@ class MongoProjectRepository(ProjectRepository):
         data = {
             "name": project.name.name,
             "total_downloads": project.total_downloads.value,
-            "monthly_downloads": project.month_downloads().value
+            "monthly_downloads": project.month_downloads().value,
         }
         return data
 
@@ -62,16 +66,13 @@ class MongoProjectRepository(ProjectRepository):
         downloads_per_day = defaultdict(list)
         for download in project.last_downloads():
             if not (download.date.isoformat(), download.version) in project._repository_saved_downloads:
-                downloads_per_day[download.date.isoformat()].append({"version": download.version, "downloads": download.downloads.value})
+                downloads_per_day[download.date.isoformat()].append(
+                    {"version": download.version, "downloads": download.downloads.value}
+                )
         result = {}
         for date, downloads in downloads_per_day.items():
-            result[date] = {
-                "project": project.name.name,
-                "date": date,
-                "downloads": downloads
-            }
+            result[date] = {"project": project.name.name, "date": date, "downloads": downloads}
         return result
-
 
     def save_projects(self, projects: List[Project]):
         requests = []

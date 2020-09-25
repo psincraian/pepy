@@ -7,7 +7,7 @@ from google.cloud import bigquery
 from pymongo import MongoClient
 
 from pepy.application.admin_password_checker import AdminPasswordChecker
-from pepy.application.badge_service import BadgeService, DownloadsNumberFormatter
+from pepy.application.badge_service import BadgeService, DownloadsNumberFormatter, PersonalizedBadgeService
 from pepy.application.command import (
     UpdateVersionDownloads,
     UpdateVersionDownloadsHandler,
@@ -67,3 +67,4 @@ command_bus.subscribe(
 command_bus.subscribe(ImportTotalDownloads, ImportTotalDownloadsHandler(project_repository, logger))
 downloads_formatter = DownloadsNumberFormatter()
 badge_service = BadgeService(project_repository, downloads_formatter)
+personalized_badge_service = PersonalizedBadgeService(project_repository, downloads_formatter, logger)

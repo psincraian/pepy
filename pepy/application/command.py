@@ -32,12 +32,11 @@ class ImportTotalDownloadsHandler(CommandHandler):
 
     def handle(self, cmd: ImportTotalDownloads):
         batch_iterator = 0
-        for batch in self._batch(cmd.file_path, 1_000):
+        for batch in self._batch(cmd.file_path, 250):
             batch_iterator += 1
             self._logger.info(f"Batch {batch_iterator}")
             projects = {}
             for row in batch:
-                project = None
                 if row.project in projects:
                     project = projects.get(row.project)
                 else:
@@ -88,7 +87,11 @@ class UpdateVersionDownloadsHandler(CommandHandler):
         stats_result = self._stats_viewer.get_version_downloads(cmd.date)
         self._logger.info(f"Retrieved {stats_result.total_rows} downloads. Saving to db...")
         start_time = timeit.default_timer()
-        for batch in self._batch(stats_result.rows, 1_000):
+        batch_iterator = 0
+        total_batches = int(stats_result.total_rows / 250)
+        for batch in self._batch(stats_result.rows, 250):
+            self._logger.info(f"Batch {batch_iterator} of {total_batches}")
+            batch_iterator += 1
             projects = {}
             for row in batch:
                 project = None

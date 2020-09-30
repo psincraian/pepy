@@ -13,13 +13,14 @@ from pepy.domain.model import (
     ProjectName,
     BadgePeriod,
     BadgeStyle,
-    BadgeColor,
+    BadgeColor, BadgeUnits,
 )
 from pepy.domain.repository import ProjectRepository
 
 
 class DownloadsNumberFormatter:
     _METRIC_PREFIX = ["", "k", "M", "G", "T", "P"]
+    _ABBREVIATION_PREFIX = ["", "k", "M", "B", "T", "Q"]
 
     def format(self, downloads: Downloads) -> str:
         if downloads.value == 0:
@@ -28,6 +29,19 @@ class DownloadsNumberFormatter:
         millidx = max(0, min(len(self._METRIC_PREFIX) - 1, digits // 3))
         rounded_value = downloads.value // (10 ** (3 * millidx))
         return "{}{}".format(rounded_value, self._METRIC_PREFIX[millidx])
+
+    def format_with_units(self, downloads: Downloads, units: BadgeUnits) -> str:
+        if downloads.value == 0:
+            return "0"
+        if units == BadgeUnits.none:
+            return str(downloads.value)
+        digits = int(math.log10(abs(downloads.value)) if downloads else 0)
+        millidx = max(0, min(len(self._METRIC_PREFIX) - 1, digits // 3))
+        rounded_value = downloads.value // (10 ** (3 * millidx))
+        if units == BadgeUnits.abbreviation:
+            return "{}{}".format(rounded_value, self._ABBREVIATION_PREFIX[millidx])
+        else:
+            return "{}{}".format(rounded_value, self._METRIC_PREFIX[millidx])
 
 
 class BadgeService:
@@ -71,25 +85,27 @@ class BadgeService:
 
 class PersonalizedBadgeService:
     def __init__(
-        self,
-        project_repository: ProjectRepository,
-        downloads_formatter: DownloadsNumberFormatter,
-        logger: logging.Logger,
+            self,
+            project_repository: ProjectRepository,
+            downloads_formatter: DownloadsNumberFormatter,
+            logger: logging.Logger,
     ):
         self._logger = logger
         self._project_repository = project_repository
         self._downloads_formatter = downloads_formatter
 
-    def generate(self, project_name: str, period: str, left_color: str, right_color: str, left_text: str) -> Badge:
+    def generate(self, project_name: str, period: str, left_color: str, right_color: str, left_text: str,
+                 units: str) -> Badge:
         project = self._project_repository.get(project_name)
         if project is None:
             raise ProjectNotFoundException(project_name)
         badge_data = PersonalizedBadge(
             ProjectName(project_name),
             BadgePeriod[period],
-            BadgeStyle(left_color=BadgeColor(left_color), right_color=BadgeColor(right_color), left_text=left_text),
+            BadgeStyle(left_color=BadgeColor(left_color), right_color=BadgeColor(right_color), left_text=left_text,
+                       units=BadgeUnits[units]),
         )
-        downloads = self._get_downloads(project, badge_data.period)
+        downloads = self._get_downloads(project, badge_data.period, badge_data.style.units)
         s = badge(
             left_text=badge_data.style.left_text,
             right_text=downloads,
@@ -99,7 +115,7 @@ class PersonalizedBadgeService:
 
         return Badge(badge_data.name.name, s)
 
-    def _get_downloads(self, project: Project, period: BadgePeriod) -> str:
+    def _get_downloads(self, project: Project, period: BadgePeriod, units: BadgeUnits) -> str:
         if period == BadgePeriod.total:
             downloads = project.total_downloads
         elif period == BadgePeriod.month:
@@ -109,7 +125,7 @@ class PersonalizedBadgeService:
         else:
             raise Exception(f"{period} not valid")
 
-        return self._downloads_formatter.format(downloads)
+        return self._downloads_formatter.format_with_units(downloads, units)
 
     @staticmethod
     def _last_downloads(project: Project, days: int) -> Downloads:

@@ -103,7 +103,7 @@ class PersonalizedBadgeService:
             ProjectName(project_name),
             BadgePeriod[period],
             BadgeStyle(left_color=BadgeColor(left_color), right_color=BadgeColor(right_color), left_text=left_text,
-                       units=BadgeUnits(units)),
+                       units=BadgeUnits[units]),
         )
         downloads = self._get_downloads(project, badge_data.period, badge_data.style.units)
         s = badge(

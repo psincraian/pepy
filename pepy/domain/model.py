@@ -135,6 +135,12 @@ class BadgePeriod(Enum):
     total = auto()
 
 
+class BadgeUnits(Enum):
+    international_system = auto()
+    abbreviation = auto()
+    none = auto()
+
+
 @attr.s
 class BadgeColor:
     value: str = attr.ib()
@@ -145,6 +151,7 @@ class BadgeStyle:
     left_color: BadgeColor = attr.ib()
     right_color: BadgeColor = attr.ib()
     left_text: str = attr.ib()
+    units: BadgeUnits = attr.ib()
 
 
 @attr.s

@@ -13,7 +13,8 @@ from pepy.domain.model import (
     ProjectName,
     BadgePeriod,
     BadgeStyle,
-    BadgeColor, BadgeUnits,
+    BadgeColor,
+    BadgeUnits,
 )
 from pepy.domain.repository import ProjectRepository
 
@@ -85,25 +86,30 @@ class BadgeService:
 
 class PersonalizedBadgeService:
     def __init__(
-            self,
-            project_repository: ProjectRepository,
-            downloads_formatter: DownloadsNumberFormatter,
-            logger: logging.Logger,
+        self,
+        project_repository: ProjectRepository,
+        downloads_formatter: DownloadsNumberFormatter,
+        logger: logging.Logger,
     ):
         self._logger = logger
         self._project_repository = project_repository
         self._downloads_formatter = downloads_formatter
 
-    def generate(self, project_name: str, period: str, left_color: str, right_color: str, left_text: str,
-                 units: str) -> Badge:
+    def generate(
+        self, project_name: str, period: str, left_color: str, right_color: str, left_text: str, units: str
+    ) -> Badge:
         project = self._project_repository.get(project_name)
         if project is None:
             raise ProjectNotFoundException(project_name)
         badge_data = PersonalizedBadge(
             ProjectName(project_name),
             BadgePeriod[period],
-            BadgeStyle(left_color=BadgeColor(left_color), right_color=BadgeColor(right_color), left_text=left_text,
-                       units=BadgeUnits[units]),
+            BadgeStyle(
+                left_color=BadgeColor(left_color),
+                right_color=BadgeColor(right_color),
+                left_text=left_text,
+                units=BadgeUnits[units],
+            ),
         )
         downloads = self._get_downloads(project, badge_data.period, badge_data.style.units)
         s = badge(

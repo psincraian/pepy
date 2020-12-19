@@ -44,7 +44,7 @@ def personalized_badge_action(project_name):
         request.args.get("left_color", "green"),
         request.args.get("right_color", "green"),
         request.args.get("left_text", "downloads/month"),
-        request.args.get("units", "international_system")
+        request.args.get("units", "international_system"),
     )
     return Response(badge.image, mimetype="image/svg+xml")
 

@@ -11,6 +11,7 @@ class Row:
     version: str = attr.ib()
     date: datetime.date = attr.ib()
     downloads: int = attr.ib()
+    pip_downloads: int = attr.ib()
 
 
 @attr.s

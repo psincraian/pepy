@@ -3,7 +3,7 @@ from datetime import datetime
 from behave import given, then
 from behave.runner import Context
 
-from pepy.domain.model import ProjectName, ProjectDownloads, Downloads
+from pepy.domain.model import ProjectName, ProjectDownloads, Downloads, DayDownloads
 from tests.tools.stub import ProjectStub
 
 
@@ -18,7 +18,7 @@ def step_impl(context: Context, name: str):
     project = ProjectStub.create(ProjectName(name), Downloads(0))
     for row in context.table:
         date = datetime.strptime(row["date"], "%Y-%m-%d").date()
-        project.add_downloads(date, row["version"], Downloads(int(row["downloads"])))
+        project.add_downloads(date, row["version"], DayDownloads(int(row["downloads"]), int(row["downloads"])))
     context.container.project_repository.save(project)
 
 

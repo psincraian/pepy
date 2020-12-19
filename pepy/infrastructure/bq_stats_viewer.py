@@ -16,7 +16,7 @@ class BQStatsViewer(StatsViewer):
 
     def get_version_downloads(self, date: datetime.date) -> Result:
         QUERY = """
-            SELECT file.project as project, file.version as version, count(*) AS downloads
+            SELECT file.project as project, file.version as version, count(*) AS downloads, countif(details.installer.name = 'pip') as pip_downloads
             FROM `the-psf.pypi.downloads{}`
             GROUP BY file.project, file.version
             ORDER BY file.project
@@ -34,4 +34,4 @@ class BQStatsViewer(StatsViewer):
     @staticmethod
     def _transform_rows(row_iterator: RowIterator, date: datetime.date) -> Iterable[Row]:
         for row in row_iterator:
-            yield Row(row.get("project"), row.get("version"), date, row.get("downloads"))
+            yield Row(row.get("project"), row.get("version"), date, row.get("downloads"), row.get("pip_downloads"))

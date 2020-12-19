@@ -43,6 +43,7 @@ def test_downloads_format_quadrillion(downloads_formatter: DownloadsNumberFormat
     downloads = Downloads(11_132_919_492_432_000)
     assert "11P" == downloads_formatter.format(downloads)
 
+
 def test_downloads_format_with_abbreviation_0(downloads_formatter: DownloadsNumberFormatter):
     downloads = Downloads(0)
     assert "0" == downloads_formatter.format_with_units(downloads, BadgeUnits.abbreviation)

@@ -14,8 +14,15 @@ from pepy.domain.pypi import Row
 def step_impl(context: Context):
     bq_rows = []
     for row in context.table:
+        pip_downloads = int(row["pip_downloads"]) if "pip_downloads" in row else int(row["downloads"])
         bq_rows.append(
-            Row(row["project"], row["version"], datetime.date.fromisoformat(row["date"]), int(row["downloads"]))
+            Row(
+                row["project"],
+                row["version"],
+                datetime.date.fromisoformat(row["date"]),
+                int(row["downloads"]),
+                pip_downloads,
+            )
         )
     context.container.stats_viewer.set_data(bq_rows)
 

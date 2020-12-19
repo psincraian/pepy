@@ -1,7 +1,6 @@
 import datetime
-from collections import defaultdict, OrderedDict
+from collections import defaultdict
 from enum import Enum, auto
-from itertools import islice
 from typing import List, Set
 import re
 import attr
@@ -45,10 +44,23 @@ class Downloads:
     value: int = attr.ib()
 
     def __add__(self, o):
+        if isinstance(o, int):
+            return Downloads(self.value + o)
         return Downloads(self.value + o.value)
 
     def __sub__(self, o):
+        if isinstance(o, int):
+            return Downloads(self.value - o)
         return Downloads(self.value - o.value)
+
+
+@attr.s
+class DayDownloads:
+    total: int = attr.ib()
+    pip: int = attr.ib()
+
+    def total_downloads(self) -> Downloads:
+        return Downloads(self.total)
 
 
 @attr.s
@@ -56,6 +68,7 @@ class ProjectVersionDownloads:
     date: datetime.date = attr.ib()
     version: str = attr.ib()
     downloads: Downloads = attr.ib()
+    pip_downloads: Downloads = attr.ib(default=None)
 
 
 class Project:
@@ -71,7 +84,7 @@ class Project:
         # Meant to be used only by the repository
         self._repository_saved_downloads = set()
 
-    def add_downloads(self, date: datetime.date, version: str, downloads: Downloads):
+    def add_downloads(self, date: datetime.date, version: str, downloads: DayDownloads):
         if self.min_date is None:
             self.min_date = date
         elif date < self.min_date:
@@ -82,10 +95,10 @@ class Project:
 
         # if we already had the downloads let's update it
         if date in self._latest_downloads and version in self._latest_downloads[date]:
-            self.total_downloads -= self._latest_downloads[date][version]
+            self.total_downloads -= self._latest_downloads[date][version].total
 
         self._latest_downloads[date][version] = downloads
-        self.total_downloads += downloads
+        self.total_downloads += downloads.total_downloads()
         self._versions.add(version)
 
     def _find_next_min_date(self, max_date):
@@ -99,7 +112,9 @@ class Project:
         for date, version_downloads in self._latest_downloads.items():
             if gte_date is None or date >= gte_date:
                 for version, downloads in version_downloads.items():
-                    result.append(ProjectVersionDownloads(date, version, downloads))
+                    result.append(
+                        ProjectVersionDownloads(date, version, Downloads(downloads.total), Downloads(downloads.pip))
+                    )
         return result
 
     def month_downloads(self) -> Downloads:

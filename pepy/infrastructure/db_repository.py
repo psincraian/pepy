@@ -5,7 +5,7 @@ from typing import List, Optional
 from pymongo import ReplaceOne, DESCENDING
 from pymongo.database import Database
 
-from pepy.domain.model import Project, ProjectDownloads, ProjectName, Downloads, ProjectVersionDownloads
+from pepy.domain.model import Project, ProjectDownloads, ProjectName, Downloads, ProjectVersionDownloads, DayDownloads
 from pepy.domain.repository import ProjectRepository
 
 
@@ -27,7 +27,7 @@ class MongoProjectRepository(ProjectRepository):
                 for r in version_downloads:
                     date = datetime.date.fromisoformat(iso_date)
                     version = r[0]
-                    project.add_downloads(date, version, Downloads(r[1]))
+                    project.add_downloads(date, version, DayDownloads(r[1], 0))
                     project._repository_saved_downloads.add((iso_date, version))
                     # Don't count the downloads twice
                     project.total_downloads -= Downloads(r[1])
@@ -36,10 +36,11 @@ class MongoProjectRepository(ProjectRepository):
             downloads = sorted(raw_downloads, key=lambda x: x["date"])
             for day_downloads in downloads:
                 for version_downloads in day_downloads["downloads"]:
+                    pip_downlods = version_downloads["pip_downloads"] if "pip_downlods" in version_downloads else 0
                     project.add_downloads(
                         datetime.date.fromisoformat(day_downloads["date"]),
                         version_downloads["version"],
-                        Downloads(version_downloads["downloads"]),
+                        DayDownloads(version_downloads["downloads"], pip_downlods),
                     )
                     # Don't count the downloads twice
                     project.total_downloads -= Downloads(version_downloads["downloads"])
@@ -67,7 +68,11 @@ class MongoProjectRepository(ProjectRepository):
         for download in project.last_downloads():
             if not (download.date.isoformat(), download.version) in project._repository_saved_downloads:
                 downloads_per_day[download.date.isoformat()].append(
-                    {"version": download.version, "downloads": download.downloads.value}
+                    {
+                        "version": download.version,
+                        "downloads": download.downloads.value,
+                        "pip_downloads": download.pip_downloads.value,
+                    }
                 )
         result = {}
         for date, downloads in downloads_per_day.items():

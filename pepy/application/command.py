@@ -9,7 +9,7 @@ from commandbus import Command, CommandHandler
 
 from pepy.application.admin_password_checker import AdminPasswordChecker
 from pepy.domain.exception import InvalidAdminPassword
-from pepy.domain.model import Project, Password, Downloads, ProjectName
+from pepy.domain.model import Project, Password, Downloads, ProjectName, DayDownloads
 from pepy.domain.pypi import StatsViewer, Row
 from pepy.domain.repository import ProjectRepository
 
@@ -94,14 +94,13 @@ class UpdateVersionDownloadsHandler(CommandHandler):
             batch_iterator += 1
             projects = {}
             for row in batch:
-                project = None
                 if row.project in projects:
                     project = projects.get(row.project)
                 else:
                     project = self._project_repository.get(row.project)
                 if project is None:
                     project = Project(ProjectName(row.project), Downloads(0))
-                project.add_downloads(row.date, row.version, Downloads(row.downloads))
+                project.add_downloads(row.date, row.version, DayDownloads(row.downloads, row.pip_downloads))
                 projects[row.project] = project
             self._project_repository.save_projects(list(projects.values()))
         end_time = timeit.default_timer()

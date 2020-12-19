@@ -15,7 +15,7 @@ class ProjectNameStub:
 class DownloadsStub:
     @staticmethod
     def create(min_value: int = 0, max_value: int = 999999) -> Downloads:
-        return Downloads(random.randint(min_value, max_value))
+        return Downloads(random.randint(min_value, max_value), random.randint(min_value, max_value))
 
 
 class ProjectStub:
@@ -28,7 +28,7 @@ class ProjectStub:
     @staticmethod
     def from_plain_data(name: str = None, downloads: int = None) -> Project:
         name = ProjectName(name) if name is not None else ProjectNameStub.create()
-        downloads = Downloads(downloads) if downloads is not None else DownloadsStub.create()
+        downloads = Downloads(downloads, downloads) if downloads is not None else DownloadsStub.create()
         return ProjectStub.create(name=name, downloads=downloads)
 
 

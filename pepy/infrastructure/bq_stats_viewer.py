@@ -17,7 +17,8 @@ class BQStatsViewer(StatsViewer):
     def get_version_downloads(self, date: datetime.date) -> Result:
         QUERY = """
             SELECT file.project as project, file.version as version, count(*) AS downloads, countif(details.installer.name = 'pip') as pip_downloads
-            FROM `the-psf.pypi.downloads{}`
+            FROM `the-psf.pypi.file_downloads`
+            WHERE timestamp = '{}'
             GROUP BY file.project, file.version
             ORDER BY file.project
         """.format(

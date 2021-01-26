@@ -18,11 +18,12 @@ class BQStatsViewer(StatsViewer):
         QUERY = """
             SELECT file.project as project, file.version as version, count(*) AS downloads, countif(details.installer.name = 'pip') as pip_downloads
             FROM `the-psf.pypi.file_downloads`
-            WHERE timestamp = '{}'
+            WHERE timestamp >= '{}' AND timestamp < '{}'
             GROUP BY file.project, file.version
             ORDER BY file.project
         """.format(
-            date.strftime("%Y-%m-%d")
+            date.strftime("%Y-%m-%d"),
+            date + datetime.timedelta(days=1)
         )
 
         query_job = self.client.query(QUERY, location="US")

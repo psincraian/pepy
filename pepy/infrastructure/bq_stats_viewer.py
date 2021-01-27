@@ -22,8 +22,7 @@ class BQStatsViewer(StatsViewer):
             GROUP BY file.project, file.version
             ORDER BY file.project
         """.format(
-            date.strftime("%Y-%m-%d"),
-            date + datetime.timedelta(days=1)
+            date.strftime("%Y-%m-%d"), date + datetime.timedelta(days=1)
         )
 
         query_job = self.client.query(QUERY, location="US")

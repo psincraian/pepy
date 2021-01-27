@@ -15,7 +15,7 @@ class MongoProjectRepository(ProjectRepository):
         self._client.projects.create_index([("name", DESCENDING)])
         self._client.project_downloads.create_index([("name", DESCENDING)])
 
-    def get(self, project_name: str) -> Optional[Project]:
+    def get(self, project_name: str, downloads_from: datetime.date = None) -> Optional[Project]:
         normalized_name = ProjectName(project_name).name
         project_data = self._client.projects.find_one({"name": normalized_name})
         if project_data is None:
@@ -32,7 +32,12 @@ class MongoProjectRepository(ProjectRepository):
                     # Don't count the downloads twice
                     project.total_downloads -= Downloads(r[1])
         else:
-            raw_downloads = self._client.project_downloads.find({"project": normalized_name})
+            if downloads_from is None:
+                raw_downloads = self._client.project_downloads.find({"project": normalized_name})
+            else:
+                raw_downloads = self._client.project_downloads.find(
+                    {"project": normalized_name, "date": {"$gte": downloads_from.isoformat()}}
+                )
             downloads = sorted(raw_downloads, key=lambda x: x["date"])
             for day_downloads in downloads:
                 for version_downloads in day_downloads["downloads"]:
@@ -88,9 +93,3 @@ class MongoProjectRepository(ProjectRepository):
                 downloads_requests.append(ReplaceOne({"project": project.name.name, "date": date}, value, upsert=True))
         self._client.projects.bulk_write(requests)
         self._client.project_downloads.bulk_write(downloads_requests)
-
-    def update_downloads(self, projects_downloads: List[ProjectDownloads]):
-        pass
-
-    def save_day_downloads(self, project_downloads: List[ProjectDownloads]):
-        pass

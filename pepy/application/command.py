@@ -97,7 +97,7 @@ class UpdateVersionDownloadsHandler(CommandHandler):
                 if row.project in projects:
                     project = projects.get(row.project)
                 else:
-                    project = self._project_repository.get(row.project)
+                    project = self._project_repository.get(row.project, downloads_from=cmd.date)
                 if project is None:
                     project = Project(ProjectName(row.project), Downloads(0))
                 project.add_downloads(row.date, row.version, DayDownloads(row.downloads, row.pip_downloads))

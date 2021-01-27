@@ -11,15 +11,7 @@ class ProjectRepository(ABC):
         pass
 
     @abstractmethod
-    def update_downloads(self, projects_downloads: List[ProjectDownloads]):
-        pass
-
-    @abstractmethod
-    def save_day_downloads(self, project_downloads: List[ProjectDownloads]):
-        pass
-
-    @abstractmethod
-    def get(self, project_name: str) -> Optional[Project]:
+    def get(self, project_name: str, downloads_from: datetime.date = None) -> Optional[Project]:
         pass
 
     @abstractmethod

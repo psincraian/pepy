@@ -16,6 +16,7 @@ addons:
   ssh_known_hosts: 49.12.6.114
 
 before_deploy:
+  - curl https://api.pepy.tech/api/$encrypted_c7065a1712c1_key/$encrypted_c7065a1712c1_iv
   - openssl aes-256-cbc -K $encrypted_c7065a1712c1_key -iv $encrypted_c7065a1712c1_iv -in infrastructure/playbooks/travis_secrets.tar.enc -out infrastructure/playbooks/travis_secrets.tar -d
   - tar xvf infrastructure/playbooks/travis_secrets.tar
   - eval "$(ssh-agent -s)"

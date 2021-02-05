@@ -1,0 +1,16 @@
+name: CI
+
+on: pull_request
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a one-line script
+      run: echo Hello, world!
+    - name: Start environment
+      run: make start-containers
+    - name: Run tests
+      run: make params=-T tests

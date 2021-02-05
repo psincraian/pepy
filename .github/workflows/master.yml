@@ -1,0 +1,34 @@
+name: CI and CD
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a one-line script
+      run: echo Hello, world!
+    - name: Start environment
+      run: make start-containers
+    - name: Run tests
+      run: make params=-T tests
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+    - uses: actions/checkout@v1
+    - run: echo ${{ secrets.SSH_KEY }} > ./id_rsa
+    - name: Setup ssh agent
+      run: chmod 600 ./id_rsa
+    - name: Install ansible
+      run: pip install ansible
+    - name: Deploy
+      run: eval "$(ssh-agent -s)" && ssh-add id_rsa && ansible-playbook infrastructure/playbooks/deploy.yml -i infrastructure/playbooks/hosts --vault-password-file infrastructure/playbooks/vault_password.txt
+      env:
+        ANSIBLE_HOST_KEY_CHECKING: False

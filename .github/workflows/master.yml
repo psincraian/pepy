@@ -30,7 +30,7 @@ jobs:
     - name: setup ssh permissions
       run: chmod 600 ./id_rsa
     - name: Install ansible
-      run: pip install ansible
+      run: pip3 install ansible
     - name: Deploy
       run: eval "$(ssh-agent -s)" && ssh-add id_rsa && ansible-playbook infrastructure/playbooks/deploy.yml -i infrastructure/playbooks/hosts --vault-password-file infrastructure/playbooks/vault_password.txt
       env:

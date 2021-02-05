@@ -1,6 +1,9 @@
 name: CI and CD
 
-on: pull_request
+on:
+  push:
+    branches:
+    - master
 
 jobs:
   tests:

@@ -1,4 +1,5 @@
 DOCKER-COMPOSE = docker-compose -f infrastructure/docker-compose.yml --project-directory .
+params?=
 
 install:
 	pip install pipenv
@@ -18,16 +19,16 @@ remove-containers:
 	$(DOCKER-COMPOSE) down
 
 unit-tests:
-	$(DOCKER-COMPOSE) exec pepy pipenv run pytest tests/unit
+	$(DOCKER-COMPOSE) exec $(params) pepy pipenv run pytest tests/unit
 
 integration-tests:
-	$(DOCKER-COMPOSE) exec pepy pipenv run pytest tests/integration
+	$(DOCKER-COMPOSE) exec $(params) pepy pipenv run pytest tests/integration
 
 acceptance-tests:
-	$(DOCKER-COMPOSE) exec pepy pipenv run behave tests/acceptance
+	$(DOCKER-COMPOSE) exec $(params) pepy pipenv run behave tests/acceptance
 
 tests: unit-tests  acceptance-tests
 
 format-code:
-	$(DOCKER-COMPOSE) exec pepy pipenv run black -l 120 --exclude=".*\/node_modules" pepy/ tests/
+	$(DOCKER-COMPOSE) exec $(params) pepy pipenv run black -l 120 --exclude=".*\/node_modules" pepy/ tests/
 

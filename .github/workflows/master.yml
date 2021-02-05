@@ -23,9 +23,7 @@ jobs:
     needs: tests
     steps:
     - uses: actions/checkout@v1
-    - name: Decrypt values
-      run: openssl aes-256-cbc -K $encrypt1ed_c7065a1712c1_key -iv $encrypted_c7065a1712c1_iv -in infrastructure/playbooks/travis_secrets.tar.enc -out infrastructure/playbooks/travis_secrets.tar -d
-    - run: tar xvf secrets.tar
+    - run: echo ${{ secrets.SSH_KEY }} > ./id_rsa
     - name: Setup ssh agent
       run: chmod 600 ./id_rsa
     - name: Install ansible

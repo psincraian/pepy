@@ -23,15 +23,15 @@ jobs:
     needs: tests
     steps:
     - uses: actions/checkout@v1
-    - name: add ssh key
-      run: echo "$SSH_KEY" > ./id_rsa
-      env:
-        SSH_KEY: ${{secrets.SSH_KEY}}
-    - name: setup ssh permissions
-      run: chmod 600 ./id_rsa
-    - name: Install ansible
-      run: pip3 install ansible
-    - name: Deploy
-      run: eval "$(ssh-agent -s)" && ssh-add id_rsa && ansible-playbook infrastructure/playbooks/deploy.yml -i infrastructure/playbooks/hosts --vault-password-file infrastructure/playbooks/vault_password.txt
+    - name: Run Ansible playbook
+      uses: dawidd6/action-ansible-playbook@v2.2.0
+      with:
+        playbook: ./infrastructure/playbooks/deploy.yml
+        directory: ./
+        key: ${{secrets.SSH_KEY}}
+        inventory: |
+          [webservers]
+          root@49.12.6.114 ansible_python_interpreter=/usr/bin/python3
+        vault_password: ${{secrets.VAULT_PASSWORD}}
       env:
         ANSIBLE_HOST_KEY_CHECKING: False

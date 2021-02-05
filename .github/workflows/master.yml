@@ -26,7 +26,9 @@ jobs:
         playbook: ./infrastructure/playbooks/deploy.yml
         directory: ./
         key: ${{secrets.SSH_KEY}}
-        inventory: ./infrastructure/playbooks/hosts
+        inventory: |
+          [webservers]
+          root@49.12.6.114 ansible_python_interpreter=/usr/bin/python3
         vault_password: ${{secrets.VAULT_PASSWORD}}
       env:
         ANSIBLE_HOST_KEY_CHECKING: False

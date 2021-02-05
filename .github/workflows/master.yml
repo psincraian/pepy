@@ -23,8 +23,11 @@ jobs:
     needs: tests
     steps:
     - uses: actions/checkout@v1
-    - run: echo ${{ secrets.SSH_KEY }} > ./id_rsa
-    - name: Setup ssh agent
+    - name: add ssh key
+      run: echo "$SSH_KEY" > ./id_rsa
+      env:
+        SSH_KEY: ${{secrets.SSH_KEY}}
+    - name: setup ssh permissions
       run: chmod 600 ./id_rsa
     - name: Install ansible
       run: pip install ansible

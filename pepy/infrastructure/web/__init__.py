@@ -46,7 +46,7 @@ def personalized_badge_action(project_name):
         request.args.get("left_text", "downloads/month"),
         request.args.get("units", "international_system"),
     )
-    return Response(badge.image, mimetype="image/svg+xml")
+    return Response(badge.image, mimetype="image/svg+xml", headers={"Cache-Control": "max-age=86400"})
 
 
 def handle_domain_exception(error: DomainException):

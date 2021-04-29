@@ -1,0 +1,25 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "00:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: greenlet
+    versions:
+    - "< 0.5, > 0.4.14"
+  - dependency-name: python-slugify
+    versions:
+    - "> 1.2.5"
+  - dependency-name: google-cloud-bigquery
+    versions:
+    - 2.11.0
+    - 2.12.0
+    - 2.9.0
+  - dependency-name: pylint
+    versions:
+    - 2.6.2
+    - 2.7.1

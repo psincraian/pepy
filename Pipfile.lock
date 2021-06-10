@@ -345,20 +345,17 @@
         },
         "newrelic": {
             "hashes": [
-                "sha256:242a5e901d684f7ffdd621bc58da8fe9a85d5545b4b63e1070589f5ab45c9e1e",
-                "sha256:3dec4647de67609570c4e305f2b6432a00e0a0940a7ac69660ee92268b49d6e7",
-                "sha256:489e5a450aae1a5ecf7ca488739bd274296b19049bb7927c7ef71953ad5ad437",
-                "sha256:503e5dfcbf215fe68e4349ea452b5b00234010122ca72d80b64c73270654916c",
-                "sha256:5b0a04f7acf4dafe8d3935ac8688143bc0a0c61e15e2a779b152afcc3c88ee45",
-                "sha256:6a87cd6102aba7c9619a6e4b9e1aa6322ef81367b1a8f24ad996a07333313c8c",
-                "sha256:90d2bab0a08001d84499bf11c62c49d1fc6f2835c05d12994b5a931cad48f120",
-                "sha256:a3b928a052be318cb0cdb56977c630f1ded1d8e391c876ed5ae4442aa7ad499a",
-                "sha256:adc748f633bd64e295b403448daa8416961b0f99af6787b857009d737c5e8af3",
-                "sha256:e767af29572a9457a5e5f13481fe735c1a9ae2d1683b7b35c8757f9df275a538",
-                "sha256:fede816248d0a1e5e11487ecc122f24c9d33e08a6ac1f882044ac6f3b2c90ae0"
+                "sha256:26c4a72f5ed651251eb0fbd5bf8d47cce406daccfdc32192fe94b7d339d39ff1",
+                "sha256:2bf81509689617e0cc6b2033513971665b71d26458d6c39f7d3c2f31a8a7088a",
+                "sha256:45bb9cb7b6b575c91cefe2e8d6a5d309f46bf04e631a60c256b354059dae326f",
+                "sha256:50b6f2a71f9fc9032fa1b4318a9a8ed30ec1565d5430c32c7f42c890a4fbac59",
+                "sha256:5961186ea31aaf7cb0b3a8355ddb0363d5f25a469899001d0315e256ac9f286e",
+                "sha256:b54103c1aca4a613dbc5f1c8bddc35d3ed532f7298b0904b6eeffd22d19db753",
+                "sha256:bb0a19afd67f9655aa74fd2e4a77fd0acc6da7fabfea5444f2aefbbf451d59cd",
+                "sha256:c991e80f3c62bcc5919acb43eb33bd3c7aaeab562223f28cd2672aa1d4f47745"
             ],
             "index": "pypi",
-            "version": "==6.2.0.156"
+            "version": "==6.4.1.158"
         },
         "packaging": {
             "hashes": [

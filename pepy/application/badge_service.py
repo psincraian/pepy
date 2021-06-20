@@ -20,7 +20,7 @@ from pepy.domain.repository import ProjectRepository
 
 
 class DownloadsNumberFormatter:
-    _METRIC_PREFIX = ["", "k", "M", "G", "T", "P"]
+    _METRIC_PREFIX = ["", "k", "M", "B", "T", "P"]
     _ABBREVIATION_PREFIX = ["", "k", "M", "B", "T", "Q"]
 
     def format(self, downloads: Downloads) -> str:

@@ -31,9 +31,7 @@ class ImportTotalDownloadsHandler(CommandHandler):
         self._logger = logger
 
     def handle(self, cmd: ImportTotalDownloads):
-        batch_iterator = 0
-        for batch in self._batch(cmd.file_path, 250):
-            batch_iterator += 1
+        for batch_iterator, batch in enumerate(self._batch(cmd.file_path, 250), start=1):
             self._logger.info(f"Batch {batch_iterator}")
             projects = {}
             for row in batch:

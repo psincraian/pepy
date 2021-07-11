@@ -52,12 +52,8 @@ def personalized_badge_action(project_name):
 def handle_domain_exception(error: DomainException):
     code = None
     message = None
-    if isinstance(error, ProjectNotFoundException):
-        code = 404
-        message = json.dumps({"error": code, "message": error.message()})
-    else:
-        code = 400
-        message = json.dumps({"error": code, "message": error.message()})
+    code = 404 if isinstance(error, ProjectNotFoundException) else 400
+    message = json.dumps({"error": code, "message": error.message()})
     return Response(message, status=code)
 
 

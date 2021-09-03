@@ -55,23 +55,29 @@ class MongoProjectRepository(ProjectRepository):
         project_data = self._convert_project_to_raw(project)
         query = {"name": project.name.name}
         self._client.projects.replace_one(query, project_data, upsert=True)
-        downloads_requests = []
-        for date, value in self._convert_downloads_to_raw(project).items():
-            downloads_requests.append(ReplaceOne({"project": project.name.name, "date": date}, value, upsert=True))
+        downloads_requests = [
+            ReplaceOne(
+                {"project": project.name.name, "date": date}, value, upsert=True
+            )
+            for date, value in self._convert_downloads_to_raw(project).items()
+        ]
+
         self._client.project_downloads.bulk_write(downloads_requests)
 
     def _convert_project_to_raw(self, project):
-        data = {
+        return {
             "name": project.name.name,
             "total_downloads": project.total_downloads.value,
             "monthly_downloads": project.month_downloads().value,
         }
-        return data
 
     def _convert_downloads_to_raw(self, project: Project) -> dict:
         downloads_per_day = defaultdict(list)
         for download in project.last_downloads():
-            if not (download.date.isoformat(), download.version) in project._repository_saved_downloads:
+            if (
+                download.date.isoformat(),
+                download.version,
+            ) not in project._repository_saved_downloads:
                 downloads_per_day[download.date.isoformat()].append(
                     {
                         "version": download.version,
@@ -79,10 +85,14 @@ class MongoProjectRepository(ProjectRepository):
                         "pip_downloads": download.pip_downloads.value,
                     }
                 )
-        result = {}
-        for date, downloads in downloads_per_day.items():
-            result[date] = {"project": project.name.name, "date": date, "downloads": downloads}
-        return result
+        return {
+            date: {
+                "project": project.name.name,
+                "date": date,
+                "downloads": downloads,
+            }
+            for date, downloads in downloads_per_day.items()
+        }
 
     def save_projects(self, projects: List[Project]):
         requests = []

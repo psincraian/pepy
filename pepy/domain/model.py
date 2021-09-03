@@ -120,9 +120,7 @@ class Project:
     def month_downloads(self) -> Downloads:
         gte_date = datetime.datetime.now().date() - datetime.timedelta(days=30)
         downloads = self.last_downloads(gte_date)
-        result = 0
-        for download in downloads:
-            result += download.downloads.value
+        result = sum(download.downloads.value for download in downloads)
         return Downloads(result)
 
     def versions(self) -> Set[str]:

@@ -23,12 +23,16 @@ class DownloadsNumberFormatter:
     _METRIC_PREFIX = ["", "k", "M", "G", "T", "P"]
     _ABBREVIATION_PREFIX = ["", "k", "M", "B", "T", "Q"]
 
-    def format(self, downloads: Downloads) -> str:
-        if downloads.value == 0:
-            return "0"
+    def get_millidx(self, downloads: Downloads):
         digits = int(math.log10(abs(downloads.value)) if downloads else 0)
         millidx = max(0, min(len(self._METRIC_PREFIX) - 1, digits // 3))
         rounded_value = downloads.value // (10 ** (3 * millidx))
+        return [millidx, rounded_value]
+
+    def format(self, downloads: Downloads) -> str:
+        if downloads.value == 0:
+            return "0"
+        millidx, rounded_value = self.get_millidx(downloads)
         return "{}{}".format(rounded_value, self._METRIC_PREFIX[millidx])
 
     def format_with_units(self, downloads: Downloads, units: BadgeUnits) -> str:
@@ -36,9 +40,7 @@ class DownloadsNumberFormatter:
             return "0"
         if units == BadgeUnits.none:
             return str(downloads.value)
-        digits = int(math.log10(abs(downloads.value)) if downloads else 0)
-        millidx = max(0, min(len(self._METRIC_PREFIX) - 1, digits // 3))
-        rounded_value = downloads.value // (10 ** (3 * millidx))
+        millidx, rounded_value = self.get_millidx(downloads)
         if units == BadgeUnits.abbreviation:
             return "{}{}".format(rounded_value, self._ABBREVIATION_PREFIX[millidx])
         else:
@@ -77,10 +79,12 @@ class BadgeService:
     @staticmethod
     def _last_downloads(project: Project, days: int) -> Downloads:
         min_date = datetime.now().date() - timedelta(days=days)
-        total_downloads = 0
-        for d in project.last_downloads():
-            if d.date >= min_date:
-                total_downloads += d.downloads.value
+        total_downloads = sum(
+            d.downloads.value
+            for d in project.last_downloads()
+            if d.date >= min_date
+        )
+
         return Downloads(total_downloads)
 
 
@@ -136,8 +140,10 @@ class PersonalizedBadgeService:
     @staticmethod
     def _last_downloads(project: Project, days: int) -> Downloads:
         min_date = datetime.now().date() - timedelta(days=days)
-        total_downloads = 0
-        for d in project.last_downloads():
-            if d.date >= min_date:
-                total_downloads += d.downloads.value
+        total_downloads = sum(
+            d.downloads.value
+            for d in project.last_downloads()
+            if d.date >= min_date
+        )
+
         return Downloads(total_downloads)

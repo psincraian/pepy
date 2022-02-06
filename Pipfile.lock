@@ -99,11 +99,11 @@
         },
         "google-cloud-bigquery": {
             "hashes": [
-                "sha256:d8cb58e50d8688cbcc1ca0562c7801f8524af3a8553f5d24f1d7353ce3a6c143",
-                "sha256:ff66d7d1f64795a855784706c3baa52d18fa0cd1cc4f0a150cf74268abb53ac0"
+                "sha256:09588ffdf0ae92673d980cdade81a371ff1852c043bebd8bab68a47fd69d8a1f",
+                "sha256:f3863ac4293f0a4585e44461d82b91f9239721ef33fc9575d401b4da7dc127bd"
             ],
             "index": "pypi",
-            "version": "==2.31.0"
+            "version": "==2.32.0"
         },
         "google-cloud-core": {
             "hashes": [
@@ -609,11 +609,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:a4dc3af29a67e7a45620aba43dde2c1af2dd6bc49726d78168f0cc6c4fb0c01b",
-                "sha256:c9097cbcdefe88a64da966a764f2d95feb1cfaff77cc304528a23cefe3359d9a"
+                "sha256:07e97e2f1e5607d240454e98c75c7004560ac8417ca5ae1dbaa50811cb6cc95c",
+                "sha256:23aad87cc27f4ae704079618c1d117a71bd43d41e355f0698c35f6b1c796d26c"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==60.7.1"
+            "version": "==60.8.1"
         },
         "six": {
             "hashes": [
@@ -856,11 +856,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:a4dc3af29a67e7a45620aba43dde2c1af2dd6bc49726d78168f0cc6c4fb0c01b",
-                "sha256:c9097cbcdefe88a64da966a764f2d95feb1cfaff77cc304528a23cefe3359d9a"
+                "sha256:07e97e2f1e5607d240454e98c75c7004560ac8417ca5ae1dbaa50811cb6cc95c",
+                "sha256:23aad87cc27f4ae704079618c1d117a71bd43d41e355f0698c35f6b1c796d26c"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==60.7.1"
+            "version": "==60.8.1"
         },
         "six": {
             "hashes": [

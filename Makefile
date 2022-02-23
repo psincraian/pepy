@@ -10,7 +10,7 @@ start: install
 
 start-containers:
 	$(DOCKER-COMPOSE) up -d
-	until curl --silent -XGET --fail http://localhost:5200/health-check; do printf '.'; sleep 1; done
+	until curl --silent -XGET --fail http://localhost:5200/health-check; do printf '\n### Compose logs ###\n'; docker logs -n5 pepy_pepy_1; sleep 1; done
 
 stop-containers:
 	$(DOCKER-COMPOSE) stop

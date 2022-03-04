@@ -17,6 +17,7 @@ pymongo = "*"
 natsort = "*"
 newrelic = "*"
 pybadges = "*"
+markupsafe = "==2.0.1"
 
 [dev-packages]
 behave = "*"

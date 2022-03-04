@@ -13,10 +13,11 @@ requests = "*"
 Flask = "*"
 Flask-WTF = "*"
 passlib = "*"
-pymongo = "*"
+pymongo = "<4.0"
 natsort = "*"
 newrelic = "*"
 pybadges = "*"
+markupsafe = "~=2.0.1"
 
 [dev-packages]
 behave = "*"

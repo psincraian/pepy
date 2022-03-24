@@ -3,14 +3,7 @@
     src="docs/logo.png"
   />
 </p>
-<p align="center">
 
-<p align="center">
-
-[![Build Status](https://travis-ci.com/psincraian/pepy.svg?branch=master)](https://travis-ci.com/psincraian/pepy)
-<p align="center">
-
-</p>
 <h2 align="center"><code>PePy</code></h2>
 
 

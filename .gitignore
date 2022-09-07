@@ -55,7 +55,6 @@ target/
 celerybeat-schedule
 *.sage.py
 .env
-.venv
 env/
 venv/
 ENV/
@@ -73,3 +72,9 @@ venv.bak/
 !.elasticbeanstalk/*.global.yml
 /pepy/infrastructure/web/node_modules/
 /infrastructure/playbooks/*.retry
+
+# Terraform
+.terraform
+*.tfstate
+*.lock.hcl
+*.tfstate.backup

@@ -1,0 +1,7 @@
+---
+- name: Install Nginx, Postgres and application
+  hosts: all
+  roles:
+    - { role: common, become: yes }
+    - { role: web, become: yes }
+    - { role: nginx, become: yes }

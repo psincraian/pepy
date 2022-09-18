@@ -1,9 +1,9 @@
 ---
 - name: Upgrade pip and setup tools
-  command: python3.8 -m pip install -U pip setuptools
+  command: python3.9 -m pip install -U pip setuptools
 
 - name: Install pipenv
-  command: python3.8 -m pip install pipenv
+  apt: python3.9 -m pip install pipenv
 
 - name: Install dependencies
   command: pipenv install --deploy

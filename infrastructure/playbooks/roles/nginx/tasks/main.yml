@@ -3,6 +3,16 @@
 - name: Install Nginx
   apt: name=nginx update_cache=yes state=present
 
+- name: Copy SSL fullchain.pem
+  copy:
+    src: fullchain.pem
+    dest: /etc/letsencrypt/live/pepy.tech/
+
+- name: Copy SSL fullchain.pem
+  copy:
+    src: privkey.pem
+    dest: /etc/letsencrypt/live/pepy.tech/
+
 - name: Create the Nginx configuration file
   template: src=pepy.conf
             dest=/etc/nginx/sites-available/{{ project_name }}.conf

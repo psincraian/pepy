@@ -1,3 +1,7 @@
 
-[webservers]
-root@49.12.6.114 ansible_python_interpreter=/usr/bin/python3
+[backend]
+root@159.223.183.210 ansible_python_interpreter=/usr/bin/python3
+
+
+[database]
+root@159.223.183.226 ansible_python_interpreter=/usr/bin/python3

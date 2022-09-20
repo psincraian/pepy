@@ -11,6 +11,7 @@ resource "digitalocean_volume" "db_volume" {
   name   = "db"
   region = var.region
   size   = 30
+  initial_filesystem_type = "xfs"
 }
 
 resource "digitalocean_volume_attachment" "database_db_volume" {

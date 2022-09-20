@@ -13,6 +13,11 @@
       apt:
         name: mongodb-org
         update_cache: yes
+    - name: Copy config file
+      copy:
+        src: mongod.conf
+        dest: /etc/mongod.conf
+
     - name: Make sure mongo is running
       systemd:
         state: started

@@ -5,12 +5,13 @@ resource "digitalocean_droplet" "database" {
   size     = "s-1vcpu-1gb"
   backups  = true
   ssh_keys = [data.digitalocean_ssh_key.terraform.id]
+  vpc_uuid = digitalocean_vpc.pepy-vpc.id
 }
 
 resource "digitalocean_volume" "db_volume" {
-  name   = "db"
-  region = var.region
-  size   = 30
+  name                    = "db"
+  region                  = var.region
+  size                    = 30
   initial_filesystem_type = "xfs"
 }
 

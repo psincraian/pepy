@@ -1,7 +1,7 @@
 
 [backend]
-root@159.203.179.30 ansible_python_interpreter=/usr/bin/python3
+root@157.230.58.10 ansible_python_interpreter=/usr/bin/python3
 
 
 [database]
-root@147.182.186.19 ansible_python_interpreter=/usr/bin/python3
+root@157.230.58.11 ansible_python_interpreter=/usr/bin/python3

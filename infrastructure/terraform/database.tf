@@ -32,8 +32,19 @@ resource "digitalocean_firewall" "database_firewall" {
   }
 
   outbound_rule {
-    protocol         = "tcp"
-    port_range       = "27017"
-    destination_addresses = ["10.0.0.0/24"]
+    protocol              = "udp"
+    port_range            = "1-65535"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  outbound_rule {
+    protocol              = "tcp"
+    port_range            = "1-65535"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  outbound_rule {
+    protocol              = "icmp"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 }

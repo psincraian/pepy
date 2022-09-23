@@ -2,13 +2,6 @@
 
 # https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
 - block:
-    - name: Make sure the storage folder has right permissions
-      ansible.builtin.file:
-        path: "/mnt/db"
-        owner: "mongodb"
-        group: "mongodb"
-        mode: '0700'
-
     - name: Import MongoDB public GPG Key
       apt_key:
         url: https://www.mongodb.org/static/pgp/server-4.2.asc
@@ -22,6 +15,14 @@
       apt:
         name: mongodb-org
         update_cache: yes
+
+    - name: Make sure the storage folder has right permissions
+      ansible.builtin.file:
+        path: "/mnt/db"
+        owner: "mongodb"
+        group: "mongodb"
+        mode: '0700'
+
     - name: Copy config file
       copy:
         src: mongod.conf

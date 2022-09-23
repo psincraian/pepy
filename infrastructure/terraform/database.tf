@@ -31,6 +31,12 @@ resource "digitalocean_firewall" "database_firewall" {
     source_addresses = ["10.0.0.0/24"]
   }
 
+  inbound_rule {
+    protocol         = "tcp"
+    port_range       = "22"
+    source_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
   outbound_rule {
     protocol              = "udp"
     port_range            = "1-65535"

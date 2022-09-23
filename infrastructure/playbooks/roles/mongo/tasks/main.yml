@@ -2,13 +2,22 @@
 
 # https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
 - block:
+    - name: Make sure the storage folder has right permissions
+      ansible.builtin.file:
+        path: "/mnt/db"
+        owner: "mongodb"
+        group: "mongodb"
+        mode: '0700'
+
     - name: Import MongoDB public GPG Key
       apt_key:
         url: https://www.mongodb.org/static/pgp/server-4.2.asc
+
     - name: Add MongoDB repository into sources list
       apt_repository:
         repo: deb http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse
         state: present
+
     - name: Install MongoDB package
       apt:
         name: mongodb-org

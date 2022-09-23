@@ -8,25 +8,13 @@
   user:
     name: "{{ pepy_user }}"
     password: "{{ password | password_hash('sha512') }}"
+    update_password: on_create
     comment: pepy
     groups:
       - "{{ pepy_group }}"
       - sudo
   vars:
     - password: "{{ pepy_pass }}"
-
-- name: Ensure packages are installed
-  apt:
-    name: ['supervisor', 'locales', 'python3-venv', 'python3-pip', 'software-properties-common']
-    update_cache: yes
-
-- name: add python repository
-  command: add-apt-repository -y ppa:deadsnakes/ppa
-
-- name: Ensure python packages are installed
-  apt:
-    name: ['python3.9', 'python3.9-venv']
-    update_cache: yes
 
 - name: Create .ssh folder
   file:

@@ -34,6 +34,6 @@ resource "digitalocean_firewall" "database_firewall" {
   outbound_rule {
     protocol         = "tcp"
     port_range       = "27017"
-    source_addresses = ["10.0.0.0/24"]
+    destination_addresses = ["10.0.0.0/24"]
   }
 }

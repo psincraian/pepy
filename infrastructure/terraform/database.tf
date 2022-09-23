@@ -19,3 +19,21 @@ resource "digitalocean_volume_attachment" "database_db_volume" {
   droplet_id = digitalocean_droplet.database.id
   volume_id  = digitalocean_volume.db_volume.id
 }
+
+resource "digitalocean_firewall" "database_firewall" {
+  name = "mongodb-open-vpc"
+
+  droplet_ids = [digitalocean_droplet.database.id]
+
+  inbound_rule {
+    protocol         = "tcp"
+    port_range       = "27017"
+    source_addresses = ["10.0.0.0/24"]
+  }
+
+  outbound_rule {
+    protocol         = "tcp"
+    port_range       = "27017"
+    source_addresses = ["10.0.0.0/24"]
+  }
+}

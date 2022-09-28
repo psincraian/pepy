@@ -30,5 +30,7 @@ jobs:
         directory: ./
         key: ${{secrets.SSH_KEY}}
         vault_password: ${{secrets.VAULT_PASSWORD}}
+        options: |
+          --inventory infrastructure/playbooks/hosts
       env:
         ANSIBLE_HOST_KEY_CHECKING: False

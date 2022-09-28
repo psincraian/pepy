@@ -24,14 +24,11 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Run Ansible playbook
-      uses: dawidd6/action-ansible-playbook@v2.2.0
+      uses: dawidd6/action-ansible-playbook@v2
       with:
         playbook: ./infrastructure/playbooks/deploy.yml
         directory: ./
         key: ${{secrets.SSH_KEY}}
-        inventory: |
-          [webservers]
-          root@49.12.6.114 ansible_python_interpreter=/usr/bin/python3
         vault_password: ${{secrets.VAULT_PASSWORD}}
       env:
         ANSIBLE_HOST_KEY_CHECKING: False

@@ -1,0 +1,13 @@
+---
+
+- include_vars: pepy.yml
+
+- name: Mark deploy to NewRelic
+  ansible.builtin.uri:
+    url: https://api.eu.newrelic.com/v2/applications/68756606/deployments.json
+    method: POST
+    headers:
+      X-Api-Key: "{{newrelic_api_key}}"
+    body: "{{ lookup('template', 'newrelic_deploy_body.json') }}"
+    body_format: json
+    status_code: 201

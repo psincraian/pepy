@@ -1,0 +1,63 @@
+---
+- name: ensure python-yaml is installed
+  package:
+    name: python-yaml
+    state: "{{ nrinfragent_state }}"
+  when:
+    - nrinfragent_state != "absent"
+    - nrinfragent_os_name != 'windows'
+    - ansible_python_version is version('3.0', '<')
+
+- name: ensure python3-yaml is installed
+  package:
+    name: python3-yaml
+    state: "{{ nrinfragent_state }}"
+  when:
+    - nrinfragent_state != "absent"
+    - nrinfragent_os_name != 'windows'
+    - ansible_python_version is version('3.0', '>=')
+    - ansible_facts['os_family'] == 'Debian'
+
+- name: ensure pyYAML is installed via pip
+  pip:
+    name: PyYAML
+  when:
+    - nrinfragent_state != "absent"
+    - nrinfragent_os_name != "windows"
+    - ansible_python_version is version('3.0', '>=')
+    - ansible_facts['os_family'] == 'RedHat'
+
+- name: Stat newrelic-infra.yml config file
+  stat:
+    path: "{{ nrinfragent_config_path }}"
+  register: nrinfragent_config_stat
+  when:
+    - nrinfragent_os_name != 'windows'
+
+- name: Ensure newrelic-infra.yml exists
+  file:
+    path: "{{ nrinfragent_config_path }}"
+    state: touch
+    mode: 0600
+  when:
+    - nrinfragent_os_name != 'windows'
+    - nrinfragent_config_stat.stat.exists == false or nrinfragent_config_stat.stat.mode != '0600'
+
+- name: Setup agent config *NIX
+  merge_yaml:
+    src: "{{ nrinfragent_config_path }}"
+    value: "{{ nrinfragent_config }}"
+  no_log: "{{ nrinfragent_hide_config_values }}"
+  notify: restart newrelic-infra
+  when:
+    - nrinfragent_state != "absent"
+    - nrinfragent_os_name != 'windows'
+
+- name: setup agent config (windows)
+  win_template:
+    src: newrelic-infra.yml.j2
+    dest: "{{ nrinfragent_config_path }}"
+  notify: restart newrelic-infra (windows)
+  when:
+    - nrinfragent_state != "absent"
+    - nrinfragent_os_name == 'windows'

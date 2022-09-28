@@ -1,0 +1,23 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tags:
+    - nria_configure
+  tasks:
+  - name: put newrelic-infra.yml fixture
+    copy:
+      src: ./fixtures/newrelic-infra-expected.yml
+      dest: /tmp/newrelic-infra-expected.yml
+      force: yes
+
+  - name: diff newrelic-infra.yml and fixture
+    command: 'diff /tmp/newrelic-infra-expected.yml /etc/newrelic-infra.yml'
+    register: result
+    ignore_errors: true
+
+  - name: assert newrelic-infra.yml matches fixture
+    assert:
+      that: result.failed != true

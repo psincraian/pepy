@@ -1,0 +1,27 @@
+on:
+  release:
+    types: [published]
+
+name: Release
+
+jobs:
+  pre_release_test:
+    runs-on: ubuntu-latest
+    name: Run linter and tests
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install requirements
+        uses: newrelic/infrastructure-agent-ansible/.github/actions/installation@master
+      - name: Run linter
+        uses: newrelic/infrastructure-agent-ansible/.github/actions/linter@master
+      - name: Run tests
+        uses: newrelic/infrastructure-agent-ansible/.github/actions/tests@master
+  release_ansible:
+    runs-on: ubuntu-latest
+    name: Release package
+    needs: pre_release_test
+    steps:
+      - name: Release ansible
+        uses: newrelic/infrastructure-agent-ansible/.github/actions/release@master
+        with:
+          galaxy_api_key: ${{ secrets.galaxy_api_key }}

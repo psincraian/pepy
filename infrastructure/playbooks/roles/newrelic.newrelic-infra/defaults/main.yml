@@ -1,0 +1,151 @@
+---
+# Install or uninstall packages (package manager installation).
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_module.html
+nrinfragent_state: "latest"
+
+# newrelic-infra-service startup mode.
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/service_module.html#parameter-enabled
+nrinfragent_service_enabled: "yes"
+
+# newrelic-infra-service startup state.
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/service_module.html#parameter-state
+nrinfragent_service_state: "started"
+
+# Custom path to the New Relic Infrastructure agent configuration.
+#
+# Example:
+#  nrinfragent_config_file: /opt/nri-agent/nri-config.yml
+#nrinfragent_config_file: ""
+
+# newrelic-infra agent configuration settings
+# https://docs.newrelic.com/docs/infrastructure/install-infrastructure-agent/configuration/infrastructure-agent-configuration-settings/
+#
+# Example:
+# custom_attributes:
+#   business_unit: sales
+#   team: newrelic
+# license_key: D000000000000000000000000000000000000000
+# log_file: /tmp/logs.log
+# verbose: 1
+nrinfragent_config:
+  license_key: "{{ nrinfragent_license_key | default('YOUR_LICENSE_KEY') }}"
+  proxy: ""
+
+# A variable to prevent config values from being displayed
+nrinfragent_hide_config_values: false
+# A variable used to set lock_timeout value for ansible yum module. By default set to 30. Works only for Ansible 2.8+
+nrinfragent_yum_lock_timeout: 30
+
+# New Relic Infrastructure OHI packages to install (package manager installation).
+# https://docs.newrelic.com/docs/integrations/host-integrations/installation/install-infrastructure-host-integrations/#standard
+#
+# The list of available integrations can be found [here][1]. Each package should
+# provide its `name` and `state`. The integrations package name is located in
+# the **Install and activate** section of the
+# [individual integrations docs](https://docs.newrelic.com/docs/integrations).
+# Asa convention, their name is the name of the service with the `nri-` prefix
+# (`nri-apache`, `nri-redis`, etc.).
+#
+# By default the state it's `absent`, which doesn't install the package; you can
+# change it to `latest` or `present`. For example:
+# Example:
+#  nrinfragent_integrations:
+#  - name: nri-nginx
+#    state: latest
+#  - name: nri-mysql
+#    state: absent
+nrinfragent_integrations: []
+
+#
+# Tarball Installation Variables
+#
+# https://docs.newrelic.com/docs/infrastructure/install-infrastructure-agent/linux-installation/tarball-assisted-install-infrastructure-agent-linux/
+#
+
+# New Relic Infrastructure agent tarball version to download. (Linux only)
+# https://download.newrelic.com/infrastructure_agent/binaries/linux/
+#
+# Example:
+#  nrinfragent_tarball_version: 1.18.0
+#nrinfragent_tarball_version: ""
+
+# Directory in which to download and unzip tarball.
+#
+# Example:
+#  nrinfragent_tarball_download_dir: /opt/nri-agent-download
+#nrinfragent_tarball_download_dir: ""
+
+#
+# Tarball Installation Configuration Parameters
+#
+# https://docs.newrelic.com/docs/infrastructure/install-infrastructure-agent/linux-installation/tarball-assisted-install-infrastructure-agent-linux/#parameters
+#
+
+# Agent home directory path: NRIA_AGENT_DIR
+# 
+# Example:
+#  nrinfragent_tarball_agent_dir: /opt/nri-agent
+#nrinfragent_tarball_agent_dir: ""
+
+# Agent bundled file do not download from the web
+# Use local tarball instead
+#
+# Example:
+#  nrinfragent_tarball_from_local: yes
+#nrinfragent_tarball_from_local: ""
+
+# Agent binary directory path: NRIA_BIN_DIR
+# 
+# Example:
+#  nrinfragent_tarball_bin_dir: /usr/local/bin
+#nrinfragent_tarball_bin_dir: ""
+
+# Agent log file path: NRIA_LOG_FILE
+# 
+# Example:
+#  nrinfragent_tarball_log_file: /opt/nri-agent/nr.log
+#nrinfragent_tarball_log_file: ""
+
+# Agent privilege level: NRIA_MODE
+# 
+# Example:
+#  nrinfragent_tarball_mode: UNPRIVILEGED
+#nrinfragent_tarball_mode: ""
+
+# Agent PID file path: NRIA_PID_FILE
+# 
+# Example:
+#  nrinfragent_tarball_pid_file: /opt/nri-agent/nr.pid
+#nrinfragent_tarball_pid_file: ""
+
+# Agent plugin directory path: NRIA_PLUGIN_DIR
+# 
+# Example:
+#  nrinfragent_tarball_plugin_dir: /opt/nri-agent/nr-integrations.d
+#nrinfragent_tarball_plugin_dir: ""
+
+# Agent binary "run as" user: NRIA_USER
+# 
+# Example:
+#  nrinfragent_tarball_user: newrelic
+#nrinfragent_tarball_user: ""
+
+# Add logging to the newrelic infrastructure agent
+#
+# Example: 
+#
+# nrinfragent_logging:
+#   - name: TCP_Logging
+#     source_type: tcp
+#     tcp:
+#       uri: tcp://0.0.0.0:2345
+#       format: none
+#     pattern: ERROR
+#     custom_attributes: 
+#       logtype: nginx
+#       region: example-us-02
+#       team: B-team
+#
+#   - name: file_logging
+#     source_type: file
+#     file: /var/log/example.log

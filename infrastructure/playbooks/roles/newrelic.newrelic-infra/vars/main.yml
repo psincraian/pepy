@@ -1,0 +1,7 @@
+---
+nrinfragent_os_name: "{{ ansible_os_family|lower }}"
+nrinfragent_os_version: "{{ ansible_lsb.major_release }}"
+nrinfragent_os_codename: "{{ ansible_lsb.codename }}"
+nrinfragent_distribution: "{{ ansible_distribution|lower }}"
+nrinfragent_architecture: "{{ {'x86_64': 'amd64', 'i386': '386'}[ansible_architecture] | default(ansible_architecture) }}"
+nrinfragent_config_path: "{{ nrinfragent_config_file | default((ansible_os_family|lower == 'windows') | ternary('%ProgramFiles%\\New Relic\\newrelic-infra\\newrelic-infra.yml', '/etc/newrelic-infra.yml'), true) }}"

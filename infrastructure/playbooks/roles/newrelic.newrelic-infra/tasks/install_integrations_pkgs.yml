@@ -1,0 +1,7 @@
+---
+- name: install integrations
+  package:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+  with_items: "{{ nrinfragent_integrations }}"
+  when: nrinfragent_os_name != 'windows'

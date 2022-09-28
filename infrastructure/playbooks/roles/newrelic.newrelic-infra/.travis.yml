@@ -1,0 +1,20 @@
+---
+branches:
+  only:
+    - master
+cache: pip
+env:
+  matrix:
+    - INSTANCE: centos-7
+    - INSTANCE: centos-8
+    - INSTANCE: ubuntu-1604
+    - INSTANCE: ubuntu-1804
+    - INSTANCE: ubuntu-2004
+language: python
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+python: 3.7
+script: molecule converge -- --limit="localhost,$INSTANCE"
+services:
+  - docker
+sudo: required

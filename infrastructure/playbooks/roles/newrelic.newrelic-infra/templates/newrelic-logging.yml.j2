@@ -1,0 +1,68 @@
+{% if nrinfragent_logging is defined -%}
+logs:
+  {%- for log in range(nrinfragent_logging|length) %}
+  - name: {{ nrinfragent_logging[log].name -}}
+  {% if nrinfragent_logging[log].source_type == 'file' or nrinfragent_logging[log].source_type == 'systemd' %}
+    {{ nrinfragent_logging[log].source_type }}: {{ nrinfragent_logging[log].source_value }}
+  {% elif nrinfragent_logging[log].source_type == 'syslog' and nrinfragent_logging[log].syslog is defined %}
+    syslog:
+      uri: {{ nrinfragent_logging[log].syslog.uri }}
+      {% if nrinfragent_logging[log].syslog.parser is defined -%}
+      parser: {{ nrinfragent_logging[log].syslog.parser }}
+      {% endif -%}
+      {% if nrinfragent_logging[log].syslog.unix_permissions is defined -%}
+      unix_permissions: {{ nrinfragent_logging[log].syslog.unix_permissions -}}
+      {% endif -%}
+  {% elif nrinfragent_logging[log].source_type == 'tcp' and nrinfragent_logging[log].tcp is defined %}
+    tcp:
+      uri: {{ nrinfragent_logging[log].tcp.uri }}
+      {% if nrinfragent_logging[log].tcp.format is defined -%}
+      format: {{ nrinfragent_logging[log].tcp.format }}
+      {% endif -%}
+      {% if nrinfragent_logging[log].tcp.format == 'none' and nrinfragent_logging[log].tcp.separator is defined -%}
+      separator: {{ nrinfragent_logging[log].tcp.separator -}}
+      {% endif -%}
+  {% elif nrinfragent_logging[log].source_type == 'winlog' and nrinfragent_logging[log].winlog is defined %}
+    winlog:
+      {% if nrinfragent_logging[log].winlog.channel is defined -%}
+      channel: {{ nrinfragent_logging[log].winlog.channel }}
+      {% endif -%}
+      {% if nrinfragent_logging[log].winlog.collect_eventids is defined -%}
+      collect-eventids: {{ nrinfragent_logging[log].winlog.collect_eventids }}
+      {% endif -%}
+      {% if nrinfragent_logging[log].winlog.exclude_eventids is defined -%}
+      exclude-eventids: {{ nrinfragent_logging[log].winlog.exclude_eventids -}}
+      {% endif -%}
+  {% elif nrinfragent_logging[log].source_type == 'winevtlog' and nrinfragent_logging[log].winevtlog is defined %}
+    winevtlog:
+      {% if nrinfragent_logging[log].winevtlog.channel is defined -%}
+      channel: {{ nrinfragent_logging[log].winevtlog.channel }}
+      {% endif -%}
+      {% if nrinfragent_logging[log].winevtlog.collect_eventids is defined -%}
+      collect-eventids: {{ nrinfragent_logging[log].winevtlog.collect_eventids }}
+      {% endif -%}
+      {% if nrinfragent_logging[log].winevtlog.exclude_eventids is defined -%}
+      exclude-eventids: {{ nrinfragent_logging[log].winevtlog.exclude_eventids -}}
+      {% endif -%}
+  {% endif -%}
+  {% if nrinfragent_logging[log].max_line_kb is defined %}
+    max_line_kb: {{ nrinfragent_logging[log].max_line_kb -}}
+  {% endif -%}
+  {% if nrinfragent_logging[log].pattern is defined %}
+    pattern: {{ nrinfragent_logging[log].pattern -}}
+  {% endif -%}
+  {% if nrinfragent_logging[log].custom_attributes is defined %}
+    attributes:
+  {%- for dict_item in nrinfragent_logging[log].custom_attributes %}
+  {%- for key, value in dict_item.items() %}
+      {{ key }}: {{ value }}
+  {%- endfor -%}
+  {% endfor -%}
+  {% endif -%}
+  {% if nrinfragent_logging[log].fluentbit is defined %}
+    fluentbit:
+      config_file: {{ nrinfragent_logging[log].fluentbit.config_file }}
+      parsers_file: {{ nrinfragent_logging[log].fluentbit.parsers_file }}
+  {% endif %}
+  {% endfor %}
+{% endif -%}

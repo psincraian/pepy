@@ -1,0 +1,24 @@
+---
+dependency:
+  name: galaxy
+lint: |
+  yamllint .
+driver:
+  name: docker
+platforms:
+  - name: centos-7
+  - name: centos-8
+  - name: oraclelinux-8
+  - name: ubuntu-1804
+  - name: ubuntu-2004
+provisioner:
+  name: ansible
+  lint: |
+    ansible-lint
+  options:
+    tags: nria_install_tarball
+  log: True
+verifier:
+  name: ansible
+  lint: |
+    ansible-lint

@@ -1,0 +1,9 @@
+name: 'Run tests'
+description: 'Run molecule against the code'
+runs:
+  using: "composite"
+  steps:
+    - name: Run molecule
+      id: Molecule
+      run: molecule converge
+      shell: bash

@@ -1,0 +1,7 @@
+---
+
+dependencies:
+  - role: newrelic.newrelic-infra
+    vars:
+      nrinfragent_config:
+        license_key: "{{ newrelic_license_key }}"

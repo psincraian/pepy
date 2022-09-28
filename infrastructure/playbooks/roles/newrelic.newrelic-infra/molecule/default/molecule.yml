@@ -1,0 +1,36 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  yamllint .
+platforms:
+  - name: centos-7
+    image: centos:7
+    dockerfile: Dockerfile.centos7
+    command: "/usr/sbin/init"
+  - name: centos-8
+    image: centos:8
+    dockerfile: Dockerfile.centos8
+    command: "/usr/sbin/init"
+  - name: oraclelinux-8
+    image: oraclelinux:8
+    dockerfile: Dockerfile.oraclelinux8
+    command: "/usr/sbin/init"
+  - name: ubuntu-1804
+    image: ubuntu:18.04
+    dockerfile: Dockerfile.ub1804
+    command: "/sbin/init"
+  - name: ubuntu-2004
+    image: ubuntu:20.04
+    dockerfile: Dockerfile.ub2004
+    command: "/usr/sbin/init"
+provisioner:
+  name: ansible
+  lint: |
+    ansible-lint
+verifier:
+  name: ansible
+  lint: |
+    ansible-lint

@@ -1,0 +1,9 @@
+name: 'Install requirements'
+description: 'Install requirements'
+runs:
+  using: 'composite'
+  steps:
+    - name: Install requirements
+      id: Install
+      run: ${{ github.action_path }}/install.sh
+      shell: bash

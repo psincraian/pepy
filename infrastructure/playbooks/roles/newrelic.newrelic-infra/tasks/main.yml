@@ -1,0 +1,30 @@
+---
+- name: installation from tarball package
+  import_tasks: install_targz.yml
+  tags:
+    - nria_install_tarball
+  when:
+    - nrinfragent_tarball_version is defined
+    - nrinfragent_os_name != 'windows'
+
+- name: install from standard distribution packages
+  import_tasks: install_dist_pkgs.yml
+  tags:
+    - nria_install
+  when: nrinfragent_tarball_version is undefined
+
+- name: install OHIs
+  import_tasks: install_integrations_pkgs.yml
+  tags:
+    - nria_install_integrations
+  when: nrinfragent_tarball_version is undefined
+
+- name: configure the infrastructure agent
+  import_tasks: configure_agent.yml
+  tags:
+    - nria_configure
+
+- name: setup agent init service
+  import_tasks: setup_agent_service.yml
+  tags:
+    - nria_setup_service

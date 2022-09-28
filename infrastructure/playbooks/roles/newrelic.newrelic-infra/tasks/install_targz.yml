@@ -1,0 +1,90 @@
+---
+- name: validate agent tarball required variables
+  fail:
+    msg: "Required variable {{ item }} has not been provided or it's null"
+  when: vars[item] is undefined or not vars[item]
+  loop:
+    - nrinfragent_tarball_version
+    - nrinfragent_tarball_download_dir
+
+- name: Set full download path
+  set_fact:
+    nrinfragent_tarball_download_path: "{{ nrinfragent_tarball_download_dir }}/newrelic-infra_linux_{{ nrinfragent_tarball_version }}_{{ nrinfragent_architecture }}"
+
+- name: Create the download directory, including intermediate ones
+  file:
+    path: "{{ nrinfragent_tarball_download_path }}"
+    state: directory
+    mode: 0600
+
+- name: downloading bundled agent file
+  get_url:
+    url: "http://download.newrelic.com/infrastructure_agent/binaries/linux/{{ nrinfragent_architecture }}/newrelic-infra_linux_{{ nrinfragent_tarball_version }}_{{ nrinfragent_architecture }}.tar.gz"
+    dest: "{{ nrinfragent_tarball_download_path }}.tar.gz"
+  when: nrinfragent_tarball_from_local is undefined
+
+- name: Create temporary file for bundle
+  ansible.builtin.tempfile:
+    state: file
+    suffix: temp
+  register: tarball_local
+  delegate_to: 127.0.0.1
+  when: nrinfragent_tarball_from_local is defined
+
+- name: downloading bundled agent file locally
+  get_url:
+    url: "http://download.newrelic.com/infrastructure_agent/binaries/linux/{{ nrinfragent_architecture }}/newrelic-infra_linux_{{ nrinfragent_tarball_version }}_{{ nrinfragent_architecture }}.tar.gz"
+    dest: "{{ tarball_local.path }}"
+  delegate_to: 127.0.0.1
+  when: nrinfragent_tarball_from_local is defined
+
+
+- name: upload bundled agent file
+  copy:
+    src: "{{ tarball_local.path }}"
+    dest: "{{ nrinfragent_tarball_download_path }}.tar.gz"
+  when: nrinfragent_tarball_from_local is defined
+
+- name: create agent destination directory
+  file:
+    path: "{{ nrinfragent_tarball_download_path }}"
+    state: directory
+    recurse: true
+    mode: 0666
+
+- name: uncompressing bundled agent file
+  unarchive:
+    src: "{{ nrinfragent_tarball_download_path }}.tar.gz"
+    dest: "{{ nrinfragent_tarball_download_path }}/"
+    remote_src: true
+    creates: "{{ nrinfragent_tarball_download_path }}/newrelic-infra/"
+  register: archive_contents
+
+- name: Stop newrelic-infra if running
+  service:
+    name: newrelic-infra
+    state: stopped
+  failed_when: false
+
+- name: running installer
+  command: ./installer.sh
+  args:
+    chdir: "{{ nrinfragent_tarball_download_path }}/newrelic-infra/"
+  environment:
+    NRIA_AGENT_DIR: "{{ nrinfragent_tarball_agent_dir | default('') }}"
+    NRIA_BIN_DIR: "{{ nrinfragent_tarball_bin_dir | default('') }}"
+    NRIA_CONFIG_FILE: "{{ nrinfragent_config_path | default('') }}"
+    NRIA_LICENSE_KEY: "{{ nrinfragent_config['license_key'] | default('') }}"
+    NRIA_LOG_FILE: "{{ nrinfragent_tarball_log_file | default('') }}"
+    NRIA_MODE: "{{ nrinfragent_tarball_mode | default('') }}"
+    NRIA_PID_FILE: "{{ nrinfragent_tarball_pid_file | default('') }}"
+    NRIA_PLUGIN_DIR: "{{ nrinfragent_tarball_plugin_dir | default('') }}"
+    NRIA_USER: "{{ nrinfragent_tarball_user | default('') }}"
+    NRIA_PROXY: "{{ nrinfragent_config['proxy'] | default('') }}"
+  become: true
+  when: archive_contents is defined and archive_contents.changed
+
+- name: Start newrelic-infra
+  service:
+    name: newrelic-infra
+    state: started

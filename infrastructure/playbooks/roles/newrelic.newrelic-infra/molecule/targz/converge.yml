@@ -1,0 +1,26 @@
+---
+- name: Converge
+  hosts: all
+  tags:
+    - nria_install_tarball
+  tasks:
+    - name: "Include infrastructure-agent-ansible"
+      include_role:
+        name: "infrastructure-agent-ansible"
+      vars:
+        nrinfragent_config_file: "/opt/newrelic-infra-agent/nr-infra.yml"
+        nrinfragent_tarball_version: "1.18.0"
+        nrinfragent_tarball_download_dir: "/opt/newrelic-infra-download"
+        nrinfragent_tarball_agent_dir: "/opt/newrelic-infra-agent/"
+        nrinfragent_tarball_bin_dir: "/usr/local/bin"
+        nrinfragent_tarball_log_file: "/opt/newrelic-infra-agent/nr-infra.log"
+        nrinfragent_tarball_mode: ""
+        nrinfragent_tarball_pid_file: "/opt/newrelic-infra-agent/nr-infra.pid"
+        nrinfragent_tarball_plugin_dir: "/opt/newrelic-infra-agent/nr-infra-integrations.d"
+        nrinfragent_tarball_user: "root"
+        nrinfragent_config:
+          license_key: E000000000000000000000000000000000000000
+          custom_attributes:
+            team: 'newrelic'
+            business_unit: 'gtm'
+    

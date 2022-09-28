@@ -1,0 +1,8 @@
+custom_attributes:
+  beep: boop
+  business_unit: sales
+  team: newrelic
+foo: bar
+license_key: D000000000000000000000000000000000000000
+log_file: /tmp/logs.log
+verbose: 1

@@ -1,0 +1,15 @@
+name: 'Release package'
+description: 'Run release script'
+
+inputs:
+  galaxy_api_key:
+    description: "Ansible Galaxy API Key"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Release
+      id: release
+      run: ansible-galaxy role import --api-key ${{ inputs.galaxy_api_key }} newrelic infrastructure-agent-ansible
+      shell: bash

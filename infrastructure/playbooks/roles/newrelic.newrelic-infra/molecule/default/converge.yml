@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include infrastructure-agent-ansible"
+      include_role:
+        name: "infrastructure-agent-ansible"
+      vars:
+        nrinfragent_config:
+          license_key: Q000000000000000000000000000000000000000
+          custom_attributes:
+            team: 'newrelic'
+            business_unit: 'engineering'

@@ -1,7 +1,6 @@
 ---
 
-- include: users.yml
-- include: observability.yml
+- include_tasks: users.yml
 
 - name: Set timezone to UTC
   timezone:

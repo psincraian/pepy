@@ -1,0 +1,72 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tags:
+    - nria_install_tarball
+  tasks:
+  - name: stat newrelic-infra.yml
+    stat:
+      path: /opt/newrelic-infra-agent/nr-infra.yml
+    register: result
+
+  - name: assert newrelic-infra.yml exists as file
+    assert:
+      that:
+      - result.stat.exists and result.stat.isreg
+
+  - name: put newrelic-infra.yml fixture
+    copy:
+      src: ./fixtures/newrelic-infra-expected.yml
+      dest: /tmp/newrelic-infra-expected.yml
+
+  - name: diff newrelic-infra.yml and fixture
+    command: 'diff /tmp/newrelic-infra-expected.yml /opt/newrelic-infra-agent/nr-infra.yml'
+    register: result
+    ignore_errors: true
+
+  - name: assert newrelic-infra.yml matches fixture
+    assert:
+      that: result.failed != true
+
+  - name: look for newrelic procs
+    shell: ps -e -o command | tr -s ' ' | cut -d ' ' -f 1 | grep newrelic
+    register: cmd_result
+
+  - name: assert newrelic-infra and newrelic-infra-service are running
+    assert:
+      that:
+      - "'newrelic-infra' in cmd_result.stdout"
+      - "'newrelic-infra-service' in cmd_result.stdout"
+
+  - name: stat nr-infra.log
+    stat:
+      path: /opt/newrelic-infra-agent/nr-infra.log
+    register: result
+
+  - name: assert nr-infra.log exists as file
+    assert:
+      that:
+      - result.stat.exists and result.stat.isreg
+
+  - name: stat newrelic-infra binary
+    stat:
+      path: /usr/local/bin/newrelic-infra
+    register: result
+
+  - name: assert newrelic-infra binary exists as file
+    assert:
+      that:
+      - result.stat.exists and result.stat.isreg and result.stat.executable
+
+  - name: stat newrelic-infra plugins dir
+    stat:
+      path: /opt/newrelic-infra-agent/nr-infra-integrations.d
+    register: result
+
+  - name: assert newrelic-infra plugins dir exists as dir
+    assert:
+      that:
+      - result.stat.exists and result.stat.isdir

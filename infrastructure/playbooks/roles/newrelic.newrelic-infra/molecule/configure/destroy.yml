@@ -1,0 +1,9 @@
+---
+- name: Destroy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: "{{ molecule_no_log }}"
+  tasks:
+  - debug:
+      msg: This is a no-op. Please ensure you run destroy on the default scenario.

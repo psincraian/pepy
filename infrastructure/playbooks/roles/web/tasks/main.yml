@@ -1,6 +1,6 @@
 ---
-  - include: copy_code.yml
-  - include: install_dependencies.yml
-  - include: webserver.yml
-  - include: supervisor.yml
-  - include: crons.yml
+  - include_tasks: copy_code.yml
+  - include_tasks: install_dependencies.yml
+  - include_tasks: webserver.yml
+  - include_tasks: supervisor.yml
+  - include_tasks: crons.yml

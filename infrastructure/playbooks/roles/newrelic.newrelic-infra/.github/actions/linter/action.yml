@@ -1,0 +1,9 @@
+name: 'Run linter'
+description: 'Run linter against the code'
+runs:
+  using: "composite"
+  steps:
+    - name: Run linter
+      id: linter
+      run: ansible-lint tasks/* -x role-name,risky-file-permissions,literal-compare -c .yamllint
+      shell: bash

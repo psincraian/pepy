@@ -1,0 +1,28 @@
+---
+- name: Converge
+  hosts: all
+  tags:
+    - nria_configure
+  tasks:
+    - name: "Add a random attribute to the file to simulate a user edit"
+      lineinfile:
+        path: /etc/newrelic-infra.yml
+        line: 'foo: bar'
+
+    - name: "Add a random nested attribute to the file to simulate a nested user edit"
+      lineinfile:
+        path: /etc/newrelic-infra.yml
+        insertafter: '^  business_unit:'
+        line: '  beep: boop'
+
+    - name: "Include infrastructure-agent-ansible"
+      include_role:
+        name: "infrastructure-agent-ansible"
+      vars:
+        nrinfragent_config:
+          license_key: D000000000000000000000000000000000000000
+          custom_attributes:
+            team: 'newrelic'
+            business_unit: 'sales'
+          verbose: 1
+          log_file: /tmp/logs.log

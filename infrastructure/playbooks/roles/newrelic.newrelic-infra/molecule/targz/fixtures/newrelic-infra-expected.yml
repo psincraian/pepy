@@ -1,0 +1,8 @@
+agent_dir: /opt/newrelic-infra-agent/
+custom_attributes:
+  business_unit: gtm
+  team: newrelic
+license_key: E000000000000000000000000000000000000000
+log_file: /opt/newrelic-infra-agent/nr-infra.log
+pid_file: /opt/newrelic-infra-agent/nr-infra.pid
+plugin_dir: /opt/newrelic-infra-agent/nr-infra-integrations.d

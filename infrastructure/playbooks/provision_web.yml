@@ -1,5 +1,5 @@
 ---
-- name: Install Nginx, Postgres and application
+- name: Install Nginx and application
   hosts: backend
   roles:
     - { role: common, become: yes }

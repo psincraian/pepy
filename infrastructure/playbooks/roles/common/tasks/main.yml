@@ -1,6 +1,7 @@
 ---
 
 - include_tasks: users.yml
+- include_tasks: swap.yml
 
 - name: Set timezone to UTC
   timezone:

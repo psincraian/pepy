@@ -1,0 +1,41 @@
+---
+- name: Create a new development group
+  group:
+    name: "{{ pepy_group }}"
+    state: present
+
+- name: Crate a new pepy user in the development group
+  user:
+    name: "{{ pepy_user }}"
+    password: "{{ password | password_hash('sha512') }}"
+    update_password: on_create
+    comment: pepy
+    groups:
+      - "{{ pepy_group }}"
+      - sudo
+  vars:
+    - password: "{{ pepy_pass }}"
+
+- name: Create .ssh folder
+  file:
+    path: "/home/{{ pepy_user }}/.ssh"
+    state: directory
+    owner: "{{ pepy_user }}"
+    group: "{{ pepy_group }}"
+    mode: 0700
+
+- name: Copy SSH public key
+  copy:
+    content: "{{ pepy_ssh_public }}"
+    dest: "/home/{{ pepy_user }}/.ssh/id_rsa.pub"
+    owner: "{{ pepy_user }}"
+    group: "{{ pepy_group }}"
+    mode: 0700
+
+- name: Copy SSH private key
+  copy:
+    content: "{{ pepy_ssh_private }}"
+    dest: "/home/{{ pepy_user }}/.ssh/id_rsa"
+    owner: "{{ pepy_user }}"
+    group: "{{ pepy_group }}"
+    mode: 0700

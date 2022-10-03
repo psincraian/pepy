@@ -16,9 +16,11 @@ jobs:
           token: ${{ secrets.PAT }}
           file: 'README.md'
 
-      - name: Deploy to GitHub Pages 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Create Pull Request 🚀
+        uses: peter-evans/create-pull-request@v4
         with:
+          title: "feat: update sponsors"
+          body: "Sponsors now are up to date"
           commit-message: "feat: update sponsors"
-          branch: github-sponsors
-          folder: '.'
+          delete-branch: true
+          base:  master

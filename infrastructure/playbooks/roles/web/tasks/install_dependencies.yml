@@ -1,0 +1,31 @@
+---
+- name: Ensure packages are installed
+  apt:
+    name: ['supervisor', 'locales', 'python3.8-venv', 'python3-pip', 'software-properties-common']
+    update_cache: yes
+
+- name: Upgrade pip and setup tools
+  command: python3.8 -m pip install -U pip setuptools
+
+- name: Install pipenv
+  command: python3.8 -m pip install pipenv
+
+- name: Install dependencies
+  command: pipenv install --deploy
+  environment:
+    LC_ALL: C.UTF-8
+    LANG: C.UTF-8
+    PIPENV_VENV_IN_PROJECT: 1
+  become_user: "{{ gunicorn_user }}"
+  args:
+    chdir: "{{ project_directory }}"
+
+- name: Copy bigquery credentials file
+  copy:
+    src: bigquery_credentials_file.json
+    dest: "{{ bigquery_credentials_file }}"
+
+- name: Copy Newrelic config file
+  copy:
+    src: newrelic.ini
+    dest: "{{ project_directory }}/newrelic.ini"

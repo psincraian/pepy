@@ -1,0 +1,8 @@
+import os
+
+workers = 2
+threads = 1
+timeout = 30
+bind = "127.0.0.1:8000"
+accesslog="{{ gunicorn_log_file }}"
+loglevel="info"

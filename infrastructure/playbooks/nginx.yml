@@ -1,0 +1,5 @@
+---
+- name: Install and updates nginx configuration
+  hosts: all
+  roles:
+    - { role: nginx, become: yes }

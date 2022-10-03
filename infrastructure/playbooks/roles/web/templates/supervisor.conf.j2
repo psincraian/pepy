@@ -1,0 +1,16 @@
+[program:{{ project_name }}]
+command = pipenv run newrelic-admin run-program gunicorn -c gunicorn.conf.py pepy.infrastructure.web.__init__:app
+user = {{ gunicorn_user }}
+redirect_stderr = true
+directory = {{ project_directory }}
+environment=
+    APPLICATION_ENV=prod,
+    PEPY_SECRET_KEY={{ secret_key }},
+    PEPY_ADMIN_PASSWORD="{{ admin_password }}",
+    PEPY_DATABASE_HOST={{ db_host }},
+    PEPY_DATABASE_USER={{ db_user }},
+    PEPY_DATABASE_NAME={{ db_name }},
+    PEPY_DATABASE_PASSWORD={{ db_password }},
+    PEPY_BIGQUERY_CREDENTIALS="{{ bigquery_credentials_file }}",
+    PEPY_LOGGING_FILE="{{ app_log_file }}",
+    NEW_RELIC_CONFIG_FILE=newrelic.ini

@@ -1,0 +1,7 @@
+---
+- name: Install Nginx and application
+  hosts: backend
+  roles:
+    - { role: common, become: yes }
+    - { role: web, become: yes }
+    - { role: nginx, become: yes }

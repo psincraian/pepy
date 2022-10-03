@@ -1,0 +1,29 @@
+---
+
+- include_vars: pepy.yml
+
+- name: Ensure cron variables are set
+  cron:
+    name: "{{ item.name }}"
+    env: yes
+    value: "{{ item.value }}"
+    user: "{{ pepy_user }}"
+  with_items:
+    - "{{ pepy_env }}"
+  no_log: true
+
+- name: Ensure update downloads cron exists (root user deprecated)
+  cron:
+    name: "update daily downloads"
+    minute: "0"
+    hour: "17"
+    job: "cd {{ project_directory }} && .venv/bin/python -m pepy import:downloads:day --password \"{{ admin_password_plain }}\""
+    state: absent
+
+- name: Ensure update downloads cron exists
+  cron:
+    name: "update daily downloads"
+    minute: "0"
+    hour: "1"
+    job: "cd {{ project_directory }} && .venv/bin/python -m pepy import:downloads:day --password \"{{ admin_password_plain }}\" && curl -fsS --retry 3 https://hc-ping.com/{{ healthchecks_update_downloads_id }}"
+    user: "{{ pepy_user }}"

@@ -1,0 +1,33 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+attrs = "*"
+click = "*"
+commandbus = "*"
+google-cloud-bigquery = "*"
+gunicorn = "*"
+requests = "*"
+Flask = "*"
+Flask-WTF = "*"
+passlib = "*"
+pymongo = "<4.0"
+natsort = "*"
+newrelic = "*"
+pybadges = "*"
+markupsafe = "~=2.1.1"
+
+[dev-packages]
+behave = "*"
+pytest = "*"
+black = "*"
+pylint = "*"
+freezegun = "*"
+
+[requires]
+python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true

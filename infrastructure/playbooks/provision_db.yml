@@ -1,0 +1,6 @@
+---
+- name: Install MongoDB
+  hosts: database
+  roles:
+    - { role: common, become: yes }
+    - { role: mongo, become: yes }

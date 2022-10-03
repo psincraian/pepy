@@ -1,0 +1,5 @@
+---
+- name: Installs the latest application
+  hosts: backend
+  roles:
+    - { role: web, become: yes }

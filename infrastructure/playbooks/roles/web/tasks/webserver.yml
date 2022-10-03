@@ -1,0 +1,29 @@
+---
+
+- name: Ensure bash_profile is available
+  file:
+    path: "/home/{{ pepy_user }}/.bash_profile"
+    state: touch
+
+- name: Ensure the application log folder is available
+  file:
+    path: "{{ application_log_dir }}"
+    owner: "{{ gunicorn_user }}"
+    group: "{{ gunicorn_group }}"
+    mode: 0774
+    state: directory
+
+- name: Ensure the application log file is available
+  copy:
+    content: ""
+    dest: "{{ gunicorn_log_file }}"
+    owner: "{{ gunicorn_user }}"
+    group: "{{ gunicorn_group }}"
+    mode: 0664
+    force: no
+
+- name: Create the Gunicorn script file
+  template:
+    src: gunicorn.py.j2
+    dest: "{{ project_directory }}/gunicorn.conf.py"
+

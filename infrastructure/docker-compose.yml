@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  pepy:
+    image: python:3.8
+    environment:
+      - APPLICATION_ENV=dev
+      - FLASK_DEBUG=1
+      - SHELL=/bin/bash
+    entrypoint: "make start"
+    ports:
+      - 5200:80
+    volumes:
+      - .:/srv
+    working_dir: /srv
+    links:
+      - mongodb:mongodb
+
+  mongodb:
+    image: mongo
+    volumes:
+      - mongodb_data:/datadb
+    ports:
+      - 27017:27017
+    hostname: pgsql-master
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=pepy
+      - MONGO_INITDB_ROOT_PASSWORD=pepy
+
+volumes:
+  pepy_pgsql: {}
+  mongodb_data: {}

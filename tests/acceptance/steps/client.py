@@ -1,3 +1,4 @@
+import json
 import re
 from behave import *
 from behave.runner import Context
@@ -29,4 +30,4 @@ def step_impl(context):
     raw_result = context.response.data.decode()
     result = re.sub(r"\s+", "", raw_result)
     expect = re.sub(r"\s+", "", context.text)
-    assert expect == result, "Result is {}".format(raw_result)
+    assert json.loads(expect) == json.loads(result), "Result is {}".format(raw_result)

@@ -4,11 +4,11 @@
 - block:
     - name: Import MongoDB public GPG Key
       apt_key:
-        url: https://www.mongodb.org/static/pgp/server-4.2.asc
+        url: https://www.mongodb.org/static/pgp/server-4.4.asc
 
     - name: Add MongoDB repository into sources list
       apt_repository:
-        repo: deb http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse
+        repo: deb http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse
         state: present
 
     - name: Install MongoDB package

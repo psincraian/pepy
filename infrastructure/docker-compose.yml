@@ -2,7 +2,7 @@ version: '3'
 
 services:
   pepy:
-    image: pepy
+    image: ghcr.io/psincraian/pepy
     environment:
       - APPLICATION_ENV=dev
       - FLASK_DEBUG=1
@@ -26,7 +26,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=pepy
 
   pepy-test:
-    image: pepy-test
+    image: ghcr.io/psincraian/pepy-test
     environment:
       - APPLICATION_ENV=tests
       - FLASK_DEBUG=1

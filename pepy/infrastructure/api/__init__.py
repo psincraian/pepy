@@ -15,7 +15,13 @@ def project_action(project_name):
     project = container.project_repository.get(project_name)
     if project is None:
         raise ProjectNotFoundException(project_name)
-    return jsonify(transform_project(project))
+    response = jsonify(transform_project(project))
+    add_cache_control(response)
+    return response
+
+
+def add_cache_control(response):
+    response.headers.add("Cache-Control", "public, max-age=3600, stale-if-error=3600, stale-while-revalidate=60")
 
 
 @api.route("/v2/projects/<project_name>", methods=["GET"])
@@ -23,7 +29,10 @@ def get_project_action_v2(project_name):
     project = container.project_repository.get(project_name)
     if project is None:
         raise ProjectNotFoundException(project_name)
-    return jsonify(transform_project_v2(project))
+
+    response = jsonify(transform_project_v2(project))
+    add_cache_control(response)
+    return response
 
 
 @api.route("/v1/admin/projects/<project_name>", methods=["GET"])

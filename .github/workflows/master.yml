@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
+    - name: Authenticate docker
+      run: echo $GITHUB_TOKEN | docker login ghcr.io -u psincraian --password-stdin
     - name: Start environment
       run: make start-containers
     - name: Run tests

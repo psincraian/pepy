@@ -79,11 +79,7 @@ class BadgeService:
     @staticmethod
     def _last_downloads(project: Project, days: int) -> Downloads:
         min_date = datetime.now().date() - timedelta(days=days)
-        total_downloads = sum(
-            d.downloads.value
-            for d in project.last_downloads()
-            if d.date >= min_date
-        )
+        total_downloads = sum(d.downloads.value for d in project.last_downloads() if d.date >= min_date)
 
         return Downloads(total_downloads)
 
@@ -140,10 +136,6 @@ class PersonalizedBadgeService:
     @staticmethod
     def _last_downloads(project: Project, days: int) -> Downloads:
         min_date = datetime.now().date() - timedelta(days=days)
-        total_downloads = sum(
-            d.downloads.value
-            for d in project.last_downloads()
-            if d.date >= min_date
-        )
+        total_downloads = sum(d.downloads.value for d in project.last_downloads() if d.date >= min_date)
 
         return Downloads(total_downloads)

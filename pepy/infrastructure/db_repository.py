@@ -41,7 +41,7 @@ class MongoProjectRepository(ProjectRepository):
             downloads = sorted(raw_downloads, key=lambda x: x["date"])
             for day_downloads in downloads:
                 for version_downloads in day_downloads["downloads"]:
-                    pip_downlods = version_downloads["pip_downloads"] if "pip_downlods" in version_downloads else 0
+                    pip_downlods = version_downloads["pip_downloads"] if "pip_downloads" in version_downloads else 0
                     project.add_downloads(
                         datetime.date.fromisoformat(day_downloads["date"]),
                         version_downloads["version"],
@@ -56,9 +56,7 @@ class MongoProjectRepository(ProjectRepository):
         query = {"name": project.name.name}
         self._client.projects.replace_one(query, project_data, upsert=True)
         downloads_requests = [
-            ReplaceOne(
-                {"project": project.name.name, "date": date}, value, upsert=True
-            )
+            ReplaceOne({"project": project.name.name, "date": date}, value, upsert=True)
             for date, value in self._convert_downloads_to_raw(project).items()
         ]
 

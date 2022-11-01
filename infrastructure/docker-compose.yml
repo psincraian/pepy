@@ -2,19 +2,18 @@ version: '3'
 
 services:
   pepy:
-    image: python:3.8
+    image: ghcr.io/psincraian/pepy
     environment:
       - APPLICATION_ENV=dev
       - FLASK_DEBUG=1
       - SHELL=/bin/bash
-    entrypoint: "make start"
     ports:
       - 5200:80
     volumes:
-      - .:/srv
-    working_dir: /srv
+      - ./:/code
     links:
       - mongodb:mongodb
+    command: "gunicorn -c /code/infrastructure/dockerfiles/pepy/gunicorn.conf.py pepy.infrastructure.web.__init__:app"
 
   mongodb:
     image: mongo
@@ -22,11 +21,21 @@ services:
       - mongodb_data:/datadb
     ports:
       - 27017:27017
-    hostname: pgsql-master
     environment:
       - MONGO_INITDB_ROOT_USERNAME=pepy
       - MONGO_INITDB_ROOT_PASSWORD=pepy
 
+  pepy-test:
+    image: ghcr.io/psincraian/pepy-test
+    environment:
+      - APPLICATION_ENV=tests
+      - FLASK_DEBUG=1
+      - SHELL=/bin/bash
+    volumes:
+      - ./:/code
+    links:
+      - mongodb:mongodb
+    command: sleep infinity
+
 volumes:
-  pepy_pgsql: {}
   mongodb_data: {}

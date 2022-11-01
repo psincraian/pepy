@@ -10,7 +10,7 @@ start: install
 
 start-containers:
 	$(DOCKER-COMPOSE) up -d
-	until curl --silent -XGET --fail http://localhost:5200/health-check; do printf '\n### Compose logs ###\n'; docker logs -n5 pepy_pepy_1; sleep 1; done
+	until curl --silent -XGET --fail http://localhost:5200/health-check; do sleep 1; done
 
 stop-containers:
 	$(DOCKER-COMPOSE) stop
@@ -19,16 +19,16 @@ remove-containers:
 	$(DOCKER-COMPOSE) down
 
 unit-tests:
-	$(DOCKER-COMPOSE) exec $(params) pepy pipenv run pytest tests/unit
+	$(DOCKER-COMPOSE) exec $(params) pepy-test pytest tests/unit
 
 integration-tests:
-	$(DOCKER-COMPOSE) exec $(params) pepy pipenv run pytest tests/integration
+	$(DOCKER-COMPOSE) exec $(params) pepy-test pytest -v tests/integration
 
 acceptance-tests:
-	$(DOCKER-COMPOSE) exec $(params) pepy pipenv run behave tests/acceptance
+	$(DOCKER-COMPOSE) exec $(params) pepy-test behave tests/acceptance
 
-tests: unit-tests  acceptance-tests
+tests: unit-tests integration-tests acceptance-tests
 
 format-code:
-	$(DOCKER-COMPOSE) exec $(params) pepy pipenv run black -l 120 --exclude=".*\/node_modules" pepy/ tests/
+	pipenv run black -l 120 --exclude=".*\/node_modules" pepy/ tests/
 

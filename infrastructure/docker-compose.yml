@@ -8,7 +8,7 @@ services:
       - FLASK_DEBUG=1
       - SHELL=/bin/bash
     ports:
-      - 5200:80
+      - 5200:8080
     volumes:
       - ./:/code
     links:

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pepy
+  labels:
+    app: pepy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pepy
+  template:
+    metadata:
+      labels:
+        app: pepy
+    spec:
+      volumes:
+        - name: google-cloud-key
+          secret:
+            secretName: service-account-credentials
+      containers:
+        - name: pepy
+          image: ghcr.io/psincraian/pepy
+          env:
+            - name: APPLICATION_ENV
+              value: prod
+            - name: PEPY_LOGGING_FILE
+              value: app.log
+            - name: PEPY_BIGQUERY_CREDENTIALS
+              value: /var/secrets/google/bq_credentials.json
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: google-cloud-key
+              mountPath: /var/secrets/google
+      imagePullSecrets:
+        - name: dockerconfigjson-github-com

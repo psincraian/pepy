@@ -16,7 +16,8 @@ from pepy.application.command import (
 )
 from pepy.domain.model import HashedPassword
 from pepy.infrastructure.db_repository import MongoProjectRepository
-from ._config import BQ_CREDENTIALS_FILE, ADMIN_PASSWORD, LOGGING_FILE, LOGGING_DIR, MONGODB, environment, Environment
+from ._config import BQ_CREDENTIALS_FILE, ADMIN_PASSWORD, LOGGING_FILE, LOGGING_DIR, MONGODB, environment, Environment, \
+    LOGGING_LEVEL
 from ..bq_stats_viewer import BQStatsViewer
 from ...domain.pypi import StatsViewer, Result
 
@@ -37,11 +38,14 @@ Path(LOGGING_DIR).mkdir(parents=True, exist_ok=True)
 
 # Logger configuration
 logger = logging.getLogger("pepy")
-logger.setLevel(logging.INFO)
+logger.setLevel(LOGGING_LEVEL)
 formatter = logging.Formatter("[%(asctime)s] [%(levelname)s] [%(pathname)s:%(funcName)s:%(lineno)d]: %(message)s")
 file_handler = logging.FileHandler(LOGGING_FILE)
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
+consoleHandler = logging.StreamHandler()
+consoleHandler.setFormatter(formatter)
+logger.addHandler(consoleHandler)
 mongo_client = MongoClient(MONGODB)
 
 if environment == Environment.test:

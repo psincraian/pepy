@@ -2,6 +2,7 @@ import json
 import traceback
 
 from flask import Flask, Response, request
+from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 
 from pepy.domain.exception import DomainException, ProjectNotFoundException
@@ -11,6 +12,7 @@ from pepy.infrastructure.api import api
 app = Flask(__name__)
 app.config.from_object(container.config)
 app.register_blueprint(api, url_prefix="/api")
+CORS(app, resources={r"/api/*": {"origins": "https://pepy.tech"}})
 
 
 @app.route("/health-check")

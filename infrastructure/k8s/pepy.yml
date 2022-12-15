@@ -5,7 +5,7 @@ metadata:
   labels:
     app: pepy
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: pepy
@@ -18,6 +18,9 @@ spec:
         - name: google-cloud-key
           secret:
             secretName: service-account-credentials
+        - name: newrelic-config
+          secret:
+            secretName: newrelic-config
       containers:
         - name: pepy
           image: ghcr.io/psincraian/pepy
@@ -28,11 +31,32 @@ spec:
               value: app.log
             - name: PEPY_BIGQUERY_CREDENTIALS
               value: /var/secrets/google/bq_credentials.json
+            - name: NEW_RELIC_CONFIG_FILE
+              value: /var/secrets/newrelic/newrelic.ini
+            - name: PEPY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pepy-secrets
+                  key: admin-password
+                  optional: false
           ports:
             - containerPort: 8080
           imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /health-check
+              port: 8080
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "128m"
           volumeMounts:
             - name: google-cloud-key
               mountPath: /var/secrets/google
+            - name: newrelic-config
+              mountPath: /var/secrets/newrelic
       imagePullSecrets:
         - name: dockerconfigjson-github-com

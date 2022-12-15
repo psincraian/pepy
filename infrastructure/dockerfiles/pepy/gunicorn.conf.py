@@ -2,6 +2,7 @@ import os
 
 port = 8080
 
+
 if os.getenv('APPLICATION_ENV', None) == 'prod':
     workers = 2
     threads = 1

@@ -3,18 +3,34 @@ name: CI
 on: pull_request
 
 jobs:
+  build:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build image
+        run: docker build --file infrastructure/dockerfiles/pepy/Dockerfile --tag ghcr.io/psincraian/pepy:branch-$(GITHUB_REF_NAME) .
+      - name: Push image
+        run: docker push ghcr.io/psincraian/pepy:branch-$(GITHUB_REF_NAME)
+
   tests:
     name: Tests
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Log in to the Container registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Start environment
-      run: make start-containers
-    - name: Run tests
-      run: make params=-T tests
+      - uses: actions/checkout@v1
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Start environment
+        run: DOCKER_TAG=branch-$(GITHUB_REF_NAME) make start-containers
+      - name: Run tests
+        run: make params=-T tests

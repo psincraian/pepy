@@ -2,7 +2,7 @@ version: '3'
 
 services:
   pepy:
-    image: ghcr.io/psincraian/pepy
+    image: ghcr.io/psincraian/pepy:${PEPY_VERSION}
     environment:
       - APPLICATION_ENV=dev
       - FLASK_DEBUG=1

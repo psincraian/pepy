@@ -34,4 +34,4 @@ COPY ./infrastructure/dockerfiles/pepy/gunicorn.conf.py /code
 COPY ./pepy /code/pepy
 
 #
-CMD ["gunicorn", "-c", "gunicorn.conf.py", "pepy.infrastructure.web.__init__:app"]
+CMD ["newrelic-admin", "run-program", "gunicorn", "-c", "gunicorn.conf.py", "pepy.infrastructure.web.__init__:app"]

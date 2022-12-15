@@ -1,4 +1,4 @@
-DOCKER_TAG = latest
+DOCKER_TAG?=latest
 DOCKER-COMPOSE = PEPY_VERSION=$(DOCKER_TAG) docker-compose -f infrastructure/docker-compose.yml --project-directory .
 params?=
 

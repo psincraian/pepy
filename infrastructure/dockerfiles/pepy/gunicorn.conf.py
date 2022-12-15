@@ -8,6 +8,7 @@ if os.getenv('APPLICATION_ENV', None) == 'prod':
     threads = 1
     timeout = 30
     capture_output = True
+    accesslog = '-'
 
 if os.getenv('APPLICATION_ENV', None) == 'dev':
     reload = True

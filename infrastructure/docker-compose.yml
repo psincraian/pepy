@@ -26,7 +26,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=pepy
 
   pepy-test:
-    image: ghcr.io/psincraian/pepy-test
+    image: ghcr.io/psincraian/pepy-test:${PEPY_VERSION}
     environment:
       - APPLICATION_ENV=tests
       - FLASK_DEBUG=1

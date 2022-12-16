@@ -2,13 +2,6 @@ DOCKER_TAG?=latest
 DOCKER-COMPOSE = PEPY_VERSION=$(DOCKER_TAG) docker-compose -f infrastructure/docker-compose.yml --project-directory .
 params?=
 
-install:
-	pip install pipenv
-	pipenv install --dev
-
-start: install
-	pipenv run gunicorn -c infrastructure/gunicorn.conf.py -b :80 pepy.infrastructure.web.__init__:app
-
 start-containers:
 	$(DOCKER-COMPOSE) up -d
 	until curl --silent -XGET --fail http://localhost:5200/health-check; do sleep 1; done

@@ -14,11 +14,14 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build image
+      - name: Build pepy image
         run: docker build --file infrastructure/dockerfiles/pepy/Dockerfile --tag ghcr.io/psincraian/pepy:branch-$GITHUB_HEAD_REF .
       - name: Push image
         run: docker push ghcr.io/psincraian/pepy:branch-$GITHUB_HEAD_REF
-
+      - name: Build pepy-test image
+        run: docker build --file infrastructure/dockerfiles/pepy-test/Dockerfile --tag ghcr.io/psincraian/pepy-test:branch-$GITHUB_HEAD_REF .
+      - name: Push image
+        run: docker push ghcr.io/psincraian/pepy-test:branch-$GITHUB_HEAD_REF
   tests:
     name: Tests
     needs: build

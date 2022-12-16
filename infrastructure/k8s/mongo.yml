@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pepy-mongo
+spec:
+  selector:
+    matchLabels:
+      app: pepy-mongo
+  template:
+    metadata:
+      labels:
+        app: pepy-mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:4
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: storage
+              mountPath: /data/db
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: pepy-mongo-pvc

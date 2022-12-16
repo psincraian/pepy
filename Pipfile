@@ -18,6 +18,7 @@ natsort = "*"
 newrelic = "*"
 pybadges = "*"
 markupsafe = "~=2.1.1"
+flask-cors = "*"
 
 [dev-packages]
 behave = "*"

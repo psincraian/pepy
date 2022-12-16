@@ -9,3 +9,5 @@ from ._start import (
     mongo_client,
     admin_password_checker,
 )
+
+logger.debug("container initiated")

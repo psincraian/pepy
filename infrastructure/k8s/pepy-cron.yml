@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pepy-cron
+  labels:
+    app: pepy
+spec:
+  schedule: "00 02 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: google-cloud-key
+              secret:
+                secretName: service-account-credentials
+            - name: newrelic-config
+              secret:
+                secretName: newrelic-config
+          containers:
+            - name: pepy
+              image: ghcr.io/psincraian/pepy
+              env:
+                - name: APPLICATION_ENV
+                  value: prod
+                - name: PEPY_LOGGING_FILE
+                  value: app.log
+                - name: PEPY_BIGQUERY_CREDENTIALS
+                  value: /var/secrets/google/bq_credentials.json
+                - name: NEW_RELIC_CONFIG_FILE
+                  value: /var/secrets/newrelic/newrelic.ini
+                - name: PEPY_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: pepy-secrets
+                      key: admin-password
+                      optional: false
+              ports:
+                - containerPort: 8080
+              imagePullPolicy: Always
+              command:
+                - /bin/sh
+                - -c
+                - python -m pepy import:downloads:day --password eg9slT2Y09Pn5XjChvGy
+                - curl -fsS --retry 3 https://hc-ping.com/b5fb64db-877f-469c-9535-311e2e658b9f
+              volumeMounts:
+                - name: google-cloud-key
+                  mountPath: /var/secrets/google
+                - name: newrelic-config
+                  mountPath: /var/secrets/newrelic
+          restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: dockerconfigjson-github-com

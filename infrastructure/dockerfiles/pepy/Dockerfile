@@ -26,11 +26,13 @@ COPY --from=requirements-stage /tmp/requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 #
-ENV PORT 80
+EXPOSE 8080
+ENV PORT 8080
+
 
 #
 COPY ./infrastructure/dockerfiles/pepy/gunicorn.conf.py /code
 COPY ./pepy /code/pepy
 
 #
-CMD ["gunicorn", "-c", "gunicorn.conf.py", "pepy.infrastructure.web.__init__:app"]
+CMD ["newrelic-admin", "run-program", "gunicorn", "-c", "gunicorn.conf.py", "pepy.infrastructure.web.__init__:app"]

@@ -2,13 +2,13 @@ version: '3'
 
 services:
   pepy:
-    image: ghcr.io/psincraian/pepy
+    image: ghcr.io/psincraian/pepy:${PEPY_VERSION}
     environment:
       - APPLICATION_ENV=dev
       - FLASK_DEBUG=1
       - SHELL=/bin/bash
     ports:
-      - 5200:80
+      - 5200:8080
     volumes:
       - ./:/code
     links:
@@ -26,7 +26,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=pepy
 
   pepy-test:
-    image: ghcr.io/psincraian/pepy-test
+    image: ghcr.io/psincraian/pepy-test:${PEPY_VERSION}
     environment:
       - APPLICATION_ENV=tests
       - FLASK_DEBUG=1

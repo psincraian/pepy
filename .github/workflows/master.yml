@@ -7,35 +7,55 @@ on:
   workflow_dispatch:
 
 jobs:
-  tests:
-    name: Tests
+  build:
+    name: Build Docker image
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Log in to the Container registry
-      uses: docker/login-action@v2
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Start environment
-      run: make start-containers
-    - name: Run tests
-      run: make params=-T tests
+      - uses: actions/checkout@v1
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build pepy image
+        run: docker build --file infrastructure/dockerfiles/pepy/Dockerfile --tag ghcr.io/psincraian/pepy:latest .
+      - name: Push image
+        run: docker push ghcr.io/psincraian/pepy:latest
+      - name: Build pepy-test image
+        run: docker build --file infrastructure/dockerfiles/pepy-test/Dockerfile --tag ghcr.io/psincraian/pepy-test:latest .
+      - name: Push image
+        run: docker push ghcr.io/psincraian/pepy-test:latest
+  tests:
+    name: Tests
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Start environment
+        run: DOCKER_TAG=latest make start-containers
+      - name: Run tests
+        run: DOCKER_TAG=latest make params=-T tests
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     needs: tests
     steps:
-    - uses: actions/checkout@v1
-    - name: Run Ansible playbook
-      uses: dawidd6/action-ansible-playbook@v2
-      with:
-        playbook: ./infrastructure/playbooks/deploy.yml
-        directory: ./
-        key: ${{secrets.SSH_KEY}}
-        vault_password: ${{secrets.VAULT_PASSWORD}}
-        options: |
-          --inventory infrastructure/playbooks/hosts
-      env:
-        ANSIBLE_HOST_KEY_CHECKING: False
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
+      - name: Deploy to DigitalOcean Kubernetes
+        run: kubectl apply --recursive -f $GITHUB_WORKSPACE/infrastructure/k8s
+      - name: Rollout
+        run: kubectl rollout restart deployment pepy
+      - name: Verify deployment
+        run: kubectl rollout status deployment/pepy

@@ -15,9 +15,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build image
-        run: docker build --file infrastructure/dockerfiles/pepy/Dockerfile --tag ghcr.io/psincraian/pepy:branch-${{GITHUB_REF_NAME}} .
+        run: docker build --file infrastructure/dockerfiles/pepy/Dockerfile --tag ghcr.io/psincraian/pepy:branch-$GITHUB_REF_NAME .
       - name: Push image
-        run: docker push ghcr.io/psincraian/pepy:branch-${{GITHUB_REF_NAME}}
+        run: docker push ghcr.io/psincraian/pepy:branch-$GITHUB_REF_NAME
 
   tests:
     name: Tests
@@ -32,6 +32,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Start environment
-        run: DOCKER_TAG=branch-${{GITHUB_REF_NAME}} make start-containers
+        run: DOCKER_TAG=branch-$GITHUB_REF_NAME make start-containers
       - name: Run tests
-        run: DOCKER_TAG=branch-${{GITHUB_REF_NAME}} make params=-T tests
+        run: DOCKER_TAG=branch-$GITHUB_REF_NAME make params=-T tests

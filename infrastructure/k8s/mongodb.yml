@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+spec:
+  serviceName: mongodb
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongo
+          image: mongo:4
+          command:
+            - mongod
+            - "--bind_ip_all"
+            - "--replSet"
+            - rs0
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongodb-volume
+              mountPath: /data/db
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "100m"
+            limits:
+              memory: "250Mi"
+              cpu: "125m"
+  volumeClaimTemplates:
+  - metadata:
+      name: mongodb-volume
+    spec:
+      dataSource:
+        name: snapshot-manual-december
+        kind: VolumeSnapshot
+        apiGroup: snapshot.storage.k8s.io
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 30Gi
+      storageClassName: do-block-storage-xfs
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+spec:
+  selector:
+    app: mongodb
+  clusterIP: None
+  ports:
+    - port: 27017
+      targetPort: 27017
+
+---
+
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: snapshot-manual-december
+spec:
+  volumeSnapshotClassName: do-block-storage
+  source:
+    volumeSnapshotContentName: snapshotcontent-december
+
+---
+
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotContent
+metadata:
+  name: snapshotcontent-december
+spec:
+  deletionPolicy: Retain
+  driver: dobs.csi.digitalocean.com
+  source:
+    snapshotHandle: 09dc6bd1-7f09-11ed-9bcf-0a58ac144bae
+  volumeSnapshotRef:
+    name: snapshot-manual-december
+    namespace: default

@@ -101,7 +101,8 @@ class PersonalizedBadgeService:
     def generate(
         self, project_name: str, period: str, left_color: str, right_color: str, left_text: str, units: str
     ) -> Badge:
-        project = self._project_repository.get(project_name)
+        from_date = datetime.now().date() - timedelta(days=30)
+        project = self._project_repository.get(project_name, downloads_from=from_date)
         if project is None:
             raise ProjectNotFoundException(project_name)
         badge_data = PersonalizedBadge(

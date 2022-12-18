@@ -13,7 +13,8 @@ api = Blueprint("api", __name__)
 
 @api.route("/projects/<project_name>", methods=["GET"])
 def project_action(project_name):
-    project = container.project_repository.get(project_name)
+    from_date = datetime.now().date() - timedelta(days=30)
+    project = container.project_repository.get(project_name, downloads_from=from_date)
     if project is None:
         raise ProjectNotFoundException(project_name)
     response = jsonify(transform_project(project))

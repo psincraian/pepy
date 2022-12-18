@@ -53,7 +53,8 @@ class BadgeService:
         self._downloads_formatter = downloads_formatter
 
     def generate_badge(self, project_name: str) -> Badge:
-        project = self._project_repository.get(project_name)
+        from_date = datetime.now().date() - timedelta(days=1)
+        project = self._project_repository.get(project_name, downloads_from=from_date)
         if project is None:
             raise ProjectNotFoundException(project_name)
         downloads = self._downloads_formatter.format(project.total_downloads)
@@ -61,7 +62,8 @@ class BadgeService:
         return Badge(project_name, s)
 
     def generate_last_30_days_badge(self, project_name: str) -> Badge:
-        project = self._project_repository.get(project_name)
+        from_date = datetime.now().date() - timedelta(days=30)
+        project = self._project_repository.get(project_name, downloads_from=from_date)
         if project is None:
             raise ProjectNotFoundException(project_name)
         downloads = self._downloads_formatter.format(self._last_downloads(project, 30))
@@ -69,7 +71,8 @@ class BadgeService:
         return Badge(project_name, s)
 
     def generate_last_7_days_badge(self, project_name: str) -> Badge:
-        project = self._project_repository.get(project_name)
+        from_date = datetime.now().date() - timedelta(days=7)
+        project = self._project_repository.get(project_name, downloads_from=from_date)
         if project is None:
             raise ProjectNotFoundException(project_name)
         downloads = self._downloads_formatter.format(self._last_downloads(project, 7))

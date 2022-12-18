@@ -51,7 +51,7 @@ Feature: show index page with some selected projects
     {
       "id": "pepy",
       "total_downloads": 120,
-      "versions": ["1.0", "2.0"],
+      "versions": [],
       "downloads": {
       }
     }

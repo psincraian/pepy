@@ -30,11 +30,11 @@ spec:
               mountPath: /data/db
           resources:
             requests:
-              memory: "200Mi"
-              cpu: "100m"
+              memory: "400Mi"
+              cpu: "200m"
             limits:
-              memory: "250Mi"
-              cpu: "125m"
+              memory: "500Mi"
+              cpu: "250m"
   volumeClaimTemplates:
   - metadata:
       name: mongodb-volume

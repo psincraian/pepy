@@ -67,3 +67,4 @@ jobs:
           accountId: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
           applicationId: ${{ secrets.NEW_RELIC_APPLICATION_ID }}
           revision: "${{ github.sha }}"
+          region: EU

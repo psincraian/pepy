@@ -15,13 +15,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build pepy image
-        run: docker build --file infrastructure/dockerfiles/pepy/Dockerfile --tag ghcr.io/psincraian/pepy:branch-$GITHUB_HEAD_REF .
+        run: docker build --file infrastructure/dockerfiles/pepy/Dockerfile --tag ghcr.io/psincraian/pepy:sha-$GITHUB_SHA .
       - name: Push image
-        run: docker push ghcr.io/psincraian/pepy:branch-$GITHUB_HEAD_REF
+        run: docker push ghcr.io/psincraian/pepy:sha-$GITHUB_SHA
       - name: Build pepy-test image
-        run: docker build --file infrastructure/dockerfiles/pepy-test/Dockerfile --tag ghcr.io/psincraian/pepy-test:branch-$GITHUB_HEAD_REF .
+        run: docker build --file infrastructure/dockerfiles/pepy-test/Dockerfile --tag ghcr.io/psincraian/pepy-test:sha-$GITHUB_SHA .
       - name: Push image
-        run: docker push ghcr.io/psincraian/pepy-test:branch-$GITHUB_HEAD_REF
+        run: docker push ghcr.io/psincraian/pepy-test:sha-$GITHUB_SHA
   tests:
     name: Tests
     needs: build
@@ -35,6 +35,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Start environment
-        run: DOCKER_TAG=branch-$GITHUB_HEAD_REF make start-containers
+        run: DOCKER_TAG=sha-$GITHUB_SHA make start-containers
       - name: Run tests
-        run: DOCKER_TAG=branch-$GITHUB_HEAD_REF make params=-T tests
+        run: DOCKER_TAG=sha-$GITHUB_SHA make params=-T tests

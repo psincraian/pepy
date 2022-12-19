@@ -16,8 +16,7 @@ def cli():
 
 @cli.command("import:downloads:day")
 @click.option("--day", help="The day to import downloads")
-@click.option("--password", prompt=True, help="The admin password to perform that")
-def import_day_downloads_action(password: str, day: Optional[str]):
+def import_day_downloads_action(day: Optional[str]):
     try:
         if day is not None:
             date = datetime.strptime(day, "%Y-%m-%d")
@@ -26,7 +25,7 @@ def import_day_downloads_action(password: str, day: Optional[str]):
     except ValueError:
         raise BadParameter("Date format should be YYYY-mm-dd")
     click.echo("Importing downloads...")
-    container.command_bus.publish(UpdateVersionDownloads(date.date(), Password(password)))
+    container.command_bus.publish(UpdateVersionDownloads(date.date()))
     click.echo("Done")
 
 

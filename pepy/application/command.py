@@ -59,8 +59,7 @@ class ImportTotalDownloadsHandler(CommandHandler):
 
 
 class UpdateVersionDownloads(Command):
-    def __init__(self, date: datetime.date, password: Password):
-        self.password = password
+    def __init__(self, date: datetime.date):
         self.date = date
 
 
@@ -78,9 +77,6 @@ class UpdateVersionDownloadsHandler(CommandHandler):
         self._logger = logger
 
     def handle(self, cmd: UpdateVersionDownloads):
-        if not self._admin_password_checker.check(cmd.password):
-            self._logger.info("Invalid password")
-            raise InvalidAdminPassword(cmd.password)
         self._logger.info(f"Getting downloads from date {cmd.date}...")
         stats_result = self._stats_viewer.get_version_downloads(cmd.date)
         self._logger.info(f"Retrieved {stats_result.total_rows} downloads. Saving to db...")

@@ -48,4 +48,4 @@ def step_impl(context: Context, number: str):
 @when("I run the update_version_downloads command for date {date_str}")
 def step_impl(context: Context, date_str: str):
     date = datetime.date.fromisoformat(date_str)
-    context.container.command_bus.publish(UpdateVersionDownloads(date, Password("pepyrocks")))
+    context.container.command_bus.publish(UpdateVersionDownloads(date))

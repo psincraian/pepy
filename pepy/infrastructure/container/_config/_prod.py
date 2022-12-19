@@ -1,7 +1,7 @@
 import logging
 import os
 
-MONGODB = "mongodb://pepy-mongo:27017"
+MONGODB = "mongodb://mongodb:27017"
 
 WTF_CSRF_ENABLED = True
 SECRET_KEY = os.environ.get("PEPY_SECRET_KEY")

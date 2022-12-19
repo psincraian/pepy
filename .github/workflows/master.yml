@@ -60,3 +60,11 @@ jobs:
         run: kubectl rollout restart deployment pepy
       - name: Verify deployment
         run: kubectl rollout status deployment/pepy
+      - name: Create New Relic deployment marker
+        uses: newrelic/deployment-marker-action@v1
+        with:
+          apiKey: ${{ secrets.NEW_RELIC_API_KEY }}
+          accountId: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
+          applicationId: ${{ secrets.NEW_RELIC_APPLICATION_ID }}
+          revision: "${{ github.sha }}"
+          region: EU

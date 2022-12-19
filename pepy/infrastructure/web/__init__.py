@@ -12,7 +12,7 @@ from pepy.infrastructure.api import api
 app = Flask(__name__)
 app.config.from_object(container.config)
 app.register_blueprint(api, url_prefix="/api")
-CORS(app, resources={r"/api/*": {"origins": "https://pepy.tech"}})
+CORS(app, resources={r"/api/*": {"origins": ["https://pepy.tech", "http://localhost:3000"]}})
 
 
 @app.route("/health-check")

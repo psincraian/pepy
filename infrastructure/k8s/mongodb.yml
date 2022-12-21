@@ -28,6 +28,14 @@ spec:
           volumeMounts:
             - name: mongodb-volume
               mountPath: /data/db
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - mongo --eval "rs.status()" | grep -vq "REMOVED"
+            initialDelaySeconds: 45
+            timeoutSeconds: 5
           resources:
             requests:
               memory: "400Mi"

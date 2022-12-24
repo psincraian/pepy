@@ -7,7 +7,6 @@ metadata:
 spec:
   schedule: "00 02 * * *"
   concurrencyPolicy: Forbid
-  ttlSecondsAfterFinished: 86400 # 1 day
   jobTemplate:
     spec:
       template:

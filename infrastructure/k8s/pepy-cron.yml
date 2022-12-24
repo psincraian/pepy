@@ -7,7 +7,6 @@ metadata:
 spec:
   schedule: "00 02 * * *"
   concurrencyPolicy: Forbid
-  ttlSecondsAfterFinished: 86400 # 1 day
   jobTemplate:
     spec:
       template:
@@ -53,11 +52,11 @@ spec:
                   mountPath: /var/secrets/newrelic
               resources:
                 requests:
-                  memory: "150Mi"
-                  cpu: "150m"
+                  memory: "100Mi"
+                  cpu: "250m"
                 limits:
-                  memory: "200Mi"
-                  cpu: "200m"
+                  memory: "150Mi"
+                  cpu: "300m"
           restartPolicy: OnFailure
           imagePullSecrets:
             - name: dockerconfigjson-github-com

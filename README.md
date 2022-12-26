@@ -19,10 +19,12 @@ We can keep alive the website thanks to you and also thanks to the following spo
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=7bf782110d6c&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
-<!-- sponsors --><a href="https://github.com/PySimpleGUI"><img src="https://github.com/PySimpleGUI.png" width="60px" alt="PySimpleGUI" /></a><a href="https://github.com/samuelcolvin"><img src="https://github.com/samuelcolvin.png" width="60px" alt="Samuel Colvin" /></a><!-- sponsors -->
+<a href="https://github.com/PySimpleGUI"><img src="https://github.com/PySimpleGUI.png" width="60px" alt="PySimpleGUI" /></a>
+<a href="https://github.com/samuelcolvin"><img src="https://github.com/samuelcolvin.png" width="60px" alt="Samuel Colvin" /></a>
+<a href="https://github.com/mightbesimon"><img src="https://github.com/mightbesimon.png" width="60px" alt="Simon" /></a>
 
 ## ⚒️ Start contributing
-I wanted to make the setup of the environment as easy as possible. To start the environment you need the 
+I wanted to make the setup of the environment as easy as possible. To start the environment you need the
 following prerequisites:
 
 ### Prerequisites
@@ -31,7 +33,7 @@ following prerequisites:
   * docker-compose (+1.16.1)
   * docker-py (+2.2.1)
   * ansible (+2.3)
-  
+
 ### Start environment
 You only (_fingers crossed_) need to execute the following to start the environment:
 
@@ -51,7 +53,7 @@ The structure of the code is the following:
     * `pepy/infrastructure/cli`: the command line programs.
     * `pepy/infrastructure/container`: config files and the dependency injection manager.
     * `pepy/infrastructure/api`: the api endpoints controller.
-    
+
 ## FAQ
 **Where the downloads come from?**
 

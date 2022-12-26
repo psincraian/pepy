@@ -52,7 +52,7 @@ spec:
           resources:
             requests:
               memory: "256Mi"
-              cpu: "50m"
+              cpu: "25m"
           volumeMounts:
             - name: google-cloud-key
               mountPath: /var/secrets/google

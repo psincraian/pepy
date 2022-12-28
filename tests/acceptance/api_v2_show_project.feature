@@ -35,10 +35,12 @@ Feature: show index page with some selected projects
     }
     """
 
-  Scenario: do not show stats older than 90 days
-    Given today is 2018-08-30
+  Scenario: do not show stats older than 4 months
+    Given today is 2018-08-29
     And the pepy project with the following downloads
       | date       | version | downloads |
+      | 2018-04-29 | 1.0     | 10        |
+      | 2018-04-30 | 1.0     | 10        |
       | 2018-05-01 | 1.0     | 10        |
       | 2018-05-02 | 2.0     | 15        |
       | 2018-05-03 | 1.0     | 20        |
@@ -50,9 +52,22 @@ Feature: show index page with some selected projects
     """
     {
       "id": "pepy",
-      "total_downloads": 120,
-      "versions": [],
+      "total_downloads": 140,
+      "versions": ["1.0", "2.0"],
       "downloads": {
+        "2018-05-01": {
+          "1.0": 10
+        },
+        "2018-05-02": {
+          "2.0": 15
+        },
+        "2018-05-03": {
+          "1.0": 20,
+          "2.0": 25
+        },
+        "2018-05-04": {
+          "2.0": 50
+        }
       }
     }
     """

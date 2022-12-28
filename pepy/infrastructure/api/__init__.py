@@ -29,6 +29,7 @@ def add_cache_control(response):
 @api.route("/v2/projects/<project_name>", methods=["GET"])
 def get_project_action_v2(project_name):
     from_date = datetime.now().date() - timedelta(days=90)
+    from_date = from_date.replace(day=1)
     project = container.project_repository.get(project_name, downloads_from=from_date)
     if project is None:
         raise ProjectNotFoundException(project_name)

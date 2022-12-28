@@ -16,8 +16,8 @@ def repository():
 @pytest.fixture()
 def mongo_client():
     client = container.mongo_client
-    client.pepy_test.projects.remove()
-    client.pepy_test.project_downloads.remove()
+    client.pepy_test.projects.delete_many({})
+    client.pepy_test.project_downloads.delete_many({})
 
     return client
 

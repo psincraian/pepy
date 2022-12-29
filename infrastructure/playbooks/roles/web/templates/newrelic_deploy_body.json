@@ -1,6 +1,0 @@
-{
-  "deployment": {
-    "revision": "{{gitresult.after}}",
-    "user": "petru"
-  }
-}

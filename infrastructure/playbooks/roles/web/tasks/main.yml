@@ -1,7 +1,0 @@
----
-  - include_tasks: copy_code.yml
-  - include_tasks: install_dependencies.yml
-  - include_tasks: webserver.yml
-  - include_tasks: supervisor.yml
-  - include_tasks: crons.yml
-  - include_tasks: newrelic_deploy.yml

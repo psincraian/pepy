@@ -1,3 +1,0 @@
----
-
-nginx_server_name: "{{ domain_name }}"

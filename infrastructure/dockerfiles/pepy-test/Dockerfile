@@ -1,5 +1,5 @@
 #
-FROM python:3.11 as requirements-stage
+FROM python:3.11-alpine as requirements-stage
 
 #
 WORKDIR /tmp
@@ -14,7 +14,7 @@ COPY ./Pipfile* /tmp/
 RUN pipenv requirements --dev > requirements.txt
 
 #
-FROM python:3.11 as pepy-test
+FROM python:3.11-alpine as pepy-test
 
 #
 WORKDIR /code

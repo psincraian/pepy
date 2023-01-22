@@ -6,6 +6,8 @@ jobs:
   build:
     name: Build Docker image
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
       - uses: actions/checkout@v1
       - name: Log in to the Container registry
@@ -25,6 +27,8 @@ jobs:
   tests:
     name: Tests
     needs: build
+    permissions:
+      packages: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

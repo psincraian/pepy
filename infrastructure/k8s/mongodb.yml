@@ -41,7 +41,7 @@ spec:
               memory: "400Mi"
               cpu: "200m"
             limits:
-              memory: "500Mi"
+              memory: "800Mi"
               cpu: "250m"
   volumeClaimTemplates:
   - metadata:

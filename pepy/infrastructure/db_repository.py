@@ -12,8 +12,6 @@ from pepy.domain.repository import ProjectRepository
 class MongoProjectRepository(ProjectRepository):
     def __init__(self, client: Database):
         self._client = client
-        self._client.projects.create_index([("name", DESCENDING)])
-        self._client.project_downloads.create_index([("name", DESCENDING)])
 
     def get(self, project_name: str, downloads_from: datetime.date = None) -> Optional[Project]:
         normalized_name = ProjectName(project_name).name

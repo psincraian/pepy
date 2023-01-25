@@ -16,6 +16,7 @@ CORS(app, resources={r"/api/*": {"origins": [
     "https://pepy.tech",
     "https://mightbesimon.com",
     "http://localhost:3000",
+    "https://.*\.pepy-front\.pages\.dev"
 ]}})
 
 

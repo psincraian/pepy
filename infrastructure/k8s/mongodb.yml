@@ -35,14 +35,14 @@ spec:
                 - -c
                 - mongo --eval "rs.status()" | grep -vq "REMOVED"
             initialDelaySeconds: 45
-            timeoutSeconds: 5
+            timeoutSeconds: 10
           resources:
             requests:
-              memory: "400Mi"
-              cpu: "200m"
-            limits:
-              memory: "800Mi"
+              memory: "500Mi"
               cpu: "250m"
+            limits:
+              memory: "1G"
+              cpu: "500m"
   volumeClaimTemplates:
   - metadata:
       name: mongodb-volume

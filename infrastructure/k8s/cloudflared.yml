@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: cloudflared
-  replicas: 1 # You could also consider elastic scaling for this deployment
+  replicas: 2 # You could also consider elastic scaling for this deployment
   template:
     metadata:
       labels:
@@ -34,7 +34,7 @@ spec:
             # it has an active connection to the edge.
             path: /ready
             port: 2000
-          failureThreshold: 1
+          failureThreshold: 2
           initialDelaySeconds: 10
           periodSeconds: 10
         volumeMounts:
@@ -97,6 +97,8 @@ data:
       service: http://pepy-svc:8080
     - hostname: static.pepy.tech
       service: http://pepy-svc:8080
+    - hostname: analytics.pepy.tech
+      service: http://pepy-analytics-svc:8080
     # This rule sends traffic to the built-in hello-world HTTP server. This can help debug connectivity
     # issues. If hello.example.com resolves and tunnel.example.com does not, then the problem is
     # in the connection from cloudflared to your local service, not from the internet to cloudflared.

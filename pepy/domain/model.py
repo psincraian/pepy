@@ -87,8 +87,6 @@ class Project:
     def add_downloads(self, date: datetime.date, version: str, downloads: DayDownloads):
         if self.min_date is None:
             self.min_date = date
-        elif date < self.min_date:
-            raise Exception("Date should be greater than min date")
         elif date - self.min_date > datetime.timedelta(days=Project.MAX_RETENTION_DAYS):
             self._latest_downloads.pop(self.min_date)
             self.min_date = self._find_next_min_date(date)

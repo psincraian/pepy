@@ -16,8 +16,16 @@ from pepy.application.command import (
 )
 from pepy.domain.model import HashedPassword
 from pepy.infrastructure.db_repository import MongoProjectRepository
-from ._config import BQ_CREDENTIALS_FILE, ADMIN_PASSWORD, LOGGING_FILE, LOGGING_DIR, MONGODB, environment, Environment, \
-    LOGGING_LEVEL
+from ._config import (
+    BQ_CREDENTIALS_FILE,
+    ADMIN_PASSWORD,
+    LOGGING_FILE,
+    LOGGING_DIR,
+    MONGODB,
+    environment,
+    Environment,
+    LOGGING_LEVEL,
+)
 from ..bq_stats_viewer import BQStatsViewer
 from ...domain.pypi import StatsViewer, Result
 

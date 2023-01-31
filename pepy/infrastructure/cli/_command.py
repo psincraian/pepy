@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -15,7 +16,9 @@ def cli():
 
 
 @cli.command("import:downloads:day")
-@click.option("--day", help="The day to import downloads")
+@click.option(
+    "--day", help="The day to import downloads", default=lambda: os.environ.get("PEPY_DOWNLOADS_DAY", "")
+)
 def import_day_downloads_action(day: Optional[str]):
     try:
         if day is not None:

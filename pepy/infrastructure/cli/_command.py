@@ -21,10 +21,9 @@ def cli():
 )
 def import_day_downloads_action(day: Optional[str]):
     try:
-        if day is not None:
+        date = datetime.now() - timedelta(days=1)
+        if day is not None and day.strip() != "":
             date = datetime.strptime(day, "%Y-%m-%d")
-        else:
-            date = datetime.now() - timedelta(days=1)
     except ValueError:
         raise BadParameter("Date format should be YYYY-mm-dd")
     click.echo("Importing downloads...")

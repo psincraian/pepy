@@ -189,11 +189,11 @@
         },
         "google-cloud-bigquery": {
             "hashes": [
-                "sha256:266ba1ddd213b2454c1e4a92ae647813b783128078eb48dda4c0b443c5057e29",
-                "sha256:d4585be9e76c984ec83ef290ebeff17562d2c9f2f4f84d3015d9b7b27b499a9d"
+                "sha256:5fa7897743a0ed949ade25a0942fc9e7557d8fce307c6f8a76d1b604cf27f1b1",
+                "sha256:697df117241a2283bcbb93b21e10badc14e51c9a90800d2a7e1a3e1c7d842974"
             ],
             "index": "pypi",
-            "version": "==3.11.3"
+            "version": "==3.11.4"
         },
         "google-cloud-core": {
             "hashes": [
@@ -341,7 +341,7 @@
                 "sha256:f20fd21f7538f8107451156dd1fe203300b79a9ddceba1ee0ac8132521a008ed",
                 "sha256:fda2783c12f553cdca11c08e5af6eecbd717280dc8fbe28a110897af1c15a88c"
             ],
-            "markers": "python_version >= '3.11'",
+            "markers": "python_version >= '3.7'",
             "version": "==1.56.2"
         },
         "grpcio-status": {

@@ -17,7 +17,7 @@ pymongo = "<4.0"
 natsort = "*"
 newrelic = "*"
 pybadges = "*"
-markupsafe = "~=2.1.4"
+markupsafe = "~=2.1.5"
 flask-cors = "*"
 
 [dev-packages]

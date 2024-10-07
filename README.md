@@ -19,7 +19,7 @@ We can keep alive the website thanks to you and also thanks to the following spo
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=7bf782110d6c&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
-<!-- sponsors --><a href="https://github.com/samuelcolvin"><img src="https:&#x2F;&#x2F;avatars.githubusercontent.com&#x2F;u&#x2F;4039449?u&#x3D;42eb3b833047c8c4b4f647a031eaef148c16d93f&amp;v&#x3D;4" width="60px" alt="Samuel Colvin" /></a><a href="https://github.com/sethmlarson"><img src="https:&#x2F;&#x2F;avatars.githubusercontent.com&#x2F;u&#x2F;18519037?u&#x3D;41090cc65ae0a34aee49c7a35cfbd40e2e12eb53&amp;v&#x3D;4" width="60px" alt="Seth Michael Larson" /></a><!-- sponsors -->
+<!-- sponsors --><a href="https://github.com/samuelcolvin"><img src="https:&#x2F;&#x2F;avatars.githubusercontent.com&#x2F;u&#x2F;4039449?u&#x3D;42eb3b833047c8c4b4f647a031eaef148c16d93f&amp;v&#x3D;4" width="60px" alt="Samuel Colvin" /></a><a href="https://github.com/sethmlarson"><img src="https:&#x2F;&#x2F;avatars.githubusercontent.com&#x2F;u&#x2F;18519037?u&#x3D;41090cc65ae0a34aee49c7a35cfbd40e2e12eb53&amp;v&#x3D;4" width="60px" alt="Seth Michael Larson" /></a><a href="https://github.com/1ucian0"><img src="https:&#x2F;&#x2F;avatars.githubusercontent.com&#x2F;u&#x2F;766693?u&#x3D;27d5f21c6a30a6cdad0400e82881a51075bd1336&amp;v&#x3D;4" width="60px" alt="Luciano Bello" /></a><!-- sponsors -->
 
 ## ⚒️ Start contributing
 I wanted to make the setup of the environment as easy as possible. To start the environment you need the 

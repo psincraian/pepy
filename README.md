@@ -1,25 +1,30 @@
 <p align="center">
-  <img width="100px" alt="pepy-logo"
-    src="docs/logo.png"
-  />
+  <img width="100px" alt="pepy-logo" src="docs/logo.png" />
 </p>
 
 <h2 align="center"><code>PePy</code></h2>
 
-
+> **Important:**  
+> This repository contains the legacy public version of PePy. The latest version is now
+> maintained privately. We continue to use this repository solely to track issues and
+> preserve historical references.
 
 ## 📜 About
-[pepy.tech](https://pepy.tech) is a site which aims to show statistics about Python packages.
 
-This is the repository for the backend service, if you want to check the frontend check this repo https://github.com/psincraian/pepy-front
+[PePy](https://pepy.tech) is a website that provides statistics about Python packages.
+This repo houses the backend service for PePy.
 
 ## 💖 Sponsors
 
-We can keep alive the website thanks to you and also thanks to the following sponsors.
+Our website stays alive thanks to your support and the continued help from our sponsors.
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=7bf782110d6c&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
-<!-- sponsors --><a href="https://github.com/samuelcolvin"><img src="https:&#x2F;&#x2F;github.com&#x2F;samuelcolvin.png" width="60px" alt="User avatar: Samuel Colvin" /></a><a href="https://github.com/sethmlarson"><img src="https:&#x2F;&#x2F;github.com&#x2F;sethmlarson.png" width="60px" alt="User avatar: Seth Michael Larson" /></a><a href="https://github.com/guardrails-ai"><img src="https:&#x2F;&#x2F;github.com&#x2F;guardrails-ai.png" width="60px" alt="User avatar: Guardrails AI" /></a><!-- sponsors -->
+<!-- sponsors -->
+<a href="https://github.com/samuelcolvin"><img src="https://github.com/samuelcolvin.png" width="60px" alt="User avatar: Samuel Colvin" /></a>
+<a href="https://github.com/sethmlarson"><img src="https://github.com/sethmlarson.png" width="60px" alt="User avatar: Seth Michael Larson" /></a>
+<a href="https://github.com/guardrails-ai"><img src="https://github.com/guardrails-ai.png" width="60px" alt="User avatar: Guardrails AI" /></a>
+<!-- sponsors -->
 
 ## ⚒️ Start contributing
 I wanted to make the setup of the environment as easy as possible. To start the environment you need the 

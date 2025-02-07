@@ -20,11 +20,7 @@ Our website stays alive thanks to your support and the continued help from our s
 
 [![DigitalOcean Referral Badge](https://web-platforms.sfo2.digitaloceanspaces.com/WWW/Badge%202.svg)](https://www.digitalocean.com/?refcode=7bf782110d6c&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
-<!-- sponsors -->
-<a href="https://github.com/samuelcolvin"><img src="https://github.com/samuelcolvin.png" width="60px" alt="User avatar: Samuel Colvin" /></a>
-<a href="https://github.com/sethmlarson"><img src="https://github.com/sethmlarson.png" width="60px" alt="User avatar: Seth Michael Larson" /></a>
-<a href="https://github.com/guardrails-ai"><img src="https://github.com/guardrails-ai.png" width="60px" alt="User avatar: Guardrails AI" /></a>
-<!-- sponsors -->
+<!-- sponsors --><a href="https://github.com/samuelcolvin"><img src="https:&#x2F;&#x2F;github.com&#x2F;samuelcolvin.png" width="60px" alt="User avatar: Samuel Colvin" /></a><a href="https://github.com/sethmlarson"><img src="https:&#x2F;&#x2F;github.com&#x2F;sethmlarson.png" width="60px" alt="User avatar: Seth Michael Larson" /></a><a href="https://github.com/guardrails-ai"><img src="https:&#x2F;&#x2F;github.com&#x2F;guardrails-ai.png" width="60px" alt="User avatar: Guardrails AI" /></a><!-- sponsors -->
 
 ## ⚒️ Start contributing
 I wanted to make the setup of the environment as easy as possible. To start the environment you need the 

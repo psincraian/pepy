@@ -34,7 +34,15 @@ def get_project_action_v2(project_name):
     if project is None:
         raise ProjectNotFoundException(project_name)
 
-    response = jsonify(transform_project_v2(project))
+    # Handle versions filtering with maximum limit of 5
+    versions_param = request.args.get("versions")
+    selected_versions = None
+    if versions_param:
+        selected_versions = [v.strip() for v in versions_param.split(",") if v.strip()]
+        if len(selected_versions) > 5:
+            abort(400, description="Maximum of 5 versions allowed")
+
+    response = jsonify(transform_project_v2(project, selected_versions))
     add_cache_control(response)
     return response
 

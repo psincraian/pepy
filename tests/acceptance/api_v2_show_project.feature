@@ -128,3 +128,119 @@ Feature: show index page with some selected projects
         "message": "Project with name pepy does not exist"
       }
     """
+
+  Scenario: filter by specific versions
+    Given today is 2018-05-30
+    And the pepy project with the following downloads
+      | date       | version | downloads |
+      | 2018-05-01 | 1.0     | 10        |
+      | 2018-05-02 | 2.0     | 15        |
+      | 2018-05-03 | 1.0     | 20        |
+      | 2018-05-03 | 2.0     | 25        |
+      | 2018-05-03 | 3.0     | 30        |
+      | 2018-05-04 | 2.0     | 50        |
+    When I send the GET request to /api/v2/projects/pepy?versions=1.0,2.0
+    Then the response status code should be 200
+    And the api response should be
+    """
+    {
+      "id": "pepy",
+      "total_downloads": 150,
+      "versions": ["1.0", "2.0"],
+      "downloads": {
+        "2018-05-01": {
+          "1.0": 10
+        },
+        "2018-05-02": {
+          "2.0": 15
+        },
+        "2018-05-03": {
+          "1.0": 20,
+          "2.0": 25
+        },
+        "2018-05-04": {
+          "2.0": 50
+        }
+      }
+    }
+    """
+
+  Scenario: filter by single version
+    Given today is 2018-05-30
+    And the pepy project with the following downloads
+      | date       | version | downloads |
+      | 2018-05-01 | 1.0     | 10        |
+      | 2018-05-02 | 2.0     | 15        |
+      | 2018-05-03 | 1.0     | 20        |
+      | 2018-05-03 | 2.0     | 25        |
+    When I send the GET request to /api/v2/projects/pepy?versions=2.0
+    Then the response status code should be 200
+    And the api response should be
+    """
+    {
+      "id": "pepy",
+      "total_downloads": 90,
+      "versions": ["2.0"],
+      "downloads": {
+        "2018-05-02": {
+          "2.0": 15
+        },
+        "2018-05-03": {
+          "2.0": 25
+        }
+      }
+    }
+    """
+
+  Scenario: reject more than 5 versions
+    Given today is 2018-05-30
+    And the pepy project with the following downloads
+      | date       | version | downloads |
+      | 2018-05-01 | 1.0     | 10        |
+      | 2018-05-02 | 2.0     | 15        |
+    When I send the GET request to /api/v2/projects/pepy?versions=1.0,2.0,3.0,4.0,5.0,6.0
+    Then the response status code should be 400
+    And the api response should be
+    """
+    {
+      "error": 400,
+      "message": "Maximum of 5 versions allowed"
+    }
+    """
+
+  Scenario: allow exactly 5 versions
+    Given today is 2018-05-30
+    And the pepy project with the following downloads
+      | date       | version | downloads |
+      | 2018-05-01 | 1.0     | 10        |
+      | 2018-05-02 | 2.0     | 15        |
+      | 2018-05-03 | 3.0     | 20        |
+      | 2018-05-04 | 4.0     | 25        |
+      | 2018-05-05 | 5.0     | 30        |
+    When I send the GET request to /api/v2/projects/pepy?versions=1.0,2.0,3.0,4.0,5.0
+    Then the response status code should be 200
+    And the api response should be
+    """
+    {
+      "id": "pepy",
+      "total_downloads": 100,
+      "versions": ["1.0", "2.0", "3.0", "4.0", "5.0"],
+      "downloads": {
+        "2018-05-01": {
+          "1.0": 10
+        },
+        "2018-05-02": {
+          "2.0": 15
+        },
+        "2018-05-03": {
+          "3.0": 20
+        },
+        "2018-05-04": {
+          "4.0": 25
+        },
+        "2018-05-05": {
+          "5.0": 30
+        }
+      }
+    }
+    """
